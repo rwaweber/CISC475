@@ -2,7 +2,7 @@
 # Product of the Lords of the Underfish
 
 #Underfish Lords:
-Teague Forren
+Teague Forren (Potato)
 Greg Mohler
 Joie Jan
-Will Weber
+Will Weber (Webs)
