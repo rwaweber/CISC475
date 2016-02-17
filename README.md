@@ -4,5 +4,5 @@
 #Underfish Lords:
 Teague Forren (Potato)
 Greg Mohler
-Joie Jan
+Joie Jan (Banana)
 Will Weber (Webs)
