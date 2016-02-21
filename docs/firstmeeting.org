@@ -1,0 +1,22 @@
+#+AUTHOR:	rwaweber
+#+TITLE:	First Meeting with client: Data-wrangling
+
+
+* Data Wrangling
+  - intros
+
+** Features 
+   - taking in organized file input
+     + 
+   - frequency analysis
+     + based on content?
+   - Data Wrangling(input: beast, insight(tristan), output:  )
+     + Beast is not here yet
+       - every row is a report
+       - columns allow us to correlate the 
+     + amorphous bubble
+   - tying into a machine learning algorithm(purpose)
+     + build connector to connect to ML pipe from the DW pipe
+     + intended to get a sense of the importance of the project
+     + DL4J - DeepLearning for Java
+     + allows us to take the wrangled data, from NL4J, connect to DL4J, g resultset 
