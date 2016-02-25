@@ -1,9 +1,8 @@
+language: java
+
 jdk:
   - openjdk8
-
-language: java
 
 before_script: make build && make test
 
 script: make runtest
-
