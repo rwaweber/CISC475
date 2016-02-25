@@ -1,5 +1,10 @@
 package main;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 import org.json.simple.JSONArray;
@@ -34,6 +39,26 @@ public class FileParser {
 		
 	}
 	
-	
-
+	public static void writeJSONToFile(String fileName, JSONObject[] jsonObjects){
+		File file = new File(fileName);
+		try {
+			if(file.createNewFile()){
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			FileWriter fw = new FileWriter(file);
+			for(int i = 0; i < jsonObjects.length; i++){
+				fw.write(jsonObjects[i].toJSONString());
+			}
+			fw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+		
 }
