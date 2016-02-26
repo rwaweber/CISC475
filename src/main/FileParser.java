@@ -14,9 +14,14 @@ import org.json.simple.JSONObject;
 into stream objects. */
 public class FileParser {
 	
-	public Stream<JSONObject> jsonToStream(JSONObject[] list){
-		Stream<JSONObject> stream = Stream.of(list);
-		return stream;
+	// makes a list of JSON Object Streams: 
+	List<Stream<JSONObject>> masterList;
+	public List<Stream<JSONObject>> jsonToStream(JSONObject[] list){
+		for(int i=0;i<list.length;i++){
+			Stream<JSONObject> stream = Stream.of(list[i]);
+			masterList.add(stream);
+		}
+		return masterList;
 	}
 	
 	public static JSONObject[] streamToJSON(List<Stream> streams, List<String> colNames, int numRows){
