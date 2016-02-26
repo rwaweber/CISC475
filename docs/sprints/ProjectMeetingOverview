@@ -1,0 +1,81 @@
+Client Meeting - 2/26/16
+
+TODO
+
+***SCRUM MEETINGS***
+
+	There will be weekly scrum meetings, no longer than 15-25min. We will set up a time 	and tell John. 
+
+***REVISED REQUIREMENT DOCUMENT***
+
+	We need to send Professor Boykin a revised requirements document reflecting the changes discussed during the meeting.	
+
+***APPLICATION PROCESS FLOW***
+
+	input: data file that will NOT fit in memory; file format is CSV (for now, may add JSON later)
+	user: 
+		visualize subset of data:
+			spreadsheet
+			graphs (discrete and continuous distributions)
+			perform operations on data
+	export data file
+
+	We will be sent visual use case scenarios
+
+APPLICATION FEATURES
+
+	The user will interact with the application by entering commands and running scripts. 
+	For example, a command may say “return mean of columns 1 - 10” or  “normalize columns 32-55” or “show columns 1-100”. 
+
+	The user will also be able to discretize columns. 
+	For example, the user can transform a column with values “A”, “B”, or “C” into a binary feature array of three columns.
+
+	The GUI will be limited to visualizing the data as a spreadsheet or graph in a small window.
+
+	The user will be able to use a simplified query language to query the data 
+	(ex: finding all columns with missing values).
+
+
+
+***APPLICATION DESIGN***
+
+	The application should be MODULAR, EXTENDABLE, and EFFICIENT.
+	 New features should be easy to add.
+
+	The application consists of CLIENT and CORE. 
+
+	The CLIENT only specifies the data file to be wrangled and any operations they want to perform. 
+	The CORE handles data presentation and operations.
+
+	For now, the CLIENT interacts with the application at the command line. 
+	Eventually, the CLIENT will be replaced by a web front-end.
+
+***CODE DEPLOYMENT***
+
+	“Docker” is one possible code-deployment platform.
+
+***MACHINE LEARNING***
+
+	The output data will be learned with the machine learning algorithm in DL4J (“Deep Learning For Java”).
+
+***TECHNOLOGY***
+
+	Parallel Processing
+		Java Streaming API 
+			we will try using this for parallel big-data processing; it should be sufficient 
+			ex: .parallelStream() 
+		Apache Spark (alternative)
+			engine for big data processing
+			this is an alternative option if streaming API does not work
+
+***PROCESSING the DATA***
+
+	Map-reduce methods will be used to process the data efficiently.
+
+***MACHINES TO USE for DATA PROCESSING***
+
+	We need machines to process the large data files. Two possibilities are the LUG computers and Chimera.
+
+***END-DELIVERABLE***
+
+	Working application, with source code deployed with Docker (hopefully).
