@@ -59,6 +59,14 @@ public class FileParserTest {
 		File createdFile = new File(fileName);
 		assertTrue(createdFile.exists());
 	}
+	
+	@Test
+	public void testGetJsonObjectList(){
+		JSONObject[] jsonObjects = FileParser.getJsonObjectList(10);
+		assertNotNull(jsonObjects);
+		assertEquals(jsonObjects.length, 10);
+		assertNotNull(jsonObjects[3]);
+	}
 
 	@Test
 	public void testWriteJSONToFile() throws ParseException, IOException{

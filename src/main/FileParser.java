@@ -24,11 +24,16 @@ public class FileParser {
 		return masterList;
 	}
 	
-	public static JSONObject[] streamToJSON(List<Stream> streams, List<String> colNames, int numRows){
-		JSONObject[] jsonObjects = new JSONObject[numRows];
+	public static JSONObject[] getJsonObjectList(int numJsonObjects){
+		JSONObject[] jsonObjects = new JSONObject[numJsonObjects];
 		for(int i = 0; i < jsonObjects.length; i++){
 			jsonObjects[i] = new JSONObject();
 		}
+		return jsonObjects;
+	}
+	
+	public static JSONObject[] streamToJSON(List<Stream> streams, List<String> colNames, int numRows){
+		JSONObject[] jsonObjects = getJsonObjectList(numRows);
 		for(int j = 0; j < streams.size(); j++){
 			Object[] thisStream = streams.get(j).toArray();
 			for(int k = 0; k < numRows; k++){
