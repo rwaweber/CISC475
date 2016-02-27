@@ -86,8 +86,11 @@ public class FileParserTest {
 
 	@Test
 	public void testCSVToStream(){
-		List<Stream> streams = FileParser.csvToStream("src/tests/testfiles/test.csv", 5, 10);
+		List<Stream<Object>> streams = FileParser.csvToStream("src/tests/testfiles/test.csv", 5, 10);
 		assertNotNull(streams);
+		assertEquals(streams.size(), 12);
+		assertEquals(streams.get(0).toArray().length, 5);
+		assertEquals(streams.get(4).toArray()[0], "Hamilton");
 		
 
 
