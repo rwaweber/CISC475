@@ -49,14 +49,23 @@ public class FileParserTest {
 		assertEquals(jsonObjects[1].get("Age"), 40);
 		assertEquals(jsonObjects[2].get("ID"), 11223);
 	}
+	
+	@Test
+	public void testCreateFile(){
+	
+		String fileName = "src/tests/testfiles/test.json";
+		FileParser.createFile(fileName);
+		
+		File createdFile = new File(fileName);
+		assertTrue(createdFile.exists());
+	}
 
 	@Test
 	public void testWriteJSONToFile() throws ParseException, IOException{
 		String fileName = "src/tests/testfiles/test.json";
 		FileParser.writeJSONToFile(fileName, jsonObjects);
 
-		File createdFile = new File(fileName);
-		assertTrue(createdFile.exists());
+		
 
 		File noFile = new File("src/tests/testfiles/nofile.json");
 		assertFalse(noFile.exists());

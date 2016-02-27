@@ -39,7 +39,7 @@ public class FileParser {
 		
 	}
 	
-	public static void writeJSONToFile(String fileName, JSONObject[] jsonObjects){
+	public static File createFile(String fileName){
 		File file = new File(fileName);
 		try {
 			if(file.createNewFile()){
@@ -48,6 +48,11 @@ public class FileParser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return file;
+	}
+	
+	public static void writeJSONToFile(String fileName, JSONObject[] jsonObjects){
+		File file = createFile(fileName);
 		try {
 			FileWriter fw = new FileWriter(file);
 			for(int i = 0; i < jsonObjects.length; i++){
