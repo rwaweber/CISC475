@@ -33,8 +33,6 @@ public class FileParserTest {
 
 	static int numRows = 3;
 
-	static JSONObject[] jsonObjects = FileParser.streamToJSON(streams, colNames, numRows);
-
 
 	@Test
 	public void testJSONToStream() {
@@ -43,6 +41,7 @@ public class FileParserTest {
 
 	@Test
 	public void testStreamToJSON(){
+		JSONObject[] jsonObjects = FileParser.streamToJSON(streams, colNames, numRows);
 		assertNotNull(jsonObjects);
 		assertEquals(jsonObjects.length, 3);
 		assertEquals(jsonObjects[0].get("Name"), "Bob");
@@ -70,13 +69,21 @@ public class FileParserTest {
 
 	@Test
 	public void testWriteJSONToFile() throws ParseException, IOException{
+		
+		JSONObject[] jsonObjects = FileParser.streamToJSON(streams, colNames, numRows);
+		
 		String fileName = "src/tests/testfiles/test.json";
 		FileParser.writeJSONToFile(fileName, jsonObjects);
 
-		
-
 		File noFile = new File("src/tests/testfiles/nofile.json");
 		assertFalse(noFile.exists());
+	}
+	
+	@Test
+	public void testCSVToStream(){
+		
+		
+		
 	}
 
 }
