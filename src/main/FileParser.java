@@ -77,11 +77,16 @@ public class FileParser {
 		}
 	}
 
+	public static CSVParser getCSVFileParser(String fileName) throws IOException {
+		Reader inputFile = new FileReader(fileName);
+		return new CSVParser(inputFile, CSVFormat.DEFAULT.withHeader());
+
+	}
+
 	public static List<Stream<Object>> csvToStream(String fileName, int startLine, int endLine){
 		List<Stream<Object>> streams = new ArrayList<Stream<Object>>();
 		try {
-			Reader input = new FileReader(fileName);
-			CSVParser parser = new CSVParser(input, CSVFormat.DEFAULT.withHeader());
+			CSVParser parser = getCSVFileParser(fileName);
 			List<CSVRecord> records = parser.getRecords();
 			for(int streamIndex = 0; streamIndex < parser.getHeaderMap().size(); streamIndex++){
 				List<Object> streamList = new LinkedList<Object>();

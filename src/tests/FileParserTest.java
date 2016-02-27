@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.apache.commons.csv.CSVParser;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -82,6 +83,12 @@ public class FileParserTest {
 
 		File noFile = new File("src/tests/testfiles/nofile.json");
 		assertFalse(noFile.exists());
+	}
+	
+	@Test
+	public void testGetCSVParser() throws IOException{
+		CSVParser parser =  FileParser.getCSVFileParser("src/tests/testfiles/test.csv");
+		assertNotNull(parser);
 	}
 
 	@Test
