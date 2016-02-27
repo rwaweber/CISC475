@@ -5,10 +5,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.apache.commons.io.*;
+
 
 /* Class for taking in JSON data files and transforming
 into stream objects. */
@@ -68,7 +71,17 @@ public class FileParser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public static List<Stream> csvToStream(String fileName, int startLine, int endLine){
+		List<Stream> streams = new ArrayList<Stream>();
+		String line = "";
+		String splitBy = ",";
 		
+		File file = new File(fileName);
+		String lines = FileUtils.
+		
+		return streams;
 	}
 	
 	public static void main(String[] args){

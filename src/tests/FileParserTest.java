@@ -86,8 +86,9 @@ public class FileParserTest {
 
 	@Test
 	public void testCSVToStream(){
-		List<Stream> streams = FileParser.csvToStream(5, 10);
+		List<Stream> streams = FileParser.csvToStream("src/tests/testfiles/test.csv", 5, 10);
 		assertNotNull(streams);
+		
 
 
 	}
