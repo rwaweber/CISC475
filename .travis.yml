@@ -6,3 +6,6 @@ jdk:
 before_script: make build && make test
 
 script: make runtest
+
+notifications:
+          slack: underfish:nWFdA9yFTx3cT3mt2QCDPM3Y
