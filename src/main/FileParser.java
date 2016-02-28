@@ -16,6 +16,8 @@ import org.json.simple.JSONObject;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.csv.CSVPrinter;
+
 
 /* Class for taking in JSON data files and transforming
 into stream objects. */
@@ -95,7 +97,6 @@ public class FileParser {
 				}
 				Stream<Object> stream = streamList.stream();
 				streams.add(stream);
-				//System.out.println(stream.toArray()[5]);
 			}
 			parser.close();
 
@@ -105,6 +106,27 @@ public class FileParser {
 		}
 		return streams;
 
+	}
+
+	public static void streamToCSV(List<Stream> streams, int numRecords, String fileName) throws IOException{
+		
+		FileWriter fw = new FileWriter(fileName);
+		CSVFormat cff = CSVFormat.DEFAULT.withRecordSeparator("\n");
+		CSVPrinter cp = new CSVPrinter(fw, cff);
+		List<List<Object>> records = new ArrayList<List<Object>>(numRecords);
+		for(int thisRecord = 0; thisRecord < numRecords; thisRecord++){
+			records.add(new ArrayList<Object>());
+		}
+		for(Stream stream : streams){
+			Object[] streamArr = stream.toArray();
+			for(int i = 0; i < streamArr.length; i++){
+				records.get(i).add(streamArr[i]);
+			}
+		}
+		for(List<Object> record : records){
+			cp.printRecord(record);
+		}
+		cp.close();
 	}
 
 	public static void main(String[] args){

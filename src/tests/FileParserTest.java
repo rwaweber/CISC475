@@ -93,14 +93,32 @@ public class FileParserTest {
 
 	@Test
 	public void testCSVToStream(){
-		List<Stream<Object>> streams = FileParser.csvToStream("src/tests/testfiles/test.csv", 5, 10);
+		String fileName = "src/tests/testfiles/test.csv";
+		List<Stream<Object>> streams = FileParser.csvToStream(fileName, 5, 10);
 		assertNotNull(streams);
 		assertEquals(streams.size(), 12);
 		assertEquals(streams.get(0).toArray().length, 5);
 		assertEquals(streams.get(4).toArray()[0], "Hamilton");
+	}
+	
+	@Test
+	public void testStreamToCSV() throws IOException{
 		
-
-
+		Stream<String> namesStream = names.stream();
+		Stream<Integer> agesStream = ages.stream();
+		Stream<Integer> idsStream = ids.stream();
+		
+		List<Stream> streams = Arrays.asList(new Stream[]{namesStream, agesStream, idsStream});
+		
+		String fileName = "src/tests/testfiles/testStreamToCSV.csv";
+		
+		FileParser.streamToCSV(streams, 3, fileName);
+		
+		List<Stream<Object>> streamsFromCSV = FileParser.csvToStream(fileName, 1, 2);
+		
+		assertEquals(streamsFromCSV.size(), 3);
+		assertEquals(streamsFromCSV.get(1).toArray()[0], "40");
+		
 	}
 
 }
