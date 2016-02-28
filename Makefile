@@ -1,5 +1,5 @@
 build:
-	javac -g -Xlint -d bin/ -cp .:lib/json.simple.jar src/main/*.java 
+	javac -g -Xlint -d bin/ -cp .:lib/\* src/main/*.java 
 test:
 	javac -g -Xlint -d bin/ -cp .:lib/\*:bin src/tests/*.java 
 runtest:
