@@ -24,14 +24,14 @@ into stream objects. */
 public class FileParser {
 
 	// makes a list of JSON Object Streams: 
-	List<Stream<JSONObject>> masterList;
-	public List<Stream<JSONObject>> jsonToStream(JSONObject[] list){
-		for(int i=0;i<list.length;i++){
-			Stream<JSONObject> stream = Stream.of(list[i]);
-			masterList.add(stream);
-		}
-		return masterList;
-	}
+//	List<Stream<JSONObject>> masterList;
+//	public List<Stream<JSONObject>> jsonToStream(JSONObject[] list){
+//		for(int i=0;i<list.length;i++){
+//			Stream<JSONObject> stream = Stream.of(list[i]);
+//			masterList.add(stream);
+//		}
+//		return masterList;
+//	}
 
 	public static JSONObject[] getJsonObjectList(int numJsonObjects){
 		JSONObject[] jsonObjects = new JSONObject[numJsonObjects];
@@ -109,10 +109,7 @@ public class FileParser {
 	}
 
 	public static void streamToCSV(List<Stream> streams, int numRecords, String fileName) throws IOException{
-		
-		FileWriter fw = new FileWriter(fileName);
-		CSVFormat cff = CSVFormat.DEFAULT.withRecordSeparator("\n");
-		CSVPrinter cp = new CSVPrinter(fw, cff);
+		CSVWriter csvWriter = new CSVWriter(fileName, "\n");
 		List<List<Object>> records = new ArrayList<List<Object>>(numRecords);
 		for(int thisRecord = 0; thisRecord < numRecords; thisRecord++){
 			records.add(new ArrayList<Object>());
