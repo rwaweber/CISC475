@@ -10,7 +10,7 @@ public class MakeGUI extends JFrame{
     
 	JTable tab;
 	String[] colHeaders = {"Name", "Age", "UDID"};
-	String[][] cells = {{"Greg", "21", "702123123"},{"Ben", "53", "702123124"}, {"Will", "30", "702123125"}};
+	Object[][] cells = {{"Greg", 21, 702.123123},{"Ben", 53, 702.123124}, {"Will", 30, 702.123125}};
 	private static int TABLE_WIDTH = 200;
 	private static int TABLE_HEIGHT = 250;
 	
