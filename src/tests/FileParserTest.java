@@ -17,6 +17,7 @@ import org.json.simple.parser.ParseException;
 import org.junit.Test;
 
 import main.FileParser;
+import main.Records;
 
 public class FileParserTest {
 
@@ -27,7 +28,6 @@ public class FileParserTest {
 	static List<Integer> ids = Arrays.asList(new Integer[]{12345, 98765, 11223});
 
 	static int numRows = 3;
-
 
 	@Test
 	public void testJSONToStream() {
@@ -74,7 +74,7 @@ public class FileParserTest {
 		Stream<String> namesStream = names.stream();
 		Stream<Integer> agesStream = ages.stream();
 		Stream<Integer> idsStream = ids.stream();
-		
+
 		List<Stream> streams = Arrays.asList(new Stream[]{namesStream, agesStream, idsStream});
 		JSONObject[] jsonObjects = FileParser.streamToJSON(streams, colNames, numRows);
 
@@ -84,7 +84,7 @@ public class FileParserTest {
 		File noFile = new File("src/tests/testfiles/nofile.json");
 		assertFalse(noFile.exists());
 	}
-	
+
 	@Test
 	public void testGetCSVParser() throws IOException{
 		CSVParser parser =  FileParser.getCSVFileParser("src/tests/testfiles/test.csv");
@@ -92,33 +92,53 @@ public class FileParserTest {
 	}
 
 	@Test
-	public void testCSVToStream(){
+	public void testCSVToArray() throws IOException{
 		String fileName = "src/tests/testfiles/test.csv";
-		List<Stream<Object>> streams = FileParser.csvToStream(fileName, 5, 10);
-		assertNotNull(streams);
-		assertEquals(streams.size(), 12);
-		assertEquals(streams.get(0).toArray().length, 5);
-		assertEquals(streams.get(4).toArray()[0], "Hamilton");
+		Records array = FileParser.csvToArray(fileName,0,1,0,1);
+		assertNotNull(array);
+		assertEquals(array.numRows(), 2);
+		assertEquals(array.numCols(), 2);
+		assertEquals(array.getCell(0, 0), "James");
+		assertEquals(array.getCell(0, 1), "Butt");
+		assertEquals(array.getCell(1, 0), "Josephine");
+		assertEquals(array.getCell(1, 1), "Darakjy");
+		Records allRecords = FileParser.csvToArray(fileName);
+		assertEquals(allRecords.numRows(), 500);
+		assertEquals(allRecords.numCols(), 12);
 	}
-	
+
 	@Test
-	public void testStreamToCSV() throws IOException{
-		
-		Stream<String> namesStream = names.stream();
-		Stream<Integer> agesStream = ages.stream();
-		Stream<Integer> idsStream = ids.stream();
-		
-		List<Stream> streams = Arrays.asList(new Stream[]{namesStream, agesStream, idsStream});
-		
-		String fileName = "src/tests/testfiles/testStreamToCSV.csv";
-		
-		FileParser.streamToCSV(streams, 3, fileName);
-		
-		List<Stream<Object>> streamsFromCSV = FileParser.csvToStream(fileName, 1, 2);
-		
-		assertEquals(streamsFromCSV.size(), 3);
-		assertEquals(streamsFromCSV.get(1).toArray()[0], "40");
-		
+	public void testArrayToCSV() throws IOException{
+
+		String sourceFile = "src/tests/testfiles/test.csv";
+		String destFile = "src/tests/testfiles/testArrayToCSV.csv";
+		Records records = FileParser.csvToArray(sourceFile,4,5,1,3);
+
+		FileParser.arrayToCSV(records.getRecords(), destFile, new String[]{"first_name", "last_name"});
+
+		Records arrayFromCSV = FileParser.csvToArray(destFile, 0, 1, 0, 2);
+
+		assertEquals(arrayFromCSV.numRows(), 2);
+		assertEquals(arrayFromCSV.numCols(), 3);
+		assertEquals(arrayFromCSV.getCell(0, 0), "Donette");
+		assertEquals(arrayFromCSV.getCell(1, 1), "Morasca");
+
 	}
+
+	@Test
+	public void testGetListFromArray(){
+		Object[] array = new Object[]{"Hello", 10, "World"};
+		ArrayList<Object> list = FileParser.getListFromArray(array);
+		assertNotNull(list);
+		assertEquals(list.size(), 3);
+		assertEquals(list.get(0), "Hello");
+		assertEquals(list.get(1), 10);
+		ArrayList<Object> shortList = FileParser.getListFromArray(array, 0, 1);
+		assertNotNull(shortList);
+		assertEquals(shortList.size(), 2);
+		assertEquals(shortList.get(0), "Hello");
+		assertEquals(shortList.get(1), 10);
+	}
+
 
 }

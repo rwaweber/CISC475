@@ -1,22 +1,18 @@
 package main;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.commons.csv.CSVPrinter;
 
 
 /* Class for taking in JSON data files and transforming
@@ -24,14 +20,14 @@ into stream objects. */
 public class FileParser {
 
 	// makes a list of JSON Object Streams: 
-//	List<Stream<JSONObject>> masterList;
-//	public List<Stream<JSONObject>> jsonToStream(JSONObject[] list){
-//		for(int i=0;i<list.length;i++){
-//			Stream<JSONObject> stream = Stream.of(list[i]);
-//			masterList.add(stream);
-//		}
-//		return masterList;
-//	}
+	//	List<Stream<JSONObject>> masterList;
+	//	public List<Stream<JSONObject>> jsonToStream(JSONObject[] list){
+	//		for(int i=0;i<list.length;i++){
+	//			Stream<JSONObject> stream = Stream.of(list[i]);
+	//			masterList.add(stream);
+	//		}
+	//		return masterList;
+	//	}
 
 	public static JSONObject[] getJsonObjectList(int numJsonObjects){
 		JSONObject[] jsonObjects = new JSONObject[numJsonObjects];
@@ -55,28 +51,16 @@ public class FileParser {
 
 	public static File createFile(String fileName){
 		File file = new File(fileName);
-		try {
-			if(file.createNewFile()){
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return file;
 	}
 
-	public static void writeJSONToFile(String fileName, JSONObject[] jsonObjects){
+	public static void writeJSONToFile(String fileName, JSONObject[] jsonObjects) throws IOException{
 		File file = createFile(fileName);
-		try {
-			FileWriter fw = new FileWriter(file);
-			for(int i = 0; i < jsonObjects.length; i++){
-				fw.write(jsonObjects[i].toJSONString());
-			}
-			fw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		FileWriter fw = new FileWriter(file);
+		for(int i = 0; i < jsonObjects.length; i++){
+			fw.write(jsonObjects[i].toJSONString());
 		}
+		fw.close();
 	}
 
 	public static CSVParser getCSVFileParser(String fileName) throws IOException {
@@ -85,51 +69,44 @@ public class FileParser {
 
 	}
 
-	public static List<Stream<Object>> csvToStream(String fileName, int startLine, int endLine){
-		List<Stream<Object>> streams = new ArrayList<Stream<Object>>();
-		try {
-			CSVParser parser = getCSVFileParser(fileName);
-			List<CSVRecord> records = parser.getRecords();
-			for(int streamIndex = 0; streamIndex < parser.getHeaderMap().size(); streamIndex++){
-				List<Object> streamList = new LinkedList<Object>();
-				for(int recordIndex = startLine - 1; recordIndex < endLine - 1; recordIndex++){
-					streamList.add(records.get(recordIndex).get(streamIndex));
-				}
-				Stream<Object> stream = streamList.stream();
-				streams.add(stream);
-			}
-			parser.close();
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return streams;
-
+	public static Records csvToArray(String fileName, int startRow, int endRow, int startCol, int endCol) throws IOException{
+		CSVParser parser = getCSVFileParser(fileName);
+		List<CSVRecord> csvRecords = parser.getRecords();
+		parser.close();
+		return new Records(csvRecords, startRow, endRow, startCol, endCol);
 	}
 
-	public static void streamToCSV(List<Stream> streams, int numRecords, String fileName) throws IOException{
+	public static Records csvToArray(String fileName) throws IOException{
+		CSVParser parser = getCSVFileParser(fileName);
+		List<CSVRecord> records = parser.getRecords();
+		parser.close();
+		return new Records(records, 0, records.size()-1, 0, parser.getHeaderMap().size()-1);
+	}
+
+	public static ArrayList<Object> getListFromArray(Object[] array){
+		return new ArrayList<Object>(Arrays.asList(array));
+	}
+
+	public static ArrayList<Object> getListFromArray(Object[] array, int start, int end){
+		ArrayList<Object> list =  new ArrayList<Object>();
+		for(int i = start; i <= end - start; i++){
+			list.add(array[i]);
+		}
+		return list;
+	}
+
+	public static void arrayToCSV(Object[][] array, String fileName, Object[] fileHeader) throws IOException{
+		createFile(fileName);
 		CSVWriter csvWriter = new CSVWriter(fileName, "\n");
-		List<List<Object>> records = new ArrayList<List<Object>>(numRecords);
-		for(int thisRecord = 0; thisRecord < numRecords; thisRecord++){
-			records.add(new ArrayList<Object>());
+		csvWriter.printRecord(getListFromArray(fileHeader));
+		for(int thisRecord = 0; thisRecord < array.length; thisRecord++){
+			csvWriter.printRecord(getListFromArray(array[thisRecord]));
 		}
-		for(Stream stream : streams){
-			Object[] streamArr = stream.toArray();
-			for(int i = 0; i < streamArr.length; i++){
-				records.get(i).add(streamArr[i]);
-			}
-		}
-		for(List<Object> record : records){
-			cp.printRecord(record);
-		}
-		cp.close();
+		csvWriter.closePrinter();
 	}
 
 	public static void main(String[] args){
-
 		System.out.println("test");
-
 	}
 
 }
