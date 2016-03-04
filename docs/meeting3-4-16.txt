@@ -1,0 +1,24 @@
+- REAPL integration 
+	- evaluating and executing command ("load file test.csv")
+- bash scripting 
+- running commands in parallel (stretch goal)
+	- pipeline
+- send data to machine learning algorithm
+	- non-human evaluating 
+- column addressing
+	- retrieve column based on tags
+	- data stored in JSON tree
+	- accessing columns based on JSON schema (tree search faster than looking through csv)
+- JSON schema
+	- encoded on first line of schema
+	- user able to view JSON schema as legend for columns
+- transformation to get top 20 strings from files
+	- finding top 20 occurrences of string
+- why example CSV so sparse
+	- all reports do not have information
+	- still keep columns that have missing values
+	- maybe removing columns with less than 1% of information, or removing sparse rows
+- deliverable
+
+- next WED: Purnell
+- Friday after: Smith 208
