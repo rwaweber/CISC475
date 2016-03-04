@@ -56,7 +56,13 @@ public class RecordsTest {
 		CSVParser parser = FileParser.getCSVFileParser(fileName);
 		List<CSVRecord> csvRecords = parser.getRecords();
 		Records records = new Records(csvRecords, 0, 5, 3, 7);
-		assertEquals(records.getCell(3, 3), "639 Main St");
+		System.out.println(records);
+		assertEquals(records.getCell(3, 3), "AK");
+	}
+	
+	@Test
+	public void testInitLists() throws IOException{
+		
 	}
 
 }

@@ -95,12 +95,12 @@ public class FileParser {
 		return list;
 	}
 
-	public static void arrayToCSV(Object[][] array, String fileName, Object[] fileHeader) throws IOException{
+	public static void arrayToCSV(Records records, String fileName, Object[] fileHeader) throws IOException{
 		createFile(fileName);
 		CSVWriter csvWriter = new CSVWriter(fileName, "\n");
 		csvWriter.printRecord(getListFromArray(fileHeader));
-		for(int thisRecord = 0; thisRecord < array.length; thisRecord++){
-			csvWriter.printRecord(getListFromArray(array[thisRecord]));
+		for(int thisRecord = 0; thisRecord < records.numRows(); thisRecord++){
+			csvWriter.printRecord(records.getRecord(thisRecord));
 		}
 		csvWriter.closePrinter();
 	}

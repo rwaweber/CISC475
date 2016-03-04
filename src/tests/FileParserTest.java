@@ -94,14 +94,14 @@ public class FileParserTest {
 	@Test
 	public void testCSVToArray() throws IOException{
 		String fileName = "src/tests/testfiles/test.csv";
-		Records array = FileParser.csvToArray(fileName,0,1,0,1);
-		assertNotNull(array);
-		assertEquals(array.numRows(), 2);
-		assertEquals(array.numCols(), 2);
-		assertEquals(array.getCell(0, 0), "James");
-		assertEquals(array.getCell(0, 1), "Butt");
-		assertEquals(array.getCell(1, 0), "Josephine");
-		assertEquals(array.getCell(1, 1), "Darakjy");
+		Records records = FileParser.csvToArray(fileName,4,5,1,3);
+		assertNotNull(records);
+		assertEquals(records.numRows(), 2);
+		assertEquals(records.numCols(), 3);
+		assertEquals(records.getCell(0, 0), "Foller");
+		assertEquals(records.getCell(0, 1), "Printing Dimensions");
+		assertEquals(records.getCell(1, 0), "Morasca");
+		assertEquals(records.getCell(1, 1), "Chapman, Ross E Esq");
 		Records allRecords = FileParser.csvToArray(fileName);
 		assertEquals(allRecords.numRows(), 500);
 		assertEquals(allRecords.numCols(), 12);
@@ -113,15 +113,16 @@ public class FileParserTest {
 		String sourceFile = "src/tests/testfiles/test.csv";
 		String destFile = "src/tests/testfiles/testArrayToCSV.csv";
 		Records records = FileParser.csvToArray(sourceFile,4,5,1,3);
+			
+		FileParser.arrayToCSV(records, destFile, new String[]{"first_name", "last_name", "company_name"});
+		Records recordsFromCSV = FileParser.csvToArray(destFile, 0, 1, 0, 2);
 
-		FileParser.arrayToCSV(records.getRecords(), destFile, new String[]{"first_name", "last_name"});
-
-		Records arrayFromCSV = FileParser.csvToArray(destFile, 0, 1, 0, 2);
-
-		assertEquals(arrayFromCSV.numRows(), 2);
-		assertEquals(arrayFromCSV.numCols(), 3);
-		assertEquals(arrayFromCSV.getCell(0, 0), "Donette");
-		assertEquals(arrayFromCSV.getCell(1, 1), "Morasca");
+		assertEquals(recordsFromCSV.numRows(), 2);
+		assertEquals(recordsFromCSV.numCols(), 3);
+		assertEquals(recordsFromCSV.getCell(0, 0), "Foller");
+		assertEquals(recordsFromCSV.getCell(1, 1), "Chapman, Ross E Esq");
+		assertEquals(recordsFromCSV.getCell(0, 0), "Foller");
+		assertEquals(recordsFromCSV.getCell(1, 2), "3 Mcauley Dr");
 
 	}
 
