@@ -73,5 +73,12 @@ public class Records {
 		}
 		return sb.toString();
 	}
+	
+	public Object[][] convertTo2DArray(){
+		return records.stream()
+				.map(l -> l.stream()
+				.toArray(Object[]::new))
+				.toArray(Object[][]::new);
+	}
 
 }
