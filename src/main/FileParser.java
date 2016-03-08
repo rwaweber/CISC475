@@ -8,6 +8,8 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 import org.json.simple.JSONObject;
 import org.apache.commons.csv.CSVFormat;
@@ -28,7 +30,7 @@ public class FileParser {
 	//		}
 	//		return masterList;
 	//	}
-
+    
 	public static JSONObject[] getJsonObjectList(int numJsonObjects){
 		JSONObject[] jsonObjects = new JSONObject[numJsonObjects];
 		for(int i = 0; i < jsonObjects.length; i++){
@@ -103,6 +105,15 @@ public class FileParser {
 			csvWriter.printRecord(records.getRecord(thisRecord));
 		}
 		csvWriter.closePrinter();
+	}
+        
+        public static String[] getHeaders(String fileName) throws IOException{
+	        CSVParser parser = getCSVFileParser(fileName);
+		Map<String,Integer> header_map = parser.getHeaderMap();
+		parser.close();
+		Set<String> header_set = header_map.keySet();
+		String[] headers = header_set.toArray(new String[header_set.size()]);
+		return headers;
 	}
 
 	public static void main(String[] args){

@@ -141,5 +141,12 @@ public class FileParserTest {
 		assertEquals(shortList.get(1), 10);
 	}
 
+        @Test
+	public void testGetHeaders() throws IOException{
+	        String[] control = new String[] {"first_name","last_name","company_name","address","city","county","state","zip","phone1","phone2","email","web"};
+		String[] test = FileParser.getHeaders("src/tests/testfiles/test.csv");
+		assertEquals(control, test);
+	}
+
 
 }
