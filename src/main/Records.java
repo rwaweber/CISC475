@@ -81,4 +81,8 @@ public class Records {
 				.toArray(Object[][]::new);
 	}
 
+	public List<Object> getCol(int colNum) {
+		return records.get(colNum);
+	}
+
 }
