@@ -12,23 +12,32 @@ public class Repl {
 	this.state = true;
     }
     
-    public static void quit(){
-	System.exit(0);
+    // clear screen with escape code gibberish
+    public static void clear() {
+	    System.out.print("\033[H\033[2J");
+    }
+
+    // exit system
+    public static void quit(int code){
+	System.exit(code);
     }
 
     public static String[] commandify(String line) {
 	return line.split("\\s+");
     }
 		
-    // consumes command sequence, should
+    // consumes command sequence, should determine the root of the command tree
     public static boolean parseCommand(String[] commands){
 	String root = commands[0];
 	switch(root) {
 	case "quit" :
-	    quit();
+	    quit(0);
 	    return true;
 	case "break":
-	    quit();
+	    quit(0);
+	    return true;
+	case "clear":
+	    clear();
 	    return true;
 	case "view":
 	    System.out.println("Initializing view");
