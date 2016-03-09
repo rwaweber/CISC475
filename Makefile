@@ -10,9 +10,6 @@ runtest:
 	java -cp .:lib/\*:bin org.junit.runner.JUnitCore tests.RecordsTest
 	java -cp .:lib/\*:bin org.junit.runner.JUnitCore tests.ReplTest
 	java -cp .:lib/\*:bin org.junit.runner.JUnitCore tests.TransformationsTest
-	java -cp .:lib/\*:bin org.junit.runner.JUnitCore tests.GUITest
-runguitest:
-	java -cp .:lib/\*:bin org.junit.runner.JUnitCore tests.GUITest
 rungui:
 	java -cp .:lib/\*:bin main.MakeGUI
 runrepl:
