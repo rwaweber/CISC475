@@ -3,16 +3,19 @@ build:
 test:
 	javac -g -Xlint -d bin/ -cp .:lib/\*:bin src/tests/*.java 
 run: 
-	java -cp bin main.Main
+	java -cp .:lib/\*:bin main.Main
 runtest:
 	java -cp .:lib/\*:bin org.junit.runner.JUnitCore tests.FileParserTest
 	java -cp .:lib/\*:bin org.junit.runner.JUnitCore tests.CSVWriterTest
 	java -cp .:lib/\*:bin org.junit.runner.JUnitCore tests.RecordsTest
 	java -cp .:lib/\*:bin org.junit.runner.JUnitCore tests.ReplTest
 	java -cp .:lib/\*:bin org.junit.runner.JUnitCore tests.TransformationsTest
+	java -cp .:lib/\*:bin org.junit.runner.JUnitCore tests.GUITest
+runguitest:
+	java -cp .:lib/\*:bin org.junit.runner.JUnitCore tests.GUITest
 rungui:
-	java -cp bin main.MakeGUI
+	java -cp .:lib/\*:bin main.MakeGUI
 runrepl:
-	java -cp bin main.Repl
+	java -cp .:lib/\*:bin main.Repl
 clean:
 	rm -rf ./bin/*.class
