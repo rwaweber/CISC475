@@ -10,8 +10,9 @@ public class Transformations {
 	}
 	
 	public static double mean(Records record, int col) {
-		ArrayList<Object> colRec = record.getCol(col);
-		OptionalDouble mean = colRec.stream().mapToInt(obj -> (int) Integer.parseInt((String) obj)).average();
-		return mean.getAsDouble();
+		return record.getCol(col).stream()
+				.mapToInt(obj -> (int) Integer.parseInt((String) obj))
+				.average()
+				.getAsDouble();
 	}
 }
