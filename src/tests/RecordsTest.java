@@ -3,6 +3,8 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.csv.CSVParser;
@@ -19,7 +21,7 @@ public class RecordsTest {
 		String fileName = "src/tests/testfiles/test.csv";
 		CSVParser parser = FileParser.getCSVFileParser(fileName);
 		List<CSVRecord> csvRecords = parser.getRecords();
-		Records records = new Records(csvRecords, 0, 10, 0, 10);
+		Records records = new Records(csvRecords, 0, 10, 0, 10, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
 		assertNotNull(records);
 		assertEquals(records.getRecords().size(), 11);
 	}
@@ -29,7 +31,7 @@ public class RecordsTest {
 		String fileName = "src/tests/testfiles/test.csv";
 		CSVParser parser = FileParser.getCSVFileParser(fileName);
 		List<CSVRecord> csvRecords = parser.getRecords();
-		Records records = new Records(csvRecords, 100, 152, 3, 7);
+		Records records = new Records(csvRecords, 100, 152, 3, 7, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
 		assertNotNull(records.getRecords());
 	}
 
@@ -38,7 +40,7 @@ public class RecordsTest {
 		String fileName = "src/tests/testfiles/test.csv";
 		CSVParser parser = FileParser.getCSVFileParser(fileName);
 		List<CSVRecord> csvRecords = parser.getRecords();
-		Records records = new Records(csvRecords, 0, 5, 3, 7);
+		Records records = new Records(csvRecords, 0, 5, 3, 7, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
 		assertEquals(records.numRows(), 6);
 	}
 
@@ -47,7 +49,7 @@ public class RecordsTest {
 		String fileName = "src/tests/testfiles/test.csv";
 		CSVParser parser = FileParser.getCSVFileParser(fileName);
 		List<CSVRecord> csvRecords = parser.getRecords();
-		Records records = new Records(csvRecords, 0, 5, 3, 7);
+		Records records = new Records(csvRecords, 0, 5, 3, 7, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
 		assertEquals(records.numCols(), 5);
 	}
 
@@ -56,7 +58,7 @@ public class RecordsTest {
 		String fileName = "src/tests/testfiles/test.csv";
 		CSVParser parser = FileParser.getCSVFileParser(fileName);
 		List<CSVRecord> csvRecords = parser.getRecords();
-		Records records = new Records(csvRecords, 0, 5, 3, 7);
+		Records records = new Records(csvRecords, 0, 5, 3, 7, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
 		assertEquals(records.getCell(3, 3), "AK");
 	}
 
@@ -65,7 +67,7 @@ public class RecordsTest {
 		String fileName = "src/tests/testfiles/test.csv";
 		CSVParser parser = FileParser.getCSVFileParser(fileName);
 		List<CSVRecord> csvRecords = parser.getRecords();
-		Records records = new Records(csvRecords, 0, 3, 0, 3);
+		Records records = new Records(csvRecords, 0, 3, 0, 3, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
 		Object[][] array = records.convertTo2DArray();
 		assertNotNull(array);
 		assertEquals(array.length, 4);
@@ -79,7 +81,7 @@ public class RecordsTest {
 		String fileName = "src/tests/testfiles/test.csv";
 		CSVParser parser = FileParser.getCSVFileParser(fileName);
 		List<CSVRecord> csvRecords = parser.getRecords();
-		Records records = new Records(csvRecords, 0, 3, 0, 3);
+		Records records = new Records(csvRecords, 0, 3, 0, 3, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
 		List<Object> col0 = records.getCol(0);
 		assertNotNull(col0);
 		assertEquals(col0.get(0), "James");
@@ -87,6 +89,27 @@ public class RecordsTest {
 		List<Object> col3 = records.getCol(3);
 		assertEquals(col3.get(0), "6649 N Blue Gum St");
 		assertEquals(col3.get(3), "639 Main St");
+	}
+	
+	@Test
+	public void test() throws IOException{
+		String fileName = "src/tests/testfiles/testmean.csv";
+		CSVParser parser = FileParser.getCSVFileParser(fileName);
+		List<CSVRecord> csvRecords = parser.getRecords();
+		Records records = new Records(csvRecords, 0, 9, 0, 2, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
+		List<Object> col0 = records.getCol(0);
+		assertNotNull(records);
+		assertEquals(records.getRecords().size(), 3);
+	}
+	
+	@Test
+	public void testAddCol() throws IOException{
+		String fileName = "src/tests/testfiles/testmean.csv";
+		CSVParser parser = FileParser.getCSVFileParser(fileName);
+		List<CSVRecord> csvRecords = parser.getRecords();
+		Records records = new Records(csvRecords, 0, 9, 0, 2, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
+		records.addCol("new col name");
+		assertEquals(records.getRecords().size(), 4);
 	}
 
 }

@@ -75,14 +75,14 @@ public class FileParser {
 		CSVParser parser = getCSVFileParser(fileName);
 		List<CSVRecord> csvRecords = parser.getRecords();
 		parser.close();
-		return new Records(csvRecords, startRow, endRow, startCol, endCol);
+		return new Records(csvRecords, startRow, endRow, startCol, endCol, new ArrayList<String>(Arrays.asList(getHeaders(fileName))));
 	}
 
 	public static Records csvToArray(String fileName) throws IOException{
 		CSVParser parser = getCSVFileParser(fileName);
 		List<CSVRecord> records = parser.getRecords();
 		parser.close();
-		return new Records(records, 0, records.size()-1, 0, parser.getHeaderMap().size()-1);
+		return new Records(records, 0, records.size()-1, 0, parser.getHeaderMap().size()-1, new ArrayList<String>(Arrays.asList(getHeaders(fileName))));
 	}
 
 	public static ArrayList<Object> getListFromArray(Object[] array){

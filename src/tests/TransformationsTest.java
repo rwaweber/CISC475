@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import main.FileParser;
@@ -20,7 +22,7 @@ public class TransformationsTest {
 		String fileName = "src/tests/testfiles/testmean.csv";
 		CSVParser parser = FileParser.getCSVFileParser(fileName);
 		List<CSVRecord> csvRecords = parser.getRecords();
-		Records records = new Records(csvRecords, 0, 9, 0, 2);
+		Records records = new Records(csvRecords, 0, 9, 0, 2, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
 		assertNotNull(records);
 		assertEquals(records.getRecords().size(), 3);
 		

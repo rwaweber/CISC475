@@ -8,10 +8,12 @@ import org.apache.commons.csv.CSVRecord;
 public class Records {
 
 	private List<ArrayList<Object>> records;
+	private ArrayList<String> headers;
 	private int numRows;
 	private int numCols;
 
-	public Records(List<CSVRecord> csvRecords, int startRow, int endRow, int startCol, int endCol){
+	public Records(List<CSVRecord> csvRecords, int startRow, int endRow, int startCol, int endCol, ArrayList<String> header){
+		this.headers = header;
 		numRows = endRow - startRow + 1;
 		numCols = endCol - startCol + 1;
 		this.records = new ArrayList<ArrayList<Object>>();
@@ -84,5 +86,12 @@ public class Records {
 	public ArrayList<Object> getCol(int colNum) {
 		return records.get(colNum);
 	}
+
+	public void addCol(String colName) {
+		records.add(new ArrayList<Object>());
+		
+	}
+	
+	
 
 }
