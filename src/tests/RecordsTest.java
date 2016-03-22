@@ -93,7 +93,7 @@ public class RecordsTest {
 	
 	@Test
 	public void test() throws IOException{
-		String fileName = "src/tests/testfiles/testmean.csv";
+		String fileName = "src/tests/testfiles/testNumeric.csv";
 		CSVParser parser = FileParser.getCSVFileParser(fileName);
 		List<CSVRecord> csvRecords = parser.getRecords();
 		Records records = new Records(csvRecords, 0, 9, 0, 2, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
@@ -104,7 +104,7 @@ public class RecordsTest {
 	
 	@Test
 	public void testAddCol() throws IOException{
-		String fileName = "src/tests/testfiles/testmean.csv";
+		String fileName = "src/tests/testfiles/testNumeric.csv";
 		CSVParser parser = FileParser.getCSVFileParser(fileName);
 		List<CSVRecord> csvRecords = parser.getRecords();
 		Records records = new Records(csvRecords, 0, 9, 0, 2, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
