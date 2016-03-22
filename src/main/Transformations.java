@@ -1,8 +1,6 @@
 package main;
 import java.util.*;
 
-
-
 public class Transformations {
 
 	public Transformations() {
@@ -29,10 +27,10 @@ public class Transformations {
 				.min()
 				.getAsDouble();
 	}
-//	public static int numDistinctElements(Records records, int col) {
-//		return records.getCol(col).stream()
-//				.mapToDouble(obj -> (double) )
-//	}
+	public static long numDistinctElements(Records records, int col) {
+		return records.getCol(col).stream()
+				.distinct().count();
+	}
 	
 	
 	

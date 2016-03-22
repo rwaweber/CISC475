@@ -50,4 +50,15 @@ public class TransformationsTest {
 		assertEquals(Transformations.min(records, 2), 1, 0.001);
 	}
 	
+	@Test
+	public void testNumDistinctElements() throws IOException {
+		String fileName = "src/tests/testfiles/testNumeric.csv";
+		CSVParser parser = FileParser.getCSVFileParser(fileName);
+		List<CSVRecord> csvRecords = parser.getRecords();
+		Records records = new Records(csvRecords, 0, 9, 0, 3, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
+		assertNotNull(records);
+		assertEquals(records.getRecords().size(), 4);
+		assertEquals(Transformations.numDistinctElements(records, 3), 7, 0.001);
+	}
+	
 }
