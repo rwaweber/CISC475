@@ -36,7 +36,18 @@ public class TransformationsTest {
 		Records records = new Records(csvRecords, 0, 9, 0, 2, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
 		assertNotNull(records);
 		assertEquals(records.getRecords().size(), 3);
-		assertEquals(Transformations.mean(records,0),5.5,.001);
+		assertEquals(Transformations.max(records, 2), 98, 0.001);
+	}
+	
+	@Test
+	public void testMin() throws IOException {
+		String fileName = "src/tests/testfiles/testNumeric.csv";
+		CSVParser parser = FileParser.getCSVFileParser(fileName);
+		List<CSVRecord> csvRecords = parser.getRecords();
+		Records records = new Records(csvRecords, 0, 9, 0, 2, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
+		assertNotNull(records);
+		assertEquals(records.getRecords().size(), 3);
+		assertEquals(Transformations.min(records, 2), 1, 0.001);
 	}
 	
 }
