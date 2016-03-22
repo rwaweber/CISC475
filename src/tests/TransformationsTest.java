@@ -61,4 +61,16 @@ public class TransformationsTest {
 		assertEquals(Transformations.numDistinctElements(records, 3), 7, 0.001);
 	}
 	
+	@Test
+	public void testSum() throws IOException {
+		String fileName = "src/tests/testfiles/testNumeric.csv";
+		CSVParser parser = FileParser.getCSVFileParser(fileName);
+		List<CSVRecord> csvRecords = parser.getRecords();
+		System.out.println("csvRecords size = " + csvRecords.size());
+		Records records = new Records(csvRecords, 0, 9, 0, 3, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
+		assertNotNull(records);
+		assertEquals(records.getRecords().size(), 4);
+		assertEquals(Transformations.sum(records, 0), 55, 0.001);
+	}
+	
 }
