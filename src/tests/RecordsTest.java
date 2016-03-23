@@ -111,5 +111,18 @@ public class RecordsTest {
 		records.addCol("new col name");
 		assertEquals(records.getRecords().size(), 4);
 	}
+	
+	@Test
+	public void testRemoveCol() throws IOException{
+		String fileName = "src/tests/testfiles/testNumeric.csv";
+		CSVParser parser = FileParser.getCSVFileParser(fileName);
+		List<CSVRecord> csvRecords = parser.getRecords();
+		Records records = new Records(csvRecords, 0, 9, 0, 3, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
+		records.removeCol(1);
+		assertEquals(records.getRecords().size(), 3);
+		assertEquals(records.getRecords().get(1).get(0), "37");
+		assertEquals(records.numCols(), 3);
+		System.out.println(records);
+	}
 
 }

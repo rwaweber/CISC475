@@ -12,7 +12,6 @@ public class Records {
 	private int numRows;
 	private int numCols;
 
-
 	public Records(List<CSVRecord> csvRecords, int startRow, int endRow, int startCol, int endCol, ArrayList<String> header){
 		this.headers = header;
 		numRows = endRow - startRow + 1;
@@ -90,6 +89,11 @@ public class Records {
 	public void addCol(String colName) {
 		records.add(new ArrayList<Object>());
 
+	}
+
+	public void removeCol(int col) {
+		records.remove(col);
+		numCols--;
 	}
 
 
