@@ -24,7 +24,7 @@ public class Records {
 			addRecord(thisRecord, startCol, endCol);
 		}
 	}
-
+	
 	public List<ArrayList<Object>> getRecords() {
 		return records;
 	}
@@ -88,12 +88,17 @@ public class Records {
 
 	public void addCol(String colName) {
 		records.add(new ArrayList<Object>());
+		headers.add(colName);
 
 	}
 
 	public void removeCol(int col) {
 		records.remove(col);
 		numCols--;
+	}
+
+	public ArrayList<String> getHeaders() {
+		return headers;
 	}
 
 

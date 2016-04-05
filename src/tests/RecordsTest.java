@@ -108,8 +108,12 @@ public class RecordsTest {
 		CSVParser parser = FileParser.getCSVFileParser(fileName);
 		List<CSVRecord> csvRecords = parser.getRecords();
 		Records records = new Records(csvRecords, 0, 9, 0, 2, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
+		assertEquals(records.getHeaders().size(), 4);
 		records.addCol("new col name");
 		assertEquals(records.getRecords().size(), 4);
+		assertEquals(records.getHeaders().size(), 5);
+		assertEquals(records.getHeaders().get(4), "new col name");
+
 	}
 	
 	@Test
