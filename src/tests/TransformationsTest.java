@@ -78,6 +78,7 @@ public class TransformationsTest {
 		List<CSVRecord> csvRecords = parser.getRecords();
 		Records records = new Records(csvRecords, 0, 9, 0, 3, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
 		assertNotNull(records);
+		List<Object> oldCol = records.getCol(0);
 		List<Double> newColAdd = Transformations.addValueToCol(records, 0, 10);
 		assertEquals(newColAdd.size(), 10);
 		List<Double> testColAdd = new ArrayList<Double>();
@@ -85,6 +86,7 @@ public class TransformationsTest {
 			testColAdd.add(new Double(i + 10));
 		}
 		assertTrue(newColAdd.equals(testColAdd));
+		assertTrue(records.getCol(0).equals(oldCol));
 		List<Double> newColSub = Transformations.addValueToCol(records, 0, -10);
 		assertEquals(newColSub.size(), 10);
 		List<Double> testColSub = new ArrayList<Double>();
@@ -92,6 +94,8 @@ public class TransformationsTest {
 			testColSub.add(new Double(i - 10));
 		}
 		assertTrue(newColSub.equals(testColSub));
+		assertTrue(records.getCol(0).equals(oldCol));
+
 	}
 
 }
