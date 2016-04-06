@@ -18,14 +18,13 @@ public class Records {
 		numCols = endCol - startCol + 1;
 		this.records = new ArrayList<ArrayList<Object>>();
 		initLists(endCol - startCol + 1);
-		for(int thisCol = startCol; thisCol <= endCol; thisCol++){
-			for(int thisRow = startRow; thisRow <= endRow; thisRow++){
-				CSVRecord thisRecord = csvRecords.get(thisRow);
-				addRecord(thisRecord, startCol, endCol);
-			}
+		System.out.println("numCols in records " + numCols);
+		for(int thisRow = startRow; thisRow <= endRow; thisRow++){
+			CSVRecord thisRecord = csvRecords.get(thisRow);
+			addRecord(thisRecord, startCol, endCol);
 		}
 	}
-
+	
 	public List<ArrayList<Object>> getRecords() {
 		return records;
 	}
@@ -53,7 +52,7 @@ public class Records {
 	public Object getCell(int row, int col){
 		return records.get(col).get(row);
 	}
-	
+
 	public ArrayList<Object> getRecord(int recordNum){
 		ArrayList<Object> record = new ArrayList<Object>();
 		for(ArrayList<Object> col : records){
@@ -61,7 +60,7 @@ public class Records {
 		}
 		return record;
 	}
-	
+
 	@Override
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
@@ -75,11 +74,11 @@ public class Records {
 		}
 		return sb.toString();
 	}
-	
+
 	public Object[][] convertTo2DArray(){
 		return records.stream()
 				.map(l -> l.stream()
-				.toArray(Object[]::new))
+						.toArray(Object[]::new))
 				.toArray(Object[][]::new);
 	}
 
@@ -89,9 +88,20 @@ public class Records {
 
 	public void addCol(String colName) {
 		records.add(new ArrayList<Object>());
-		
+		headers.add(colName);
+
 	}
-	
-	
+
+	public void removeCol(int col) {
+		records.remove(col);
+		numCols--;
+	}
+
+	public ArrayList<String> getHeaders() {
+		return headers;
+	}
+
+
+
 
 }

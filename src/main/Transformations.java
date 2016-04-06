@@ -32,6 +32,15 @@ public class Transformations {
 				.distinct().count();
 	}
 	
+	public static double sum(Records records, int col) {
+		System.out.println("records:" + records.getCol(col).size());
+		double sum = records.getCol(col).stream()
+				.mapToDouble(obj -> (double) Double.parseDouble((String) obj))
+				.sum();
+		return sum;
+	}
+	
+	
 	
 	
 }
