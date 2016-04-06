@@ -126,7 +126,6 @@ public class RecordsTest {
 		assertEquals(records.getRecords().size(), 3);
 		assertEquals(records.getRecords().get(1).get(0), "37");
 		assertEquals(records.numCols(), 3);
-		System.out.println(records);
 	}
 
 }

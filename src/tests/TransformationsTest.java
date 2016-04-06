@@ -93,5 +93,24 @@ public class TransformationsTest {
 		}
 		assertTrue(newColSub.equals(testColSub));
 	}
+	
+	@Test
+	public void normalizeGlobalExtrema() throws IOException {
+		String fileName = "src/tests/testfiles/testNumeric.csv";
+		CSVParser parser = FileParser.getCSVFileParser(fileName);
+		List<CSVRecord> csvRecords = parser.getRecords();
+		Records records = new Records(csvRecords, 0, 9, 0, 3, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
+		assertNotNull(records);
+		List<Double> newColAdd = Transformations.normalizeGlobalExtrema(records, 0);
+		assertEquals(newColAdd.size(), 10);
+		List<Double> testColAdd = new ArrayList<Double>();
+		double min = Transformations.min(records, 0);
+		double max = Transformations.max(records, 0);
+		for(int i = 1; i <= 10; i++){
+			Double temp = (i - min)/(max-min);
+			testColAdd.add(temp);
+		}
+		assertTrue(newColAdd.equals(testColAdd));
+	}
 
 }

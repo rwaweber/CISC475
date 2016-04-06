@@ -33,7 +33,6 @@ public class Transformations {
 	}
 
 	public static double sum(Records records, int col) {
-		System.out.println("records:" + records.getCol(col).size());
 		double sum = records.getCol(col).stream()
 				.mapToDouble(obj -> (double) Double.parseDouble((String) obj))
 				.sum();
@@ -48,7 +47,16 @@ public class Transformations {
 		return newCol;
 	}
 	
-	
+	public static List<Double> normalizeGlobalExtrema(Records records, int col) {
+//		(x - min) / (max - min)
+		List<Double> newCol = new ArrayList<Double>();
+		double max = max(records, col);
+		double min = min(records, col);
+		records.getCol(col).stream()
+		.mapToDouble(obj -> (double) (Double.parseDouble((String) obj) - min)/(max - min))
+		.forEach(newCol::add);
+		return newCol;
+	}
 
 
 
