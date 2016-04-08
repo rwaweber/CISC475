@@ -24,6 +24,10 @@ public class RecordsTest {
 		Records records = new Records(csvRecords, 0, 10, 0, 10, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
 		assertNotNull(records);
 		assertEquals(records.getRecords().size(), 11);
+		Records allRecords = new Records(csvRecords,  new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
+		assertNotNull(allRecords);
+		assertEquals(allRecords.numRows(), 500);
+		assertEquals(allRecords.numCols(), 12);
 	}
 
 	@Test
