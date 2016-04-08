@@ -97,7 +97,7 @@ public class TransformationsTest {
 		assertTrue(records.getCol(0).equals(oldCol));
 
 	}
-	
+
 	@Test
 	public void normalizeGlobalExtrema() throws IOException {
 		String fileName = "src/tests/testfiles/testNumeric.csv";
@@ -115,6 +115,23 @@ public class TransformationsTest {
 			testColAdd.add(temp);
 		}
 		assertTrue(newColAdd.equals(testColAdd));
+	}
+
+	@Test
+	public void discretize() throws IOException {
+		String fileName = "src/tests/testfiles/test.csv";
+		CSVParser parser = FileParser.getCSVFileParser(fileName);
+		List<CSVRecord> csvRecords = parser.getRecords();
+		Records records = new Records(csvRecords, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
+		assertNotNull(records);
+		List<Object> list = Transformations.discretize(records, 6);
+		assertNotNull(list);
+		assertEquals(list.size(), 500);
+		assertEquals(list.get(0), records.getCell(0, 6).hashCode());
+		assertEquals(list.get(1), records.getCell(1, 6).hashCode());
+		assertEquals(list.get(499), records.getCell(499, 6).hashCode());
+		String newFileName = "src/tests/testfiles/testWrite.csv";
+		FileParser.arrayToCSV(records, newFileName, FileParser.getHeaders("src/tests/testfiles/test.csv"));
 	}
 
 }
