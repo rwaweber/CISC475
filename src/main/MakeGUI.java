@@ -18,27 +18,42 @@ public class MakeGUI extends JFrame{
 	private static int TABLE_HEIGHT = 250;
 	
 	Object[][] newCells;
-	Object[][] sampleCells;
+	Object[][] colFixedCells;
+	Object[][] totalFixedCells;
 	
 	
-	public MakeGUI(String[] colHeaders, Object[][] cells, int startCol, int endCol){
+	public MakeGUI(String[] colHeaders, Object[][] cells, int startRow, int endRow, int startCol, int endCol){
 		
+		//flip columns and rows
 		Object[][] newCells = flipTable(colHeaders, cells);
-		Object[][] sampleCells = new Object[newCells.length][endCol-startCol +1];
 		
+		//setup adjusted column table
+		Object[][] colFixedCells = new Object[newCells.length][endCol-startCol +1];
+		
+		//adjust column headers to match
 		colHeaders = Arrays.copyOfRange(colHeaders, startCol, endCol+1);
 		
+		//take only requested columns
 		for(int i=0; i<newCells[0].length;i++){
 			if(i >= startCol && i <= endCol){
 				for(int j=0; j<newCells.length;j++){
-					sampleCells[j][i-startCol] = newCells[j][i];
+					colFixedCells[j][i-startCol] = newCells[j][i];
 				}
 			}
 		}
-//		this.colHeaders = colHeaders;
-//		this.cells = newCells;
+		
+		//take only requested rows
+		Object[][] totalFixedCells = new Object[endRow-startRow +1][colFixedCells[0].length];
+		for(int i=0; i<colFixedCells.length;i++){
+			if(i >= startRow && i <= endRow){
+				for(int j=0; j<colFixedCells[i].length;j++){
+					totalFixedCells[i-startRow][j] = colFixedCells[i][j];
+				}
+			}
+		}
+
 		//setup view:
-		tab = new JTable(sampleCells, colHeaders);
+		tab = new JTable(totalFixedCells, colHeaders);
 		tab.setBounds(50, 50, TABLE_WIDTH, TABLE_HEIGHT);
 		JScrollPane pane = new JScrollPane(tab);
 		this.add(pane);
@@ -79,8 +94,6 @@ public class MakeGUI extends JFrame{
 		Object[][] newCells = flipTable(colHeaders, cells);
 		
 		//setup view:
-//		this.colHeaders = colHeaders;
-//		this.cells = newCells;
 		tab = new JTable(newCells, colHeaders);
 		tab.setBounds(50, 50, TABLE_WIDTH, TABLE_HEIGHT);
 		JScrollPane pane = new JScrollPane(tab);
@@ -130,9 +143,11 @@ public class MakeGUI extends JFrame{
     public static void main(String[] args){
     	String[] testColHeaders = {"Name", "Age", "Student ID"}; 
     	Object[][] testCells = {{"Greg", "Will", "Ben", "Sue"}, {21, 35, 40, 80}, {702.123123, 702.123124, 702.123125, 702.123126}};
+    	int testStartRow = 0;
+    	int testEndRow = 1;
     	int testStartCol = 1;
     	int testEndCol = 2;
-    	MakeGUI gui = new MakeGUI(testColHeaders, testCells, testStartCol, testEndCol);
+    	MakeGUI gui = new MakeGUI(testColHeaders, testCells,testStartRow, testEndRow, testStartCol, testEndCol);
     }
   
 }
