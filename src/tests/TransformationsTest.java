@@ -99,13 +99,13 @@ public class TransformationsTest {
 	}
 
 	@Test
-	public void normalizeGlobalExtrema() throws IOException {
+	public void testNormalizeLocalExtrema() throws IOException {
 		String fileName = "src/tests/testfiles/testNumeric.csv";
 		CSVParser parser = FileParser.getCSVFileParser(fileName);
 		List<CSVRecord> csvRecords = parser.getRecords();
 		Records records = new Records(csvRecords, 0, 9, 0, 3, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
 		assertNotNull(records);
-		List<Double> newColAdd = Transformations.normalizeGlobalExtrema(records, 0);
+		List<Double> newColAdd = Transformations.normalizeLocalExtrema(records, 0);
 		assertEquals(newColAdd.size(), 10);
 		List<Double> testColAdd = new ArrayList<Double>();
 		double min = Transformations.min(records, 0);

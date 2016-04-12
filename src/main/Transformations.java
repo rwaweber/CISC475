@@ -47,7 +47,7 @@ public class Transformations {
 		return newCol;
 	}
 
-	public static List<Double> normalizeGlobalExtrema(Records records, int col) {
+	public static List<Double> normalizeLocalExtrema(Records records, int col) {
 		List<Double> newCol = new ArrayList<Double>();
 		double max = max(records, col);
 		double min = min(records, col);
