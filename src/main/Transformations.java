@@ -1,5 +1,6 @@
 package main;
 import java.util.*;
+import org.apache.commons.math3.*;
 
 public class Transformations {
 
@@ -60,8 +61,9 @@ public class Transformations {
 	public static List<Object> discretize(Records records, int colNum) {
 		return Arrays.asList(records.getCol(colNum).stream().map(s -> s.hashCode())
 				.toArray());
-
 	}
+	
+//	public static double standDev()
 
 
 
