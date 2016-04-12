@@ -118,7 +118,7 @@ public class TransformationsTest {
 	}
 
 	@Test
-	public void discretize() throws IOException {
+	public void testDiscretize() throws IOException {
 		String fileName = "src/tests/testfiles/test.csv";
 		CSVParser parser = FileParser.getCSVFileParser(fileName);
 		List<CSVRecord> csvRecords = parser.getRecords();
