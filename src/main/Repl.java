@@ -96,12 +96,14 @@ public class Repl {
 	    
     public static void printLoop() throws IOException, InterruptedException {
 	Scanner scan = new Scanner(System.in);
+	CmdHistoryWriter histWriter = new CmdHistoryWriter();
 	try {
 	    System.out.print("> ");
 	    while(scan.hasNextLine()) {
 		String line = scan.nextLine().toLowerCase();
 		if (parseCommand(commandify(line))) {
 		    System.out.print("> ");
+		    histWriter.store(line);
 		} else {
 		    System.out.println("No command '" + line + "' found");
 		    System.out.print(usage);
