@@ -20,6 +20,7 @@ public class Repl {
 	+ "Those students were: \n"
 	+ "Will Weber, Ben Rodd, Johanna Jan, Greg Mohler, and Teague Forren\n"
 	+ "And this is release version: " + version + ". ";
+    static CmdHistoryWriter histWriter;
     
     public Repl() {
 	this.state = true;
@@ -66,6 +67,12 @@ public class Repl {
 	case "ls":
 	    pbBuild(commands);
 	    return true;
+	    
+	//command history related commands
+	case "history":
+		histWriter.viewHistory();
+		return true;
+
 	default:
 	    return false;
 	}
@@ -96,7 +103,7 @@ public class Repl {
 	    
     public static void printLoop() throws IOException, InterruptedException {
 	Scanner scan = new Scanner(System.in);
-	CmdHistoryWriter histWriter = new CmdHistoryWriter();
+	histWriter = new CmdHistoryWriter();
 	try {
 	    System.out.print("> ");
 	    while(scan.hasNextLine()) {

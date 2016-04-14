@@ -1,23 +1,28 @@
 package main;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
 public class CmdHistoryWriter {
 	private static LinkedList<String> commandHistory = new LinkedList<String>();
+	private static HashMap<String, Boolean> commandBlacklist = new HashMap<String, Boolean>();
 	
 	public CmdHistoryWriter(){
-		//commandHistory = new LinkedList<String>();	
+		commandBlacklist.put("history", true);
+		commandBlacklist.put("version", true);
+		commandBlacklist.put("clear", true);
 	}
 	
 	//takes in a string and adds it to the linked list
 	//Pretty much a wrapper. for the linklist add method
 	public void store(String command){
-		if (command == ""){
-			//Nothing
+		String root = command.split("\\s+")[0];
+		if (commandBlacklist.containsKey(root)){
+			//command is blacklisted. Do not add it.
 		}else{
-		//System.out.println("Storing: " + command);	
-		commandHistory.add(command);
+			//System.out.println("Storing: " + command);	
+			commandHistory.add(command);
 		}
 	}
 	
@@ -25,7 +30,12 @@ public class CmdHistoryWriter {
 	 * removes the last command line stored in the history list
 	 */
 	public void removeLast(){
-		
+		if (commandHistory.size() == 0){
+			System.out.println("Command history empty. Nothing to remove.");
+		}
+		else {
+			commandHistory.remove(commandHistory.size() - 1);			
+		}
 	}
 	
 	/*viewHistory
@@ -33,14 +43,16 @@ public class CmdHistoryWriter {
 	 * iterates over commandHistory list and prints all stored commands
 	 */
 	public void viewHistory(){
-		Iterator<String> historyIterator = commandHistory.iterator();
-		System.out.println("Command History:");
-		while (historyIterator.hasNext()){
-			System.out.println(historyIterator.next());
+		if (commandHistory.size() == 0){
+			System.out.println("Command history empty. Nothing to view.");
+		}else{
+			Iterator<String> historyIterator = commandHistory.iterator();
+			System.out.println("Command History:");
+			while (historyIterator.hasNext()){
+				System.out.println(historyIterator.next());
+			}
 		}
-		
 	}
-	
 	
 	/*TODO
 	 * takes nothing returns nothing
