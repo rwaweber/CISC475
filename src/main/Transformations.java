@@ -1,6 +1,7 @@
 package main;
 import java.util.*;
 import org.apache.commons.math3.*;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 public class Transformations {
 
@@ -63,8 +64,12 @@ public class Transformations {
 				.toArray());
 	}
 	
-//	public static double standDev()
-
-
+	public static double standDev(Records records, int colNum){
+		DescriptiveStatistics stats = new DescriptiveStatistics();
+		records.getCol(colNum).stream()
+		.mapToDouble(obj -> (double) Double.parseDouble((String) obj))
+		.forEach(value -> stats.addValue(value));
+		return stats.getStandardDeviation();
+	}
 
 }

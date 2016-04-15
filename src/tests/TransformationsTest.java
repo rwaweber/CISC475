@@ -134,6 +134,16 @@ public class TransformationsTest {
 		FileParser.arrayToCSV(records, newFileName, FileParser.getHeaders("src/tests/testfiles/test.csv"));
 	}
 	
+	@Test
+	public void testStandDev() throws IOException {
+		String fileName = "src/tests/testfiles/testNumeric.csv";
+		CSVParser parser = FileParser.getCSVFileParser(fileName);
+		List<CSVRecord> csvRecords = parser.getRecords();
+		Records records = new Records(csvRecords, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
+		assertNotNull(records);
+		Double standDev = Transformations.standDev(records, 0);
+		assertEquals(standDev, 3.02765, 0.0001);
+	}
 	
 
 }
