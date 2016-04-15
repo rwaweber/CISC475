@@ -94,7 +94,28 @@ public class Repl {
 		e.printStackTrace();
 		return false;
 	    }
-	} else {
+	} 
+	else if(commands.length == 6 && commands[1].contains(".csv")){
+		try {
+			Records recs = FileParser.csvToArray(commands[1]);
+			String[] csv_headers = FileParser.getHeaders(commands[1]);
+			//grab input row and col limits
+			int params[] = new int[4];
+			for(int i=0; i<4; i++){
+				params[i] = Integer.parseInt(commands[i+2]);
+			}
+			MakeGUI view = new MakeGUI(csv_headers, recs.convertTo2DArray(), 
+					params[0], params[1], params[2], params[3]);
+			return true;
+		} catch(IOException e) {
+			e.getMessage();
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+	
+	else {
 	    // inform user of 
 	    System.out.println("incorrect argument count \n Usage: view [csvfile]\n");
 	    return false;

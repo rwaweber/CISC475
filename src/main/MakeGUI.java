@@ -16,6 +16,8 @@ public class MakeGUI extends JFrame{
 	Object[][] cells;
 	private static int TABLE_WIDTH = 200;
 	private static int TABLE_HEIGHT = 250;
+	private static int PANE_WIDTH = 500;
+	private static int PANE_HEIGHT = 500;
 	
 	Object[][] newCells;
 	Object[][] colFixedCells;
@@ -54,10 +56,10 @@ public class MakeGUI extends JFrame{
 
 		//setup view:
 		tab = new JTable(totalFixedCells, colHeaders);
-		tab.setBounds(50, 50, TABLE_WIDTH, TABLE_HEIGHT);
+		tab.setBounds(0, 0, TABLE_WIDTH, TABLE_HEIGHT);
 		JScrollPane pane = new JScrollPane(tab);
 		this.add(pane);
-		this.setSize(300,400);
+		this.setSize(PANE_WIDTH, PANE_HEIGHT);
 		this.setVisible(true);	
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setFocusable(true);
@@ -65,25 +67,17 @@ public class MakeGUI extends JFrame{
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
 				int key = e.getKeyCode();
 				if(key == KeyEvent.VK_ESCAPE){
 					dispose();
 				}
 			}
-
 			@Override
 			public void keyReleased(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-				
 			}
-
 			@Override
 			public void keyTyped(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-				
 			}
-			
 		});
 		System.out.println("Esc to close window.");
 		
@@ -95,10 +89,10 @@ public class MakeGUI extends JFrame{
 		
 		//setup view:
 		tab = new JTable(newCells, colHeaders);
-		tab.setBounds(50, 50, TABLE_WIDTH, TABLE_HEIGHT);
+		tab.setBounds(0, 0, TABLE_WIDTH, TABLE_HEIGHT);
 		JScrollPane pane = new JScrollPane(tab);
 		this.add(pane);
-		this.setSize(300,400);
+		this.setSize(PANE_WIDTH, PANE_HEIGHT);
 		this.setVisible(true);	
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setFocusable(true);
@@ -106,23 +100,17 @@ public class MakeGUI extends JFrame{
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
 				int key = e.getKeyCode();
 				if(key == KeyEvent.VK_ESCAPE){
 					dispose();
 				}
 			}
-
 			@Override
-			public void keyReleased(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-				
+			public void keyReleased(KeyEvent arg0) {				
 			}
 
 			@Override
 			public void keyTyped(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 		});
@@ -130,7 +118,7 @@ public class MakeGUI extends JFrame{
 	}
 	
 	private Object[][] flipTable(String[] colHeaders, Object[][] cells){
-		//flip 2D array:
+		//flip rows and columns array:
 		newCells = new Object[cells[0].length][colHeaders.length];
 		for(int i=0; i<cells[0].length; i++){
 			for(int k=0; k<cells.length; k++){
