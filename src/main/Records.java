@@ -18,26 +18,24 @@ public class Records {
 		numCols = endCol - startCol + 1;
 		this.records = new ArrayList<ArrayList<Object>>();
 		initLists(endCol - startCol + 1);
-		System.out.println("numCols in records " + numCols);
 		for(int thisRow = startRow; thisRow <= endRow; thisRow++){
 			CSVRecord thisRecord = csvRecords.get(thisRow);
 			addRecord(thisRecord, startCol, endCol);
 		}
 	}
-	
+
 	public Records(List<CSVRecord> csvRecords,  ArrayList<String> header){
 		this.headers = header;
 		numRows = csvRecords.size();
 		numCols = csvRecords.get(0).size();
 		this.records = new ArrayList<ArrayList<Object>>();
 		initLists(numCols);
-		System.out.println("numCols in records " + numCols);
 		for(int thisRow = 0; thisRow < numRows; thisRow++){
 			CSVRecord thisRecord = csvRecords.get(thisRow);
 			addRecord(thisRecord);
 		}
 	}
-	
+
 	public List<ArrayList<Object>> getRecords() {
 		return records;
 	}
@@ -53,7 +51,7 @@ public class Records {
 			records.get(thisCol - startCol).add(record.get(thisCol));
 		}
 	}
-	
+
 	public void addRecord(CSVRecord record){
 		for(int thisCol = 0; thisCol < records.size(); thisCol++){
 			records.get(thisCol).add(record.get(thisCol));
@@ -120,6 +118,17 @@ public class Records {
 		return headers;
 	}
 
+	public ArrayList<Object> getRandCol() {
+		return this.getCol((int)Math.random()*numCols);
+	}
+
+	public boolean colEquals(int colIndex, ArrayList<Object> testCol) {
+		return getCol(colIndex).equals(testCol);
+	}
+
+	public Object colSize(int colIndex) {
+		return this.getCol(colIndex).size();
+	}
 
 
 

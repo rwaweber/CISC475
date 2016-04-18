@@ -15,7 +15,7 @@ import main.FileParser;
 import main.Records;
 
 public class RecordsTest {
-
+	
 	@Test
 	public void testConstructor() throws IOException {
 		String fileName = "src/tests/testfiles/test.csv";
@@ -130,6 +130,37 @@ public class RecordsTest {
 		assertEquals(records.getRecords().size(), 3);
 		assertEquals(records.getRecords().get(1).get(0), "37");
 		assertEquals(records.numCols(), 3);
+	}
+	
+	@Test
+	public void testGetRandomCol() throws IOException{
+		String fileName = "src/tests/testfiles/testNumeric.csv";
+		CSVParser parser = FileParser.getCSVFileParser(fileName);
+		List<CSVRecord> csvRecords = parser.getRecords();
+		Records records = new Records(csvRecords, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
+		ArrayList<Object> randCol = records.getRandCol();	
+	}
+	
+	@Test
+	public void testColEquals() throws IOException{
+		String fileName = "src/tests/testfiles/testNumeric.csv";
+		CSVParser parser = FileParser.getCSVFileParser(fileName);
+		List<CSVRecord> csvRecords = parser.getRecords();
+		Records records = new Records(csvRecords, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
+		ArrayList<Object> testCol = new ArrayList<Object>();
+		for(int i = 1; i <= 10; i++){
+			testCol.add(new String(new Integer(i).toString()));
+		}
+		assertTrue(records.colEquals(0, testCol));
+	}
+	
+	@Test
+	public void testSize() throws IOException{
+		String fileName = "src/tests/testfiles/testNumeric.csv";
+		CSVParser parser = FileParser.getCSVFileParser(fileName);
+		List<CSVRecord> csvRecords = parser.getRecords();
+		Records records = new Records(csvRecords, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
+		assertEquals(records.colSize(2), 10);
 	}
 
 }
