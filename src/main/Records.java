@@ -135,12 +135,7 @@ public class Records {
 	}
 
 	public boolean containsCol(ArrayList<Object> col) {
-		for(ArrayList<Object> thisCol : records){
-			if(colEquals(thisCol, col)){
-				return true;
-			}
-		}
-		return false;
+		return records.contains(col);
 	}
 
 
