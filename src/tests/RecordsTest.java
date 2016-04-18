@@ -152,6 +152,7 @@ public class RecordsTest {
 			testCol.add(new String(new Integer(i).toString()));
 		}
 		assertTrue(records.colEquals(0, testCol));
+		assertTrue(records.colEquals(records.getCol(0), testCol));
 	}
 	
 	@Test
@@ -161,6 +162,20 @@ public class RecordsTest {
 		List<CSVRecord> csvRecords = parser.getRecords();
 		Records records = new Records(csvRecords, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
 		assertEquals(records.colSize(2), 10);
+	}
+	
+	@Test
+	public void testContainsCol() throws IOException{
+		String fileName = "src/tests/testfiles/testNumeric.csv";
+		CSVParser parser = FileParser.getCSVFileParser(fileName);
+		List<CSVRecord> csvRecords = parser.getRecords();
+		Records records = new Records(csvRecords, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
+		assertTrue(records.containsCol(records.getCol(2)));
+		ArrayList<Object> falseCol = new ArrayList<Object>();
+		for(int i = 100; i < 110; i++){
+			falseCol.add(new Integer(i).toString());
+		}
+		assertFalse(records.containsCol(falseCol));
 	}
 
 }

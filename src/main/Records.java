@@ -126,8 +126,21 @@ public class Records {
 		return getCol(colIndex).equals(testCol);
 	}
 
+	public boolean colEquals(ArrayList<Object> thisCol, ArrayList<Object> testCol) {
+		return thisCol.equals(testCol);
+	}
+
 	public Object colSize(int colIndex) {
 		return this.getCol(colIndex).size();
+	}
+
+	public boolean containsCol(ArrayList<Object> col) {
+		for(ArrayList<Object> thisCol : records){
+			if(colEquals(thisCol, col)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 
