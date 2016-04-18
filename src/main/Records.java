@@ -119,7 +119,7 @@ public class Records {
 	}
 
 	public ArrayList<Object> getRandCol() {
-		return this.getCol((int)Math.random()*numCols);
+		return getCol((int)(Math.random()*numCols));
 	}
 
 	public boolean colEquals(int colIndex, ArrayList<Object> testCol) {

@@ -139,6 +139,8 @@ public class RecordsTest {
 		List<CSVRecord> csvRecords = parser.getRecords();
 		Records records = new Records(csvRecords, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
 		ArrayList<Object> randCol = records.getRandCol();	
+		System.out.println("randCol: " + randCol);
+		assertTrue(records.containsCol(randCol));
 	}
 	
 	@Test
