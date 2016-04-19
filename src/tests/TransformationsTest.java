@@ -131,7 +131,7 @@ public class TransformationsTest {
 		assertEquals(list.get(1), records.getCell(1, 6).hashCode());
 		assertEquals(list.get(499), records.getCell(499, 6).hashCode());
 		String newFileName = "src/tests/testfiles/testWrite.csv";
-		FileParser.arrayToCSV(records, newFileName, FileParser.getHeaders("src/tests/testfiles/test.csv"));
+		FileParser.recordsToCSV(records, newFileName, FileParser.getHeaders("src/tests/testfiles/test.csv"));
 	}
 	
 	@Test

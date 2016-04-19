@@ -78,7 +78,7 @@ public class FileParser {
 		return new Records(csvRecords, startRow, endRow, startCol, endCol, new ArrayList<String>(Arrays.asList(getHeaders(fileName))));
 	}
 
-	public static Records csvToArray(String fileName) throws IOException{
+	public static Records csvToRecords(String fileName) throws IOException{
 		CSVParser parser = getCSVFileParser(fileName);
 		List<CSVRecord> records = parser.getRecords();
 		parser.close();
@@ -97,7 +97,7 @@ public class FileParser {
 		return list;
 	}
 
-	public static void arrayToCSV(Records records, String fileName, Object[] fileHeader) throws IOException{
+	public static void recordsToCSV(Records records, String fileName, Object[] fileHeader) throws IOException{
 		createFile(fileName);
 		CSVWriter csvWriter = new CSVWriter(fileName, "\n");
 		csvWriter.printRecord(getListFromArray(fileHeader));

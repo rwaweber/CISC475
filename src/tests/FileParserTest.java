@@ -102,7 +102,7 @@ public class FileParserTest {
 		assertEquals(records.getCell(0, 1), "Printing Dimensions");
 		assertEquals(records.getCell(1, 0), "Morasca");
 		assertEquals(records.getCell(1, 1), "Chapman, Ross E Esq");
-		Records allRecords = FileParser.csvToArray(fileName);
+		Records allRecords = FileParser.csvToRecords(fileName);
 		assertEquals(allRecords.numRows(), 500);
 		assertEquals(allRecords.numCols(), 12);
 	}
@@ -114,7 +114,7 @@ public class FileParserTest {
 		String destFile = "src/tests/testfiles/testArrayToCSV.csv";
 		Records records = FileParser.csvToArray(sourceFile,4,5,1,3);
 		
-		FileParser.arrayToCSV(records, destFile, new String[]{"first_name", "last_name", "company_name"});
+		FileParser.recordsToCSV(records, destFile, new String[]{"first_name", "last_name", "company_name"});
 		Records recordsFromCSV = FileParser.csvToArray(destFile, 0, 1, 0, 2);
 
 		assertEquals(recordsFromCSV.numRows(), 2);
