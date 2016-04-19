@@ -84,37 +84,7 @@ public class MakeGUI extends JFrame{
 	}
 	
 	public MakeGUI(String[] colHeaders, Object[][] cells){
-		
-		Object[][] newCells = flipTable(colHeaders, cells);
-		
-		//setup view:
-		tab = new JTable(newCells, colHeaders);
-		tab.setBounds(0, 0, TABLE_WIDTH, TABLE_HEIGHT);
-		JScrollPane pane = new JScrollPane(tab);
-		this.add(pane);
-		this.setSize(PANE_WIDTH, PANE_HEIGHT);
-		this.setVisible(true);	
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setFocusable(true);
-		this.addKeyListener(new KeyListener(){
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				int key = e.getKeyCode();
-				if(key == KeyEvent.VK_ESCAPE){
-					dispose();
-				}
-			}
-			@Override
-			public void keyReleased(KeyEvent arg0) {				
-			}
-
-			@Override
-			public void keyTyped(KeyEvent arg0) {
-			}
-			
-		});
-		System.out.println("Esc to close window.");
+		new MakeGUI(colHeaders, cells, 0, cells[0].length-1, 0, cells.length-1);
 	}
 	
 	private Object[][] flipTable(String[] colHeaders, Object[][] cells){
