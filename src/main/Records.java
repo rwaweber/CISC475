@@ -138,6 +138,20 @@ public class Records {
 		return records.contains(col);
 	}
 
+	
+	public List<ArrayList<Object>> transpose() {
+		List<ArrayList<Object>> transpose = new ArrayList<ArrayList<Object>>();
+		for(int thisRow = 0; thisRow < records.get(0).size(); thisRow++){
+			transpose.add(new ArrayList<Object>());
+		}
+		return transpose;
+	}
+
+	public static ArrayList<Object> getRowFromColLists(List<ArrayList<Object>> colLists, int rowIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 }

@@ -179,5 +179,29 @@ public class RecordsTest {
 		}
 		assertFalse(records.containsCol(falseCol));
 	}
-
+	
+	@Test
+	public void testTranspose() throws IOException{
+		String fileName = "src/tests/testfiles/testNumeric.csv";
+		CSVParser parser = FileParser.getCSVFileParser(fileName);
+		List<CSVRecord> csvRecords = parser.getRecords();
+		Records records = new Records(csvRecords, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
+		List<ArrayList<Object>> transpose = records.transpose();
+		assertNotNull(transpose);
+		assertEquals(transpose.size(), 10);
+	}
+	
+	@Test
+	public void testGetRowFromColLists(){
+		List<ArrayList<Object>> colLists = new ArrayList<ArrayList<Object>>();
+		for(int i = 0; i <= 4; i+= 2){
+			ArrayList<Object> col = new ArrayList<Object>();
+			col.add(new Integer(i+1));
+			col.add(new Integer(i+2));
+			colLists.add(col);
+		}
+		assertEquals(colLists.size(), 3);
+		assertEquals(colLists.get(0).get(1), 2);
+		ArrayList<Object> row = Records.getRowFromColLists(colLists, 0);
+	}
 }
