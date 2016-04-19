@@ -84,7 +84,7 @@ public class Repl {
 	// silly way of asserting file format and no input specificity
 	if(commands.length == 2 && commands[1].contains(".csv")){
 	    try {
-		Records recs = FileParser.csvToArray(commands[1]);
+		Records recs = FileParser.csvToRecords(commands[1]);
 		String[] csv_headers = FileParser.getHeaders(commands[1]);
 
 		MakeGUI view = new MakeGUI(csv_headers, recs.convertTo2DArray());
@@ -97,7 +97,7 @@ public class Repl {
 	} 
 	else if(commands.length == 6 && commands[1].contains(".csv")){
 		try {
-			Records recs = FileParser.csvToArray(commands[1]);
+			Records recs = FileParser.csvToRecords(commands[1]);
 			String[] csv_headers = FileParser.getHeaders(commands[1]);
 			//grab input row and col limits
 			int params[] = new int[4];
