@@ -9,8 +9,8 @@ public class Transformations {
 
 	}
 
-	public static double mean(Records records, int col) {
-		return records.getCol(col).stream()
+	public static double mean(List<String> list) {
+		return list.stream()
 				.mapToDouble(obj -> (double) Double.parseDouble((String) obj))
 				.average()
 				.getAsDouble();
