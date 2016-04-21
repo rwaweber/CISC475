@@ -120,4 +120,15 @@ public class FileParser {
 		System.out.println("test");
 	}
 
+	public static List<String> getColFromFile(String fileName, int colIndex) throws IOException {
+		CSVParser parser = getCSVFileParser(fileName);
+		List<CSVRecord> records = parser.getRecords();
+		List<String> col = Transformations.getStringZeroList(records.size());
+		int index = 0;
+		for(CSVRecord record : records){
+			col.set(index++, record.get(colIndex));
+		}
+		return col;
+	}
+
 }

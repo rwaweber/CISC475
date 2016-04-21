@@ -26,6 +26,8 @@ public class FileParserTest {
 	static List<String> names = Arrays.asList(new String[]{"Bob", "Mary", "Albert"});
 	static List<Integer> ages = Arrays.asList(new Integer[]{32, 40, 27});
 	static List<Integer> ids = Arrays.asList(new Integer[]{12345, 98765, 11223});
+	
+	static String numericFile = "/Users/benjaminrodd/git/CISC475/src/tests/testfiles/testNumeric.csv";
 
 	static int numRows = 3;
 
@@ -113,7 +115,7 @@ public class FileParserTest {
 		String sourceFile = "src/tests/testfiles/test.csv";
 		String destFile = "src/tests/testfiles/testArrayToCSV.csv";
 		Records records = FileParser.csvToArray(sourceFile,4,5,1,3);
-		
+
 		FileParser.recordsToCSV(records, destFile, new String[]{"first_name", "last_name", "company_name"});
 		Records recordsFromCSV = FileParser.csvToArray(destFile, 0, 1, 0, 2);
 
@@ -141,12 +143,23 @@ public class FileParserTest {
 		assertEquals(shortList.get(1), 10);
 	}
 
-        @Test
+	@Test
 	public void testGetHeaders() throws IOException{
-	        String[] control = new String[] {"first_name","last_name","company_name","address","city","county","state","zip","phone1","phone2","email","web"};
+		String[] control = new String[] {"first_name","last_name","company_name","address","city","county","state","zip","phone1","phone2","email","web"};
 		String[] test = FileParser.getHeaders("src/tests/testfiles/test.csv");
 		assertEquals(control, test);
 	}
 
+	@Test
+	public void testGetColFromFile() throws IOException{
+		List<String> col = FileParser.getColFromFile(numericFile, 0);
+		assertNotNull(col);
+		assertEquals(col.size(), 10);
+		List<String> testCol = new ArrayList<String>();
+		for(int i = 1; i <= 10; i++){
+			testCol.add(((Integer)i).toString());
+		}
+		assertEquals(testCol, col);
+	}
 
 }
