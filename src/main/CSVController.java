@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
-import org.supercsv.*;
 import org.supercsv.io.CsvBeanReader;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvBeanReader;
