@@ -19,7 +19,10 @@ public class TransformationsTest {
 	@Test
 	public void testMean() throws IOException {
 		List<String> list = new ArrayList<String>(Arrays.asList(new String[]{"1", "2", "3" , "4", "5"}));
-		assertEquals(Transformations.mean(list), 3.0, 0.0001);
+		List<Double> newList = Transformations.mean(list);
+		assertEquals(newList.size(), list.size());
+		assertEquals(Transformations.mean(list).get(0), 3.0, 0.0001);
+		
 	}
 
 	@Test
@@ -140,5 +143,13 @@ public class TransformationsTest {
 		assertEquals(standDev, 3.02765, 0.0001);
 	}
 	
+	@Test
+	public void testGetZeroList() throws IOException {
+		List<Double> zeroList = Transformations.getZeroList(10);
+		assertEquals(zeroList.size(), 10);
+		for(Double d : zeroList){
+			assertEquals(d, 0.0, 0.0);
+		}
+	}
 
 }

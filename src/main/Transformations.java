@@ -1,5 +1,8 @@
 package main;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.apache.commons.math3.*;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
@@ -8,12 +11,20 @@ public class Transformations {
 	public Transformations() {
 
 	}
+	
+	public static List<Double> getZeroList(int size){
+		ArrayList<Double> list= new ArrayList<>(Arrays.asList(new Double[size]));
+		Collections.fill(list, 0.0); 
+		return list;
+	}
 
-	public static double mean(List<String> list) {
-		return list.stream()
+	public static List<Double> mean(List<String> list) {
+		List<Double> newList = getZeroList(list.size());
+		newList.set(0, list.stream()
 				.mapToDouble(obj -> (double) Double.parseDouble((String) obj))
 				.average()
-				.getAsDouble();
+				.getAsDouble());
+		return newList;
 	}
 
 	public static double max(Records records, int col){
@@ -63,7 +74,7 @@ public class Transformations {
 		return Arrays.asList(records.getCol(colNum).stream().map(s -> s.hashCode())
 				.toArray());
 	}
-	
+
 	public static double standDev(Records records, int colNum){
 		DescriptiveStatistics stats = new DescriptiveStatistics();
 		records.getCol(colNum).stream()
