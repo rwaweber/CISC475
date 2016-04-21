@@ -19,7 +19,8 @@ public class TransformationsTest {
 	
 	List<String> testList = new ArrayList<String>(Arrays.asList(new String[]{"2", "3", "1", "5", "4"}));
 	List<String> dupList = new ArrayList<String>(Arrays.asList(new String[]{"2", "3", "3", "5", "4"}));
-
+	List<Double> addList = new ArrayList<Double>(Arrays.asList(new Double[]{4.0,5.0,3.0,7.0,6.0}));
+	List<Double> subList = new ArrayList<Double>(Arrays.asList(new Double[]{0.0,1.0,-1.0,3.0,2.0}));
 
 	@Test
 	public void testMean() throws IOException {
@@ -54,30 +55,13 @@ public class TransformationsTest {
 	}
 
 	@Test
-	public void testAddValueToCol() throws IOException {
-		String fileName = "src/tests/testfiles/testNumeric.csv";
-		CSVParser parser = FileParser.getCSVFileParser(fileName);
-		List<CSVRecord> csvRecords = parser.getRecords();
-		Records records = new Records(csvRecords, 0, 9, 0, 3, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
-		assertNotNull(records);
-		List<Object> oldCol = records.getCol(0);
-		List<Double> newColAdd = Transformations.addValueToCol(records, 0, 10);
-		assertEquals(newColAdd.size(), 10);
-		List<Double> testColAdd = new ArrayList<Double>();
-		for(int i = 1; i <= 10; i++){
-			testColAdd.add(new Double(i + 10));
-		}
-		assertTrue(newColAdd.equals(testColAdd));
-		assertTrue(records.getCol(0).equals(oldCol));
-		List<Double> newColSub = Transformations.addValueToCol(records, 0, -10);
-		assertEquals(newColSub.size(), 10);
-		List<Double> testColSub = new ArrayList<Double>();
-		for(int i = 1; i <= 10; i++){
-			testColSub.add(new Double(i - 10));
-		}
-		assertTrue(newColSub.equals(testColSub));
-		assertTrue(records.getCol(0).equals(oldCol));
-
+	public void testAddValueToList() throws IOException {
+		List<Double> addList = Transformations.addValueToList(testList, 2);
+		assertEquals(addList.size(), 5);
+		assertTrue(addList.equals(this.addList));
+		List<Double> subList = Transformations.addValueToList(testList, -2);
+		assertEquals(subList.size(), 5);
+		assertTrue(subList.equals(this.subList));
 	}
 
 	@Test

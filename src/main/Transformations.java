@@ -59,12 +59,12 @@ public class Transformations {
 		return newList;
 	}
 
-	public static List<Double> addValueToCol(Records records, int col, double value){
-		List<Double> newCol = new ArrayList<Double>();
-		records.getCol(col).stream()
+	public static List<Double> addValueToList(List<String> list, double value){
+		List<Double> newList = new ArrayList<Double>();
+		list.stream()
 		.mapToDouble(obj -> (double) Double.parseDouble((String) obj) + value)
-		.forEach(newCol::add);
-		return newCol;
+		.forEach(newList::add);
+		return newList;
 	}
 
 	public static List<Double> normalizeLocalExtrema(List<String> list) {
