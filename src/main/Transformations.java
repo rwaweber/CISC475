@@ -17,6 +17,12 @@ public class Transformations {
 		Collections.fill(list, 0.0); 
 		return list;
 	}
+	
+	public static List<String> getStringZeroList(int size){
+		ArrayList<String> list = new ArrayList<>(Arrays.asList(new String[size]));
+		Collections.fill(list, "0"); 
+		return list;
+	}
 
 	public static List<Double> mean(List<String> list) {
 		List<Double> newList = getZeroList(list.size());

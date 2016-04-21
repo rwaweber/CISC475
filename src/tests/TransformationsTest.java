@@ -104,5 +104,14 @@ public class TransformationsTest {
 			assertEquals(d, 0.0, 0.0);
 		}
 	}
+	
+	@Test
+	public void testGetStringZeroList() throws IOException {
+		List<String> stringZeroList = Transformations.getStringZeroList(10);
+		assertEquals(stringZeroList.size(), 10);
+		for(String s : stringZeroList){
+			assertEquals(s, "0");
+		}
+	}
 
 }
