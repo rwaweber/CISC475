@@ -1,9 +1,11 @@
 package main;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,8 +87,8 @@ public class FileParser {
 		return new Records(records, 0, records.size()-1, 0, parser.getHeaderMap().size()-1, new ArrayList<String>(Arrays.asList(getHeaders(fileName))));
 	}
 
-	public static ArrayList<Object> getListFromArray(Object[] array){
-		return new ArrayList<Object>(Arrays.asList(array));
+	public static ArrayList<String> getListFromArray(String[] array){
+		return new ArrayList<String>(Arrays.asList(array));
 	}
 
 	public static ArrayList<Object> getListFromArray(Object[] array, int start, int end){
@@ -97,14 +99,14 @@ public class FileParser {
 		return list;
 	}
 
-	public static void recordsToCSV(Records records, String fileName, Object[] fileHeader) throws IOException{
+	public static void recordsToCSV(Records records, String fileName, String[] fileHeader) throws IOException{
 		createFile(fileName);
 		CSVWriter csvWriter = new CSVWriter(fileName, "\n");
-		csvWriter.printRecord(getListFromArray(fileHeader));
+		csvWriter.printRow(getListFromArray(fileHeader));
 		for(int thisRecord = 0; thisRecord < records.numRows(); thisRecord++){
-			csvWriter.printRecord(records.getRecord(thisRecord));
+			csvWriter.printRow(records.getRecord(thisRecord));
 		}
-		csvWriter.closePrinter();
+		csvWriter.close();
 	}
         
         public static String[] getHeaders(String fileName) throws IOException{
@@ -116,10 +118,19 @@ public class FileParser {
 		return headers;
 	}
 
-	public static void main(String[] args){
-		System.out.println("test");
-	}
 
+	public static List<String> getRowFromFile(String fileName, int rowIndex) throws IOException {
+		CSVParser parser = getCSVFileParser(fileName);
+		List<CSVRecord> records = parser.getRecords();
+		System.out.println("records size: " + records.size());
+		List<String> row = Transformations.getStringZeroList(records.get(0).size());
+		CSVRecord record = records.get(rowIndex);
+		for(int thisCol = 0; thisCol < record.size(); thisCol++){
+			row.set(thisCol, record.get(thisCol));
+		}
+		return row;
+		
+	}
 	public static List<String> getColFromFile(String fileName, int colIndex) throws IOException {
 		CSVParser parser = getCSVFileParser(fileName);
 		List<CSVRecord> records = parser.getRecords();
@@ -129,6 +140,29 @@ public class FileParser {
 			col.set(index++, record.get(colIndex));
 		}
 		return col;
+	}
+
+	public static void eraseFileContents(String fileName) throws FileNotFoundException {
+		PrintWriter pw = new PrintWriter(fileName);
+		pw.write("");
+		pw.close();
+	}
+
+	public static void addColToFile(String destFile, List<String> names) {
+		
+	}
+
+	public static void addRowToFile(String destFile, List<String> row) throws IOException {
+		CSVWriter cw = new CSVWriter(destFile, "\n");
+		cw.printRow(row);
+		cw.close();
+	}
+
+	public static void main(String[] args) throws IOException{
+		String destFile = "/Users/benjaminrodd/Desktop/addRow.csv";
+		List<String> row = Arrays.asList(new String[]{"sdf", "dsf", "gg"});
+		addRowToFile(destFile, row);
+
 	}
 
 }

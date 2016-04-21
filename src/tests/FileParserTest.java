@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.List;
 import java.util.stream.Stream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,9 +26,10 @@ public class FileParserTest {
 
 	static List<String> names = Arrays.asList(new String[]{"Bob", "Mary", "Albert"});
 	static List<Integer> ages = Arrays.asList(new Integer[]{32, 40, 27});
-	static List<Integer> ids = Arrays.asList(new Integer[]{12345, 98765, 11223});
+	static List<Integer> ids =  Arrays.asList(new Integer[]{12345, 98765, 11223});
 	
 	static String numericFile = "/Users/benjaminrodd/git/CISC475/src/tests/testfiles/testNumeric.csv";
+	static String destFile = "/Users/benjaminrodd/git/CISC475/src/tests/testfiles/testWrite.csv";
 
 	static int numRows = 3;
 
@@ -130,17 +132,17 @@ public class FileParserTest {
 
 	@Test
 	public void testGetListFromArray(){
-		Object[] array = new Object[]{"Hello", 10, "World"};
-		ArrayList<Object> list = FileParser.getListFromArray(array);
+		String[] array = new String[]{"Hello", "10", "World"};
+		ArrayList<String> list = FileParser.getListFromArray(array);
 		assertNotNull(list);
 		assertEquals(list.size(), 3);
 		assertEquals(list.get(0), "Hello");
-		assertEquals(list.get(1), 10);
+		assertEquals(list.get(1), "10");
 		ArrayList<Object> shortList = FileParser.getListFromArray(array, 0, 1);
 		assertNotNull(shortList);
 		assertEquals(shortList.size(), 2);
 		assertEquals(shortList.get(0), "Hello");
-		assertEquals(shortList.get(1), 10);
+		assertEquals(shortList.get(1), "10");
 	}
 
 	@Test
@@ -148,6 +150,17 @@ public class FileParserTest {
 		String[] control = new String[] {"first_name","last_name","company_name","address","city","county","state","zip","phone1","phone2","email","web"};
 		String[] test = FileParser.getHeaders("src/tests/testfiles/test.csv");
 		assertEquals(control, test);
+	}
+	
+	@Test
+	public void testGetRowFromFile() throws IOException{
+		List<String> row = FileParser.getRowFromFile(numericFile, 0);
+		assertNotNull(row);
+		assertEquals(row.size(), 4);
+		System.out.println("row: " + row);
+		assertEquals(row.get(0), "1");
+		assertEquals(row.get(row.size()-1), "5");
+		
 	}
 
 	@Test
@@ -161,5 +174,20 @@ public class FileParserTest {
 		}
 		assertEquals(testCol, col);
 	}
+	
+	@Test
+	public void testEraseFileContents() throws FileNotFoundException{
+		FileParser.eraseFileContents(destFile);
+	}
+
+	@Test
+	public void testAddColToFile(){
+		FileParser.addColToFile(destFile, names);
+	}
+	
+	@Test
+	public void testAddRowToFile() throws IOException{
+	}
+	
 
 }

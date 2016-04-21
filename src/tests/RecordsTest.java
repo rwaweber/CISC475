@@ -86,11 +86,11 @@ public class RecordsTest {
 		CSVParser parser = FileParser.getCSVFileParser(fileName);
 		List<CSVRecord> csvRecords = parser.getRecords();
 		Records records = new Records(csvRecords, 0, 3, 0, 3, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
-		List<Object> col0 = records.getCol(0);
+		List<String> col0 = records.getCol(0);
 		assertNotNull(col0);
 		assertEquals(col0.get(0), "James");
 		assertEquals(col0.get(3), "Lenna");
-		List<Object> col3 = records.getCol(3);
+		List<String> col3 = records.getCol(3);
 		assertEquals(col3.get(0), "6649 N Blue Gum St");
 		assertEquals(col3.get(3), "639 Main St");
 	}
@@ -101,7 +101,7 @@ public class RecordsTest {
 		CSVParser parser = FileParser.getCSVFileParser(fileName);
 		List<CSVRecord> csvRecords = parser.getRecords();
 		Records records = new Records(csvRecords, 0, 9, 0, 2, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
-		List<Object> col0 = records.getCol(0);
+		List<String> col0 = records.getCol(0);
 		assertNotNull(records);
 		assertEquals(records.getRecords().size(), 3);
 	}
@@ -138,7 +138,7 @@ public class RecordsTest {
 		CSVParser parser = FileParser.getCSVFileParser(fileName);
 		List<CSVRecord> csvRecords = parser.getRecords();
 		Records records = new Records(csvRecords, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
-		ArrayList<Object> randCol = records.getRandCol();	
+		ArrayList<String> randCol = records.getRandCol();	
 		System.out.println("randCol: " + randCol);
 		assertTrue(records.containsCol(randCol));
 	}
@@ -149,7 +149,7 @@ public class RecordsTest {
 		CSVParser parser = FileParser.getCSVFileParser(fileName);
 		List<CSVRecord> csvRecords = parser.getRecords();
 		Records records = new Records(csvRecords, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
-		ArrayList<Object> testCol = new ArrayList<Object>();
+		ArrayList<String> testCol = new ArrayList<String>();
 		for(int i = 1; i <= 10; i++){
 			testCol.add(new String(new Integer(i).toString()));
 		}
@@ -173,7 +173,7 @@ public class RecordsTest {
 		List<CSVRecord> csvRecords = parser.getRecords();
 		Records records = new Records(csvRecords, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
 		assertTrue(records.containsCol(records.getCol(2)));
-		ArrayList<Object> falseCol = new ArrayList<Object>();
+		ArrayList<String> falseCol = new ArrayList<String>();
 		for(int i = 100; i < 110; i++){
 			falseCol.add(new Integer(i).toString());
 		}

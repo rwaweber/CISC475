@@ -2,6 +2,8 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+
 import org.junit.Test;
 
 import main.Session;
@@ -12,7 +14,7 @@ public class SessionTest {
 	String destFile = "/Users/benjaminrodd/git/CISC475/src/tests/testfiles/testSession.csv";
 	
 	@Test
-	public void testConstructor(){
+	public void testConstructor() throws IOException{
 		Session session = new Session(sourceFile, destFile);
 		assertNotNull(session);
 		assertNotNull(session.getSourceFile());
