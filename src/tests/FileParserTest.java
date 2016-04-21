@@ -28,8 +28,8 @@ public class FileParserTest {
 	static List<Integer> ages = Arrays.asList(new Integer[]{32, 40, 27});
 	static List<Integer> ids =  Arrays.asList(new Integer[]{12345, 98765, 11223});
 	
-	static String numericFile = "/Users/benjaminrodd/git/CISC475/src/tests/testfiles/testNumeric.csv";
-	static String destFile = "/Users/benjaminrodd/git/CISC475/src/tests/testfiles/testWrite.csv";
+	static String numericFile = "src/tests/testfiles/testNumeric.csv";
+	static String destFile = "src/tests/testfiles/testWrite.csv";
 
 	static int numRows = 3;
 
