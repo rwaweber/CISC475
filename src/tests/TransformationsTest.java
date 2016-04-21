@@ -16,35 +16,30 @@ import org.apache.commons.csv.CSVRecord;
 import org.junit.Test;
 
 public class TransformationsTest {
+	
+	List<String> testList = new ArrayList<String>(Arrays.asList(new String[]{"2", "3", "1", "5", "4"}));
+
+
 	@Test
 	public void testMean() throws IOException {
-		List<String> list = new ArrayList<String>(Arrays.asList(new String[]{"1", "2", "3" , "4", "5"}));
-		List<Double> newList = Transformations.mean(list);
-		assertEquals(newList.size(), list.size());
-		assertEquals(Transformations.mean(list).get(0), 3.0, 0.0001);
+		List<Double> newList = Transformations.mean(testList);
+		assertEquals(newList.size(), testList.size());
+		assertEquals(Transformations.mean(testList).get(0), 3.0, 0.0001);
 		
 	}
 
 	@Test
 	public void testMax() throws IOException {
-		String fileName = "src/tests/testfiles/testNumeric.csv";
-		CSVParser parser = FileParser.getCSVFileParser(fileName);
-		List<CSVRecord> csvRecords = parser.getRecords();
-		Records records = new Records(csvRecords, 0, 9, 0, 2, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
-		assertNotNull(records);
-		assertEquals(records.getRecords().size(), 3);
-		assertEquals(Transformations.max(records, 2), 98, 0.001);
+		List<Double> newList = Transformations.max(testList);
+		assertEquals(newList.size(), 5);
+		assertEquals(Transformations.max(testList).get(0), 5, 0.001);
 	}
 
 	@Test
 	public void testMin() throws IOException {
-		String fileName = "src/tests/testfiles/testNumeric.csv";
-		CSVParser parser = FileParser.getCSVFileParser(fileName);
-		List<CSVRecord> csvRecords = parser.getRecords();
-		Records records = new Records(csvRecords, 0, 9, 0, 2, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
-		assertNotNull(records);
-		assertEquals(records.getRecords().size(), 3);
-		assertEquals(Transformations.min(records, 2), 1, 0.001);
+		List<Double> newList = Transformations.min(testList);
+		assertEquals(newList.size(), 5);
+		assertEquals(Transformations.min(testList).get(0), 1, 0.001);
 	}
 
 	@Test
@@ -98,21 +93,16 @@ public class TransformationsTest {
 
 	@Test
 	public void testNormalizeLocalExtrema() throws IOException {
-		String fileName = "src/tests/testfiles/testNumeric.csv";
-		CSVParser parser = FileParser.getCSVFileParser(fileName);
-		List<CSVRecord> csvRecords = parser.getRecords();
-		Records records = new Records(csvRecords, 0, 9, 0, 3, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
-		assertNotNull(records);
-		List<Double> newColAdd = Transformations.normalizeLocalExtrema(records, 0);
-		assertEquals(newColAdd.size(), 10);
-		List<Double> testColAdd = new ArrayList<Double>();
-		double min = Transformations.min(records, 0);
-		double max = Transformations.max(records, 0);
-		for(int i = 1; i <= 10; i++){
-			Double temp = (i - min)/(max-min);
-			testColAdd.add(temp);
+		List<Double> dList = Transformations.normalizeLocalExtrema(testList);
+		assertEquals(dList.size(), 5);
+		double min = Transformations.min(testList).get(0);
+		double max = Transformations.max(testList).get(0);
+		List<Double> testDList = new ArrayList<Double>();
+		for(int i = 0; i < testList.size(); i++){
+			Double temp = (Double.parseDouble(testList.get(i)) - min)/(max-min);
+			testDList.add(temp);
 		}
-		assertTrue(newColAdd.equals(testColAdd));
+		assertTrue(dList.equals(testDList));
 	}
 
 	@Test

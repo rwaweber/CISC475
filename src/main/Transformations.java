@@ -11,9 +11,9 @@ public class Transformations {
 	public Transformations() {
 
 	}
-	
+
 	public static List<Double> getZeroList(int size){
-		ArrayList<Double> list= new ArrayList<>(Arrays.asList(new Double[size]));
+		ArrayList<Double> list = new ArrayList<>(Arrays.asList(new Double[size]));
 		Collections.fill(list, 0.0); 
 		return list;
 	}
@@ -27,18 +27,22 @@ public class Transformations {
 		return newList;
 	}
 
-	public static double max(Records records, int col){
-		return records.getCol(col).stream()
+	public static List<Double> max(List<String> list){
+		List<Double> newList = getZeroList(list.size());
+		newList.set(0, list.stream()
 				.mapToDouble(obj -> (double) Double.parseDouble((String) obj))
 				.max()
-				.getAsDouble();
+				.getAsDouble());
+		return newList;
 	}
 
-	public static double min(Records records, int col){
-		return records.getCol(col).stream()
+	public static List<Double> min(List<String> list){
+		List<Double> newList = getZeroList(list.size());
+		newList.set(0, list.stream()
 				.mapToDouble(obj -> (double) Double.parseDouble((String) obj))
 				.min()
-				.getAsDouble();
+				.getAsDouble());
+		return newList;
 	}
 	public static long numDistinctElements(Records records, int col) {
 		return records.getCol(col).stream()
@@ -60,11 +64,11 @@ public class Transformations {
 		return newCol;
 	}
 
-	public static List<Double> normalizeLocalExtrema(Records records, int col) {
+	public static List<Double> normalizeLocalExtrema(List<String> list) {
 		List<Double> newCol = new ArrayList<Double>();
-		double max = max(records, col);
-		double min = min(records, col);
-		records.getCol(col).stream()
+		double max = max(list).get(0);
+		double min = min(list).get(0);
+		list.stream()
 		.mapToDouble(obj -> (double) (Double.parseDouble((String) obj) - min)/(max - min))
 		.forEach(newCol::add);
 		return newCol;
