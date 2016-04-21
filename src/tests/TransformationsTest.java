@@ -92,13 +92,8 @@ public class TransformationsTest {
 	
 	@Test
 	public void testStandDev() throws IOException {
-		String fileName = "src/tests/testfiles/testNumeric.csv";
-		CSVParser parser = FileParser.getCSVFileParser(fileName);
-		List<CSVRecord> csvRecords = parser.getRecords();
-		Records records = new Records(csvRecords, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
-		assertNotNull(records);
-		Double standDev = Transformations.standDev(records, 0);
-		assertEquals(standDev, 3.02765, 0.0001);
+		List<Double> standDev = Transformations.standDev(testList);
+		assertEquals(standDev.get(0), 1.58114, 0.0001);
 	}
 	
 	@Test

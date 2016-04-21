@@ -82,12 +82,14 @@ public class Transformations {
 				.toArray());
 	}
 
-	public static double standDev(Records records, int colNum){
+	public static List<Double> standDev(List<String> list){
+		List<Double> newList = getZeroList(list.size());
 		DescriptiveStatistics stats = new DescriptiveStatistics();
-		records.getCol(colNum).stream()
+		list.stream()
 		.mapToDouble(obj -> (double) Double.parseDouble((String) obj))
 		.forEach(value -> stats.addValue(value));
-		return stats.getStandardDeviation();
+		newList.set(0, stats.getStandardDeviation());
+		return newList;
 	}
 
 }
