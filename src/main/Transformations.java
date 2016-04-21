@@ -77,8 +77,8 @@ public class Transformations {
 		return newCol;
 	}
 
-	public static List<Object> discretize(Records records, int colNum) {
-		return Arrays.asList(records.getCol(colNum).stream().map(s -> s.hashCode())
+	public static List<Object> discretize(List<String> list) {
+		return Arrays.asList(list.stream().map(s -> s.hashCode())
 				.toArray());
 	}
 
