@@ -44,16 +44,19 @@ public class Transformations {
 				.getAsDouble());
 		return newList;
 	}
-	public static long numDistinctElements(Records records, int col) {
-		return records.getCol(col).stream()
-				.distinct().count();
+	public static List<Double> numDistinctElements(List<String> list) {
+		List<Double> newList = getZeroList(list.size());
+		 newList.set(0, (double)list.stream()
+				.distinct().count());
+		 return newList;
 	}
 
-	public static double sum(Records records, int col) {
-		double sum = records.getCol(col).stream()
+	public static List<Double> sum(List<String> list) {
+		List<Double> newList = getZeroList(list.size());
+		newList.set(0, list.stream()
 				.mapToDouble(obj -> (double) Double.parseDouble((String) obj))
-				.sum();
-		return sum;
+				.sum());
+		return newList;
 	}
 
 	public static List<Double> addValueToCol(Records records, int col, double value){

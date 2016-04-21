@@ -18,6 +18,7 @@ import org.junit.Test;
 public class TransformationsTest {
 	
 	List<String> testList = new ArrayList<String>(Arrays.asList(new String[]{"2", "3", "1", "5", "4"}));
+	List<String> dupList = new ArrayList<String>(Arrays.asList(new String[]{"2", "3", "3", "5", "4"}));
 
 
 	@Test
@@ -44,24 +45,12 @@ public class TransformationsTest {
 
 	@Test
 	public void testNumDistinctElements() throws IOException {
-		String fileName = "src/tests/testfiles/testNumeric.csv";
-		CSVParser parser = FileParser.getCSVFileParser(fileName);
-		List<CSVRecord> csvRecords = parser.getRecords();
-		Records records = new Records(csvRecords, 0, 9, 0, 3, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
-		assertNotNull(records);
-		assertEquals(records.getRecords().size(), 4);
-		assertEquals(Transformations.numDistinctElements(records, 3), 7, 0.001);
+		assertEquals(Transformations.numDistinctElements(dupList).get(0), 4, 0.0);
 	}
 
 	@Test
 	public void testSum() throws IOException {
-		String fileName = "src/tests/testfiles/testNumeric.csv";
-		CSVParser parser = FileParser.getCSVFileParser(fileName);
-		List<CSVRecord> csvRecords = parser.getRecords();
-		Records records = new Records(csvRecords, 0, 9, 0, 3, new ArrayList<String>(Arrays.asList(FileParser.getHeaders(fileName))));
-		assertNotNull(records);
-		assertEquals(records.getRecords().size(), 4);
-		assertEquals(Transformations.sum(records, 0), 55, 0.001);
+		assertEquals(Transformations.sum(testList).get(0), 15, 0.0);
 	}
 
 	@Test
