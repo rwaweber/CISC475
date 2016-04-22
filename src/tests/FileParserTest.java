@@ -175,10 +175,6 @@ public class FileParserTest {
 		assertEquals(testCol, col);
 	}
 	
-	@Test
-	public void testEraseFileContents() throws FileNotFoundException{
-		FileParser.eraseFileContents(destFile);
-	}
 
 	@Test
 	public void testAddColToFile(){

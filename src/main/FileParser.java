@@ -142,11 +142,6 @@ public class FileParser {
 		return col;
 	}
 
-	public static void eraseFileContents(String fileName) throws FileNotFoundException {
-		PrintWriter pw = new PrintWriter(fileName);
-		pw.write("");
-		pw.close();
-	}
 
 	public static void addColToFile(String destFile, List<String> names) {
 		
