@@ -68,9 +68,9 @@ public class Repl {
 	    pbBuild(commands);
 	    return true;
 	    
-	//command history related commands
 	case "history":
-		histWriter.viewHistory();
+		//histWriter.viewHistory();
+		histWriter.commandCaller(commands);
 		return true;
 
 	default:
