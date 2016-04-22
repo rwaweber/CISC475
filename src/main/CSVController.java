@@ -104,13 +104,11 @@ public class CSVController {
 		}
 		clearFile();
 		initWriter();
-		System.out.println("text: " + text);
 		for(String s : text){
 			List<String> newRow = getListFromString(s);
 			writer.write(newRow);
 		}
 		closeWriter();
-		System.out.println("added rows; numRows = " + this.getNumRows());
 	}
 
 	// assumes all rows have same number of columns

@@ -33,6 +33,8 @@ public class SessionTest {
 		assertEquals(session.getDestControl().getNumRows(), 0);
 		assertEquals(session.getDestControl().getNumCols(), 0);
 		session.transColToCol(0, Commands.SUM);
+		session.transColToCol(0, Commands.SUM);
 		assertEquals(session.getDestControl().getNumRows(), 10);
+		assertEquals(session.getDestControl().getNumCols(), 2);
 	}
 }
