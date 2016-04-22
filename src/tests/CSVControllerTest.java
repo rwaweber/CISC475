@@ -17,7 +17,7 @@ public class CSVControllerTest {
 
 	@Test
 	public void testGetRow() throws IOException {
-		CSVController csvController = new CSVController(numericFile, destFile);
+		CSVController csvController = new CSVController(numericFile);
 		List<String> firstRow = csvController.getRow(0);
 		assertNotNull(firstRow);
 		assertEquals(firstRow.size(), 4);
@@ -32,7 +32,7 @@ public class CSVControllerTest {
 
 	@Test
 	public void testGetCol() throws IOException{
-		CSVController csvController = new CSVController(numericFile, destFile);
+		CSVController csvController = new CSVController(numericFile);
 		List<String> firstCol = csvController.getCol(0);
 		assertNotNull(firstCol);
 		assertEquals(firstCol.size(), 11);
@@ -41,5 +41,6 @@ public class CSVControllerTest {
 			assertEquals(firstCol.get(i), ((Integer)i).toString());
 		}
 	}
+	
 
 }
