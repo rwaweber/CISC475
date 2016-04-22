@@ -92,9 +92,13 @@ public class CSVControllerTest {
 			CSVController csvController = new CSVController(addColFile);
 			csvController.clearFile();
 			assertEquals(csvController.getNumRows(), 0);
+			assertEquals(csvController.getNumCols(), 0);
 			csvController.addCol(firstCol);
+			assertEquals(csvController.getNumCols(), 1);
 			csvController.addCol(firstCol);
+			assertEquals(csvController.getNumCols(), 2);
 			csvController.addCol(firstCol);
+			assertEquals(csvController.getNumCols(), 3);
 			assertEquals(csvController.getNumRows(), 6);
 		}
 
