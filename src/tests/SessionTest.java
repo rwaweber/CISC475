@@ -36,5 +36,6 @@ public class SessionTest {
 		session.transColToCol(0, Commands.SUM);
 		assertEquals(session.getDestControl().getNumRows(), 10);
 		assertEquals(session.getDestControl().getNumCols(), 2);
+		session.getDestControl().clearFile();
 	}
 }
