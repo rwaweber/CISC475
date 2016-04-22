@@ -15,8 +15,12 @@ public class CSVControllerTest {
 
 	static String numericFile = "src/tests/testfiles/testNumeric.csv";
 	static String destFile = "src/tests/testfiles/testWrite.csv";
-	
+	static String addColFile = "src/tests/testfiles/testAddCol.csv";
+	static String replaceRowFile = "src/tests/testfiles/testReplaceRow.csv";
+
 	static List<String> firstRow = Arrays.asList(new String[]{"Bob", "Benson", "NY", "12345"});
+	static List<String> firstCol = Arrays.asList(new String[]{"Hello", "World", "123", "456", "789", "10"});
+	static List<String> replaceRow = Arrays.asList(new String[]{"This", "Row", "Has", "Been", "Replaced"});
 
 	@Test
 	public void testGetRow() throws IOException {
@@ -37,7 +41,7 @@ public class CSVControllerTest {
 		assertEquals(lastRow.get(0), "10");
 		assertEquals(lastRow.get(3), "3");
 	}
-	
+
 	@Test
 	public void testGetLastRow() throws IOException{
 		CSVController csvController = new CSVController(numericFile);
@@ -46,6 +50,16 @@ public class CSVControllerTest {
 		assertEquals(lastRow.size(), 4);
 		assertEquals(lastRow.get(0), "10");
 		assertEquals(lastRow.get(3), "3");
+	}
+	
+	@Test
+	public void testGetLastCol() throws IOException{
+		CSVController csvController = new CSVController(numericFile);
+		List<String> lastCol = csvController.getLastCol();
+		assertNotNull(lastCol);
+		assertEquals(lastCol.size(), 11);
+		assertEquals(lastCol.get(0), "Distinct");
+		assertEquals(lastCol.get(10), "3");
 	}
 
 	@Test
@@ -59,7 +73,7 @@ public class CSVControllerTest {
 			assertEquals(firstCol.get(i), ((Integer)i).toString());
 		}
 	}
-	
+
 	@Test
 	public void testAddRow() throws IOException{
 		CSVController csvController = new CSVController(destFile);
@@ -69,6 +83,46 @@ public class CSVControllerTest {
 		assertEquals(addedRow.size(), 4);
 		assertEquals(addedRow, firstRow);
 	}
+
+//	@Test
+//	public void testAddCol() throws IOException{
+//		CSVController csvController = new CSVController(addColFile);
+//		csvController.clearDestFile();
+//		csvController.addCol(firstCol);
+//		List<String> lastRow = csvController.getLastRow();
+//		assertNotNull(lastRow);
+//		//csvController.clearDestFile();
+//		//assertEquals(lastRow.get(lastRow.size() - 1), "456");
+//	}
+
+//	@Test
+//	public void testReplaceRow() throws IOException{
+//		CSVController csvController = new CSVController(replaceRowFile);
+//		csvController.clearDestFile();
+//		csvController.addRow(firstRow);
+//		csvController.addRow(firstRow);
+//		csvController.addRow(firstRow);
+//		List<String> lastRow = csvController.getLastRow();
+//		assertNotNull(lastRow);
+//		assertEquals(lastRow.size(), 4);
+//		assertEquals(lastRow, firstRow);
+//		csvController.replaceRow(1, replaceRow);
+//		List<String> newRow = csvController.getRow(1);
+//		assertEquals(newRow.size(), 5);
+//		csvController.clearDestFile();
+//		
+//	}
 	
+	@Test
+	public void testGetText() throws IOException{
+		CSVController csvController = new CSVController(numericFile);
+		List<String> text = csvController.getText();
+		assertNotNull(text);
+		assertEquals(text.size(), 11);
+		assertEquals(text.get(0), "Count,Num,Number,Distinct");
+		assertEquals(text.get(10), "10,200,1,3");
+
+	}
+
 
 }

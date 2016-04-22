@@ -1,6 +1,7 @@
 package main;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -40,19 +41,25 @@ public class CSVController {
 	private void initReader() throws FileNotFoundException {
 		reader = new CsvListReader(new FileReader(fileName), CsvPreference.STANDARD_PREFERENCE);
 	}
-	
+
 	private void closeReader() throws IOException{
 		reader.close();
 	}
-	
+
 	private void initWriter() throws IOException {
 		writer = new CsvListWriter(new FileWriter(fileName, true), CsvPreference.STANDARD_PREFERENCE);
 	}
-	
+
 	private void closeWriter() throws IOException{
 		writer.close();
 	}
-	
+
+	public void clearDestFile() throws IOException{
+		writer = new CsvListWriter(new FileWriter(fileName), CsvPreference.STANDARD_PREFERENCE);
+		writer.close();
+		initWriter();
+	}
+
 	public List<String> getRow(int rowIndex) throws IOException{
 		initReader();
 		List<String> thisRow;
@@ -74,18 +81,13 @@ public class CSVController {
 		closeReader();
 		return col;
 	}
-	
+
 
 	public void addRow(List<String> row) throws IOException {
 		initWriter();
 		writer.write(row);
 		closeWriter();
 
-	}
-
-	public static void main(String args[]) throws IOException{
-		BufferedReader br = new BufferedReader(new FileReader("src/tests/testfiles/testNumeric.csv"));
-		System.out.println(br.readLine());
 	}
 
 	public List<String> getLastRow() throws IOException {
@@ -98,6 +100,56 @@ public class CSVController {
 		}
 		closeReader();
 		return lastRow;
+	}
+
+	public void addCol(List<String> col) throws IOException {	
+		initReader();
+		initWriter();
+		BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, true));
+		BufferedReader br = new BufferedReader(new FileReader(fileName));
+		String input = "";
+		String line;
+		while((line = br.readLine()) != null){
+			System.out.println("test");
+			input += line + "\n";
+		}
+		System.out.println(input);
+	}
+
+	// assumes all rows have same number of columns
+	public List<String> getLastCol() throws IOException {
+		initReader();
+		ArrayList<String> col = new ArrayList<String>();
+		List<String> thisRow;
+		while((thisRow = reader.read()) != null){
+			col.add(thisRow.get(thisRow.size()-1));
+		}		
+		closeReader();
+		return col;
+	}
+
+	public void replaceRow(int rowIndex, List<String> newRow) throws IOException {
+		BufferedReader br = new BufferedReader(new FileReader(fileName));
+		BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, true));
+		int thisIndex = 0;
+		String thisLine = "";
+		while(thisIndex < rowIndex){
+			thisLine = br.readLine();
+			thisIndex++;
+		}
+		System.out.println(thisLine);
+		
+	}
+
+	public List<String> getText() throws IOException {
+		List<String> text = new ArrayList<String>();
+		BufferedReader br = new BufferedReader(new FileReader(fileName));
+		String thisLine;
+		while((thisLine = br.readLine()) != null){
+			text.add(thisLine);
+		}
+		br.close();
+		return text;
 	}
 
 }
