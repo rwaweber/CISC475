@@ -173,5 +173,18 @@ public class CSVController {
 		return numRows;
 	}
 
-
+	public int getNumCols() throws IOException {
+		initReader();
+		int numCols = 0;
+		List<String> thisRow;
+		while((thisRow = reader.read()) != null){
+			int thisNumCols = thisRow.size();
+			if(thisNumCols > numCols){
+				numCols = thisNumCols;
+			}
+		}
+		closeReader();
+		return numCols;
+	}
+	
 }

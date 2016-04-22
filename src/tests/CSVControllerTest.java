@@ -151,5 +151,11 @@ public class CSVControllerTest {
 		CSVController csvController = new CSVController(numericFile);
 		assertEquals(csvController.getNumRows(), 11);
 	}
+	
+	@Test
+	public void getMaxNumCols() throws IOException{
+		CSVController csvController = new CSVController(numericFile);
+		assertEquals(csvController.getNumCols(), 4);
+	}
 
 }
