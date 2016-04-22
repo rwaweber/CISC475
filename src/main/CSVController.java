@@ -54,7 +54,7 @@ public class CSVController {
 		writer.close();
 	}
 
-	public void clearDestFile() throws IOException{
+	public void clearFile() throws IOException{
 		writer = new CsvListWriter(new FileWriter(fileName), CsvPreference.STANDARD_PREFERENCE);
 		writer.close();
 		initWriter();
@@ -103,17 +103,17 @@ public class CSVController {
 	}
 
 	public void addCol(List<String> col) throws IOException {	
-		initReader();
-		initWriter();
-		BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, true));
-		BufferedReader br = new BufferedReader(new FileReader(fileName));
-		String input = "";
-		String line;
-		while((line = br.readLine()) != null){
-			System.out.println("test");
-			input += line + "\n";
+		List<String> text = getText();
+		for(int index = 0; index < col.size(); index++){
+			String oldRow = text.get(index);
+			oldRow += ", " + col.get(index);
 		}
-		System.out.println(input);
+		clearFile();
+		initWriter();
+		for(String s : text){
+			List<String> newRow = Arrays.asList(s.split(","));
+		}
+		closeWriter();
 	}
 
 	// assumes all rows have same number of columns
@@ -150,6 +150,10 @@ public class CSVController {
 		}
 		br.close();
 		return text;
+	}
+
+	public static List<String> getListFromString(String stringRow) {
+		return Arrays.asList(stringRow.split(","));
 	}
 
 }
