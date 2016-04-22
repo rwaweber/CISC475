@@ -144,5 +144,15 @@ public class CSVControllerTest {
 		CSVController csvController = new CSVController(numericFile);
 		assertEquals(csvController.getNumCols(), 4);
 	}
+	
+	@Test
+	public void testGetColNoHeader() throws IOException{
+		CSVController csvController = new CSVController(numericFile);
+		List<String> colNoHeader = csvController.getColNoHeader(0);
+		assertNotNull(colNoHeader);
+		assertEquals(colNoHeader.size(), 10);
+		assertEquals(colNoHeader.get(0), "1");
+		assertEquals(colNoHeader.get(9), "10");
+	}
 
 }

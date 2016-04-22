@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
+import main.Commands;
 import main.Session;
 
 public class SessionTest {
@@ -21,5 +22,17 @@ public class SessionTest {
 		assertNotNull(session.getDestFile());
 		assertEquals(session.getSourceFile(), "/Users/benjaminrodd/git/CISC475/src/tests/testfiles/testNumeric.csv");
 		assertEquals(session.getDestFile(), "/Users/benjaminrodd/git/CISC475/src/tests/testfiles/testSession.csv");
+		assertNotNull(session.getSourceControl());
+		assertNotNull(session.getDestControl());
+	}
+	
+	@Test
+	public void testTransColToCol() throws IOException{
+		Session session = new Session(sourceFile, destFile);
+		session.getDestControl().clearFile();
+		assertEquals(session.getDestControl().getNumRows(), 0);
+		assertEquals(session.getDestControl().getNumCols(), 0);
+		session.transColToCol(0, Commands.SUM);
+		assertEquals(session.getDestControl().getNumRows(), 10);
 	}
 }
