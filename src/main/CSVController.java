@@ -43,7 +43,6 @@ public class CSVController {
 			col.add(thisRow.get(colIndex));
 		}		
 		return col;
-		
 	}
 
 }

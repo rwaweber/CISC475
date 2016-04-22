@@ -36,6 +36,10 @@ public class CSVControllerTest {
 		List<String> firstCol = csvController.getCol(0);
 		assertNotNull(firstCol);
 		assertEquals(firstCol.size(), 11);
+		assertEquals(firstCol.get(0), "Count");
+		for(int i = 1; i < 11; i++){
+			assertEquals(firstCol.get(i), ((Integer)i).toString());
+		}
 	}
 
 }
