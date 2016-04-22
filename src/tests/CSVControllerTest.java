@@ -87,16 +87,16 @@ public class CSVControllerTest {
 		assertEquals(addedRow, firstRow);
 	}
 
-	//	@Test
-	//	public void testAddCol() throws IOException{
-	//		CSVController csvController = new CSVController(addColFile);
-	//		csvController.clearDestFile();
-	//		csvController.addCol(firstCol);
-	//		List<String> lastRow = csvController.getLastRow();
-	//		assertNotNull(lastRow);
-	//		//csvController.clearDestFile();
-	//		//assertEquals(lastRow.get(lastRow.size() - 1), "456");
-	//	}
+		@Test
+		public void testAddCol() throws IOException{
+			CSVController csvController = new CSVController(addColFile);
+			csvController.clearFile();
+			assertEquals(csvController.getNumRows(), 0);
+			csvController.addCol(firstCol);
+			csvController.addCol(firstCol);
+			csvController.addCol(firstCol);
+			assertEquals(csvController.getNumRows(), 6);
+		}
 
 	//	@Test
 	//	public void testReplaceRow() throws IOException{

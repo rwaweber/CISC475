@@ -104,15 +104,21 @@ public class CSVController {
 
 	public void addCol(List<String> col) throws IOException {	
 		List<String> text = getText();
+		int numRows = getNumRows();
 		for(int index = 0; index < col.size(); index++){
-			String oldRow = text.get(index);
-			oldRow += ", " + col.get(index);
+			if(index < numRows){
+				String oldRow = text.get(index);
+				text.set(index, oldRow += ", " + col.get(index));
+			}
+			else{
+				text.add(index, col.get(index));
+			}
 		}
 		clearFile();
 		initWriter();
 		for(String s : text){
 			List<String> newRow = getListFromString(s);
-			
+			writer.write(newRow);
 		}
 		closeWriter();
 	}
@@ -139,7 +145,7 @@ public class CSVController {
 			thisIndex++;
 		}
 		System.out.println(thisLine);
-		
+
 	}
 
 	public List<String> getText() throws IOException {
@@ -166,6 +172,6 @@ public class CSVController {
 		closeReader();
 		return numRows;
 	}
-	
+
 
 }
