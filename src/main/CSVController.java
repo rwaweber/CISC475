@@ -1,28 +1,16 @@
 package main;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.supercsv.cellprocessor.FmtBool;
-import org.supercsv.cellprocessor.FmtDate;
-import org.supercsv.cellprocessor.Optional;
-import org.supercsv.cellprocessor.constraint.LMinMax;
-import org.supercsv.cellprocessor.constraint.NotNull;
-import org.supercsv.cellprocessor.constraint.UniqueHashCode;
-import org.supercsv.cellprocessor.ift.CellProcessor;
-import org.supercsv.io.CsvBeanReader;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.CsvListWriter;
-import org.supercsv.io.ICsvBeanReader;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.io.ICsvListWriter;
 import org.supercsv.prefs.CsvPreference;
@@ -133,19 +121,6 @@ public class CSVController {
 		}		
 		closeReader();
 		return col;
-	}
-
-	public void replaceRow(int rowIndex, List<String> newRow) throws IOException {
-		BufferedReader br = new BufferedReader(new FileReader(fileName));
-		BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, true));
-		int thisIndex = 0;
-		String thisLine = "";
-		while(thisIndex < rowIndex){
-			thisLine = br.readLine();
-			thisIndex++;
-		}
-		System.out.println(thisLine);
-
 	}
 
 	public List<String> getText() throws IOException {

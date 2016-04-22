@@ -102,23 +102,6 @@ public class CSVControllerTest {
 			assertEquals(csvController.getNumRows(), 6);
 		}
 
-	//	@Test
-	//	public void testReplaceRow() throws IOException{
-	//		CSVController csvController = new CSVController(replaceRowFile);
-	//		csvController.clearDestFile();
-	//		csvController.addRow(firstRow);
-	//		csvController.addRow(firstRow);
-	//		csvController.addRow(firstRow);
-	//		List<String> lastRow = csvController.getLastRow();
-	//		assertNotNull(lastRow);
-	//		assertEquals(lastRow.size(), 4);
-	//		assertEquals(lastRow, firstRow);
-	//		csvController.replaceRow(1, replaceRow);
-	//		List<String> newRow = csvController.getRow(1);
-	//		assertEquals(newRow.size(), 5);
-	//		csvController.clearDestFile();
-	//		
-	//	}
 
 	@Test
 	public void testGetText() throws IOException{
