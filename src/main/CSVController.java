@@ -111,7 +111,8 @@ public class CSVController {
 		clearFile();
 		initWriter();
 		for(String s : text){
-			List<String> newRow = Arrays.asList(s.split(","));
+			List<String> newRow = getListFromString(s);
+			
 		}
 		closeWriter();
 	}
@@ -155,5 +156,16 @@ public class CSVController {
 	public static List<String> getListFromString(String stringRow) {
 		return Arrays.asList(stringRow.split(","));
 	}
+
+	public int getNumRows() throws IOException {
+		int numRows = 0;
+		initReader();
+		while(reader.read() != null){
+			numRows++;
+		}
+		closeReader();
+		return numRows;
+	}
+	
 
 }

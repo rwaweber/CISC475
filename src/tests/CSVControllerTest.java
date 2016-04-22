@@ -17,6 +17,8 @@ public class CSVControllerTest {
 	static String destFile = "src/tests/testfiles/testWrite.csv";
 	static String addColFile = "src/tests/testfiles/testAddCol.csv";
 	static String replaceRowFile = "src/tests/testfiles/testReplaceRow.csv";
+	static String clearFile = "src/tests/testfiles/testClear.csv";
+
 
 	static List<String> firstRow = Arrays.asList(new String[]{"Bob", "Benson", "NY", "12345"});
 	static List<String> firstCol = Arrays.asList(new String[]{"Hello", "World", "123", "456", "789", "10"});
@@ -132,6 +134,22 @@ public class CSVControllerTest {
 		assertEquals(list.get(0), "please");
 		assertEquals(list.get(1), "split");
 		assertEquals(list.get(2), "me");
+	}
+	
+	@Test
+	public void testClearFile() throws IOException{
+		CSVController csvController = new CSVController(clearFile);
+		csvController.addRow(firstRow);
+		csvController.addRow(firstRow);
+		csvController.addRow(firstRow);
+		assertEquals(csvController.getNumRows(), 3);
+		csvController.clearFile();
+	}
+	
+	@Test
+	public void getNumRows() throws IOException{
+		CSVController csvController = new CSVController(numericFile);
+		assertEquals(csvController.getNumRows(), 11);
 	}
 
 }
