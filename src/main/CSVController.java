@@ -3,6 +3,7 @@ package main;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.supercsv.io.CsvBeanReader;
@@ -33,6 +34,16 @@ public class CSVController {
 			listReader.read();
 		}
 		return listReader.read();
+	}
+
+	public List<String> getCol(int colIndex) throws IOException {
+		ArrayList<String> col = new ArrayList<String>();
+		List<String> thisRow;
+		while((thisRow = listReader.read()) != null){
+			col.add(thisRow.get(colIndex));
+		}		
+		return col;
+		
 	}
 
 }

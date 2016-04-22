@@ -11,7 +11,7 @@ import org.junit.Test;
 import main.CSVController;
 
 public class CSVControllerTest {
-	
+
 	static String numericFile = "src/tests/testfiles/testNumeric.csv";
 	static String destFile = "src/tests/testfiles/testWrite.csv";
 
@@ -28,7 +28,14 @@ public class CSVControllerTest {
 		assertEquals(lastRow.size(), 4);
 		assertEquals(lastRow.get(0), "10");
 		assertEquals(lastRow.get(3), "3");
-		
+	}
+
+	@Test
+	public void testGetCol() throws IOException{
+		CSVController csvController = new CSVController(numericFile, destFile);
+		List<String> firstCol = csvController.getCol(0);
+		assertNotNull(firstCol);
+		assertEquals(firstCol.size(), 11);
 	}
 
 }
