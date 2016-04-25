@@ -24,8 +24,10 @@ public class CSVControllerTest {
 	static List<String> firstCol = Arrays.asList(new String[]{"Hello", "World", "123", "456", "789", "10"});
 	static List<String> replaceRow = Arrays.asList(new String[]{"This", "Row", "Has", "Been", "Replaced"});
 	static String stringRow = "please,split,me";
-	static List<String> trueCol = Arrays.asList(new String[]{"Num", "110", "120", "130", "140", "15", "160", "170", "180", "190", "200"});
-	static List<String> falseCol = Arrays.asList(new String[]{"Num", "110", "120", "131", "140", "15", "160", "170", "180", "190", "200"});
+	static List<String> trueCol = Arrays.asList(new String[]{ "110", "120", "130", "140", "15", "160", "170", "180", "190", "200"});
+	static List<String> falseCol = Arrays.asList(new String[]{"110", "120", "131", "140", "15", "160", "170", "180", "190", "200"});
+	static List<String> trueRow = Arrays.asList(new String[]{"4", "140", "14", "5"});
+	static List<String> falseRow = Arrays.asList(new String[]{"4", "141", "14", "5"});
 
 
 	@Test
@@ -167,10 +169,26 @@ public class CSVControllerTest {
 	}
 	
 	@Test
+	public void testGetRandomRow() throws IOException{
+		CSVController csvController = new CSVController(numericFile);
+		List<String> randRow = csvController.getRandomRow();
+		assertNotNull(randRow);
+		assertTrue(csvController.containsRow(randRow));
+	}
+	
+	@Test
 	public void testContainsCol() throws IOException{
 		CSVController csvController = new CSVController(numericFile);
 		assertTrue(csvController.containsCol(trueCol));
 		assertFalse(csvController.containsCol(falseCol));
 	}
+	
+	@Test
+	public void testContainsRow() throws IOException{
+		CSVController csvController = new CSVController(numericFile);
+		assertTrue(csvController.containsRow(trueRow));
+		assertFalse(csvController.containsRow(falseRow));
+	}
+	
 
 }

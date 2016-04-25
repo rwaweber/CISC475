@@ -169,17 +169,41 @@ public class CSVController {
 		
 	}
 
+	// does not include column header
 	public List<String> getRandomCol() throws IOException {
-		return this.getCol((int)(this.getNumCols() * Math.random()));
+		List<String> randCol = getCol((int)(getNumCols() * Math.random()));
+		randCol.remove(0);
+		return randCol;
 	}
 
 	public boolean containsCol(List<String> col) throws IOException {
 		for(int colIndex = 0; colIndex < getNumCols(); colIndex++){
-			if(getCol(colIndex).equals(col)){
+			List<String> thisCol = getCol(colIndex);
+			thisCol.remove(0);
+			if(thisCol.equals(col)){
 				return true;
 			}
 		}
 		return false;
+	}
+
+	public boolean containsRow(List<String> trueRow) throws IOException {
+		for(int rowIndex = 0; rowIndex < getNumRows(); rowIndex++){
+			if(getRow(rowIndex).equals(trueRow)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// does not consider the row of headers
+	public List<String> getRandomRow() throws IOException {
+		int rowIndex = (int)(getNumRows() * Math.random());
+		while(rowIndex == 0){
+			rowIndex = (int)(getNumRows() * Math.random());
+		}
+		return getRow(rowIndex);
+		
 	}
 	
 }
