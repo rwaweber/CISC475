@@ -168,5 +168,18 @@ public class CSVController {
 		return col;
 		
 	}
+
+	public List<String> getRandomCol() throws IOException {
+		return this.getCol((int)(this.getNumCols() * Math.random()));
+	}
+
+	public boolean containsCol(List<String> col) throws IOException {
+		for(int colIndex = 0; colIndex < getNumCols(); colIndex++){
+			if(getCol(colIndex).equals(col)){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 }

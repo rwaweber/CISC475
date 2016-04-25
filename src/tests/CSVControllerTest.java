@@ -24,6 +24,9 @@ public class CSVControllerTest {
 	static List<String> firstCol = Arrays.asList(new String[]{"Hello", "World", "123", "456", "789", "10"});
 	static List<String> replaceRow = Arrays.asList(new String[]{"This", "Row", "Has", "Been", "Replaced"});
 	static String stringRow = "please,split,me";
+	static List<String> trueCol = Arrays.asList(new String[]{"Num", "110", "120", "130", "140", "15", "160", "170", "180", "190", "200"});
+	static List<String> falseCol = Arrays.asList(new String[]{"Num", "110", "120", "131", "140", "15", "160", "170", "180", "190", "200"});
+
 
 	@Test
 	public void testGetRow() throws IOException {
@@ -153,6 +156,21 @@ public class CSVControllerTest {
 		assertEquals(colNoHeader.size(), 10);
 		assertEquals(colNoHeader.get(0), "1");
 		assertEquals(colNoHeader.get(9), "10");
+	}
+	
+	@Test
+	public void testGetRandomCol() throws IOException{
+		CSVController csvController = new CSVController(numericFile);
+		List<String> randCol = csvController.getRandomCol();
+		assertNotNull(randCol);
+		assertTrue(csvController.containsCol(randCol));
+	}
+	
+	@Test
+	public void testContainsCol() throws IOException{
+		CSVController csvController = new CSVController(numericFile);
+		assertTrue(csvController.containsCol(trueCol));
+		assertFalse(csvController.containsCol(falseCol));
 	}
 
 }
