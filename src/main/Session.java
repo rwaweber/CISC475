@@ -24,6 +24,7 @@ public class Session {
 		destControl.addCol(stringResult);
 	}
 	
+	
 	public CSVController getSourceControl() {
 		return sourceControl;
 	}
