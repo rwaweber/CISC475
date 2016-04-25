@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import main.FileParser;
 import main.Records;
@@ -22,9 +23,10 @@ public class TransformationsTest {
 	List<Double> addList = new ArrayList<Double>(Arrays.asList(new Double[]{4.0,5.0,3.0,7.0,6.0}));
 	List<Double> subList = new ArrayList<Double>(Arrays.asList(new Double[]{0.0,1.0,-1.0,3.0,2.0}));
 	List<String> nonNumeric = new ArrayList<String>(Arrays.asList(new String[]{"Ben", "Johanna", "Greg", "Teague", "Will"}));
+	List<String> frequencyList = new ArrayList<String>(Arrays.asList(new String[]{"NY", "DE", "NY", "PA", "DE", "DE"}));
 	
 	@Test
-	public void testMean() throws IOException {
+	public void testMean() {
 		List<Double> newList = Transformations.mean(testList);
 		assertEquals(newList.size(), testList.size());
 		assertEquals(Transformations.mean(testList).get(0), 3.0, 0.0001);
@@ -32,31 +34,31 @@ public class TransformationsTest {
 	}
 
 	@Test
-	public void testMax() throws IOException {
+	public void testMax()  {
 		List<Double> newList = Transformations.max(testList);
 		assertEquals(newList.size(), 5);
 		assertEquals(Transformations.max(testList).get(0), 5, 0.001);
 	}
 
 	@Test
-	public void testMin() throws IOException {
+	public void testMin()  {
 		List<Double> newList = Transformations.min(testList);
 		assertEquals(newList.size(), 5);
 		assertEquals(Transformations.min(testList).get(0), 1, 0.001);
 	}
 
 	@Test
-	public void testNumDistinctElements() throws IOException {
+	public void testNumDistinctElements()  {
 		assertEquals(Transformations.numDistinctElements(dupList).get(0), 4, 0.0);
 	}
 
 	@Test
-	public void testSum() throws IOException {
+	public void testSum()  {
 		assertEquals(Transformations.sum(testList).get(0), 15, 0.0);
 	}
 
 	@Test
-	public void testAddValueToList() throws IOException {
+	public void testAddValueToList() {
 		List<Double> addList = Transformations.addValueToList(testList, 2);
 		assertEquals(addList.size(), 5);
 		assertTrue(addList.equals(this.addList));
@@ -66,7 +68,7 @@ public class TransformationsTest {
 	}
 
 	@Test
-	public void testNormalizeLocalExtrema() throws IOException {
+	public void testNormalizeLocalExtrema() {
 		List<Double> norm = Transformations.normalizeLocalExtrema(testList);
 		assertEquals(norm.size(), 5);
 		double min = Transformations.min(testList).get(0);
@@ -80,7 +82,7 @@ public class TransformationsTest {
 	}
 
 	@Test
-	public void testDiscretize() throws IOException {
+	public void testDiscretize() {
 		List<Object> discretize = Transformations.discretize(nonNumeric);
 		assertEquals(discretize.size(), 5);
 		for(int i = 0; i < discretize.size(); i++){
@@ -91,13 +93,13 @@ public class TransformationsTest {
 	}
 	
 	@Test
-	public void testStandDev() throws IOException {
+	public void testStandDev() {
 		List<Double> standDev = Transformations.standDev(testList);
 		assertEquals(standDev.get(0), 1.58114, 0.0001);
 	}
 	
 	@Test
-	public void testGetZeroList() throws IOException {
+	public void testGetZeroList() {
 		List<Double> zeroList = Transformations.getZeroList(10);
 		assertEquals(zeroList.size(), 10);
 		for(Double d : zeroList){
@@ -106,12 +108,24 @@ public class TransformationsTest {
 	}
 	
 	@Test
-	public void testGetStringZeroList() throws IOException {
+	public void testGetStringZeroList() {
 		List<String> stringZeroList = Transformations.getStringZeroList(10);
 		assertEquals(stringZeroList.size(), 10);
 		for(String s : stringZeroList){
 			assertEquals(s, "0");
 		}
+	}
+	
+	@Test
+	public void testGetFrequency(){
+		Map<String, Integer> frequency = Transformations.getFrequency(frequencyList);
+		assertNotNull(frequency);
+		assertEquals(frequency.keySet().size(), 3);
+		assertEquals(frequency.values().size(), 3);
+		assertEquals(frequency.get("DE"), (Integer)3);
+		assertEquals(frequency.get("NY"), (Integer)2);
+		assertEquals(frequency.get("PA"), (Integer)1);
+
 	}
 
 }

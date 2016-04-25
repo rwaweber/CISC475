@@ -50,6 +50,7 @@ public class Transformations {
 				.getAsDouble());
 		return newList;
 	}
+	
 	public static List<Double> numDistinctElements(List<String> list) {
 		List<Double> newList = getZeroList(list.size());
 		 newList.set(0, (double)list.stream()
@@ -96,6 +97,19 @@ public class Transformations {
 		.forEach(value -> stats.addValue(value));
 		newList.set(0, stats.getStandardDeviation());
 		return newList;
+	}
+
+	public static Map<String, Integer> getFrequency(List<String> data) {
+		HashMap<String, Integer> frequency = new HashMap<String, Integer>();
+		for(String s : data){
+			if(frequency.get(s) == null){
+				frequency.put(s, 1);
+			}
+			else
+				frequency.put(s, frequency.get(s) + 1);
+		}
+		return frequency;
+		
 	}
 
 }
