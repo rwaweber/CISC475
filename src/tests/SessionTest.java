@@ -18,10 +18,6 @@ public class SessionTest {
 	public void testConstructor() throws IOException{
 		Session session = new Session(sourceFile, destFile);
 		assertNotNull(session);
-		assertNotNull(session.getSourceFile());
-		assertNotNull(session.getDestFile());
-		assertEquals(session.getSourceFile(), "/Users/benjaminrodd/git/CISC475/src/tests/testfiles/testNumeric.csv");
-		assertEquals(session.getDestFile(), "/Users/benjaminrodd/git/CISC475/src/tests/testfiles/testSession.csv");
 		assertNotNull(session.getSourceControl());
 		assertNotNull(session.getDestControl());
 	}

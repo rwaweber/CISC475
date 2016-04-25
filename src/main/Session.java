@@ -6,14 +6,10 @@ import java.util.List;
 
 public class Session {
 	
-	public String sourceFile;
-	public String destFile;
 	public CSVController sourceControl;
 	public CSVController destControl;
 
 	public Session(String sourceFile, String destFile) throws IOException{
-		this.sourceFile = sourceFile;
-		this.destFile = destFile;
 		this.sourceControl = new CSVController(sourceFile);
 		this.destControl = new CSVController(destFile);
 	}
@@ -26,14 +22,6 @@ public class Session {
 		}
 		System.out.println(stringResult);
 		destControl.addCol(stringResult);
-	}
-	
-	public String getSourceFile() {
-		return sourceFile;
-	}
-
-	public String getDestFile() {
-		return destFile;
 	}
 	
 	public CSVController getSourceControl() {
