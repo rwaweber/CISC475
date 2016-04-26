@@ -23,19 +23,19 @@ public class Repl {
     static CmdHistoryWriter histWriter;
     static String helpInfo = "General Commands Menu:\n\n"
     		+ "Command: view -- Display GUI of given file.\n"
-    		+ "Usage: view [file path] [start row] [end row] [start col] [end col]\n\n"
+    		+ "Usage: view [file path] [start row] [end row] [start col] [end col]\n"
     		+ "Command: quit -- Exit out of the REPL.\n"
-    		+ "Usage: quit\n\n"
+    		+ "Usage: quit\n"
     		+ "Command: version -- Prints the description and current version.\n"
-    		+ "Usage: version\n\n"
+    		+ "Usage: version\n"
     		+ "Command: clear -- clears the REPL screen.\n"
-    		+ "Usage: clear\n\n"
+    		+ "Usage: clear\n"
     		+ "Command: pwd -- Prints the working directory.\n"
-    		+ "Usage: pwd\n\n"
+    		+ "Usage: pwd\n"
     		+ "Command: ls -- Lists all files in the current directory.\n"
-    		+ "Usage: ls\n\n"
-    		+ "Command: History -- Prints the command history.\n"
-    		+ "Usgae: history\n\n";
+    		+ "Usage: ls\n"
+    		+ "Command: history -- Prints the command history.\n"
+    		+ "Usgae: history\n";
     
     public Repl() {
     System.out.println("Type 'help' for command info.\n");
