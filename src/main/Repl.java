@@ -21,7 +21,6 @@ public class Repl {
 	+ "Will Weber, Ben Rodd, Johanna Jan, Greg Mohler, and Teague Forren\n"
 	+ "And this is release version: " + version + ". ";
     static CmdHistoryWriter histWriter;
-    
     static String helpInfo = "General Commands Menu:\n\n"
     		+ "Command: view -- Display GUI of given file.\n"
     		+ "Usage: view [file path] [start row] [end row] [start col] [end col]\n\n"
