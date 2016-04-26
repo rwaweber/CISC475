@@ -22,7 +22,24 @@ public class Repl {
 	+ "And this is release version: " + version + ". ";
     static CmdHistoryWriter histWriter;
     
+    static String helpInfo = "General Commands Menu:\n\n"
+    		+ "Command: view -- Display GUI of given file.\n"
+    		+ "Usage: view [file path] [start row] [end row] [start col] [end col]\n\n"
+    		+ "Command: quit -- Exit out of the REPL.\n"
+    		+ "Usage: quit\n\n"
+    		+ "Command: version -- Prints the description and current version.\n"
+    		+ "Usage: version\n\n"
+    		+ "Command: clear -- clears the REPL screen.\n"
+    		+ "Usage: clear\n\n"
+    		+ "Command: pwd -- Prints the working directory.\n"
+    		+ "Usage: pwd\n\n"
+    		+ "Command: ls -- Lists all files in the current directory.\n"
+    		+ "Usage: ls\n\n"
+    		+ "Command: History -- Prints the command history.\n"
+    		+ "Usgae: history\n\n";
+    
     public Repl() {
+    System.out.println("Type 'help' for command info.\n");
 	this.state = true;
     }
     
@@ -47,9 +64,6 @@ public class Repl {
 	case "quit" :
 	    quit(0);
 	    return true;
-	case "break":
-	    quit(0);
-	    return true;
 	case "version":
 	    System.out.println(versioninfo);
 	    return true;
@@ -71,6 +85,10 @@ public class Repl {
 	case "history":
 		//histWriter.viewHistory();
 		histWriter.commandCaller(commands);
+		return true;
+		
+	case "help":
+		System.out.println(helpInfo);
 		return true;
 
 	default:
