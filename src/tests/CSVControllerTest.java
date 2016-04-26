@@ -19,6 +19,7 @@ public class CSVControllerTest {
 	static String addColFile = "src/tests/testfiles/testAddCol.csv";
 	static String replaceRowFile = "src/tests/testfiles/testReplaceRow.csv";
 	static String clearFile = "src/tests/testfiles/testClear.csv";
+	static String removeColFile = "src/tests/testfiles/testRemoveCol.csv";
 
 
 	static List<String> firstRow = new ArrayList<String>(Arrays.asList(new String[]{"Bob", "Benson", "NY", "12345"}));
@@ -236,6 +237,24 @@ public class CSVControllerTest {
 		String value = csvController.getValue(1,1);
 		assertNotNull(value);
 		assertEquals(value, "110");
+	}
+	
+	@Test
+	public void testRemoveCol() throws IOException{
+		CSVController csvController = new CSVController(removeColFile);
+		csvController.clearFile();
+		csvController.addCol(firstCol, "firstCol");
+		csvController.addCol(secondCol, "secondCol");
+		csvController.addCol(thirdCol, "thirdCol");
+		assertEquals(csvController.getNumCols(), 3);
+		assertEquals(csvController.getNumRows(), 8);
+		csvController.removeCol(1);
+		assertEquals(csvController.getNumCols(), 2);
+		assertEquals(csvController.getNumRows(), 8);
+		assertEquals(csvController.getRow(0).get(0), "firstCol");
+		assertEquals(csvController.getRow(0).get(1), "thirdCol");
+		assertEquals(csvController.getLastRow().get(0), "10");
+		assertEquals(csvController.getLastRow().get(1), "10");
 	}
 
 	

@@ -229,5 +229,43 @@ public class CSVController {
 		return getRow(rowIndex).get(colIndex);
 	}
 
+	public void removeCol(int removeIndex) throws IOException {
+		List<List<String>> rows = new ArrayList<List<String>>();
+		int numRows = getNumRows();
+		for(int rowIndex = 0; rowIndex < numRows; rowIndex++){
+			rows.add(getRow(rowIndex));
+		}
+		clearFile();
+		initWriter();
+		for(List<String> row : rows){
+			row.remove(removeIndex);
+			writer.write(row);
+		}
+		closeWriter();
+	}
+	
+	
+//	public void addCol(List<String> col, String header) throws IOException {
+//		col.add(0, header);
+//		List<String> text = getText();
+//		int numRows = getNumRows();
+//		for(int index = 0; index < col.size(); index++){
+//			if(index < numRows){
+//				String oldRow = text.get(index);
+//				text.set(index, oldRow += "," + col.get(index));
+//			}
+//			else{
+//				text.add(index, col.get(index));
+//			}
+//
+//		}
+//		clearFile();
+//		initWriter();
+//		for(String s : text){
+//			List<String> newRow = getListFromString(s);
+//			writer.write(newRow);
+//		}
+//		closeWriter();
+//	}
 	
 }
