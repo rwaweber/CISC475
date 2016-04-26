@@ -112,7 +112,7 @@ public class CSVController {
 		}
 		closeWriter();
 	}
-	
+
 	// assumes all rows have same number of columns
 	public List<String> getLastCol() throws IOException {
 		initReader();
@@ -168,7 +168,7 @@ public class CSVController {
 		List<String> col = getCol(i);
 		col.remove(0);
 		return col;
-		
+
 	}
 
 	// does not include column header
@@ -181,7 +181,7 @@ public class CSVController {
 	public boolean containsCol(List<String> col) throws IOException {
 		for(int colIndex = 0; colIndex < getNumCols(); colIndex++){
 			List<String> thisCol = getCol(colIndex);
-		//	thisCol.remove(0);
+			//	thisCol.remove(0);
 			if(thisCol.equals(col)){
 				return true;
 			}
@@ -205,9 +205,9 @@ public class CSVController {
 			rowIndex = (int)(getNumRows() * Math.random());
 		}
 		return getRow(rowIndex);
-		
+
 	}
-	
+
 	// assumes that file has headers
 	// returns null if no such column name exists
 	public List<String> getColByName(String name) throws IOException {
@@ -243,29 +243,45 @@ public class CSVController {
 		}
 		closeWriter();
 	}
-	
-	
-//	public void addCol(List<String> col, String header) throws IOException {
-//		col.add(0, header);
-//		List<String> text = getText();
-//		int numRows = getNumRows();
-//		for(int index = 0; index < col.size(); index++){
-//			if(index < numRows){
-//				String oldRow = text.get(index);
-//				text.set(index, oldRow += "," + col.get(index));
-//			}
-//			else{
-//				text.add(index, col.get(index));
-//			}
-//
-//		}
-//		clearFile();
-//		initWriter();
-//		for(String s : text){
-//			List<String> newRow = getListFromString(s);
-//			writer.write(newRow);
-//		}
-//		closeWriter();
-//	}
-	
+
+	public void removeRow(int removeIndex) throws IOException {
+		List<List<String>> rows = new ArrayList<List<String>>();
+		int numRows = getNumRows();
+		for(int rowIndex = 0; rowIndex < numRows; rowIndex++){
+			if(rowIndex != removeIndex){
+				rows.add(getRow(rowIndex));
+			}
+		}
+		clearFile();
+		initWriter();
+		for(List<String> row : rows){
+			writer.write(row);
+		}
+		closeWriter();
+	}
+
+
+	//	public void addCol(List<String> col, String header) throws IOException {
+	//		col.add(0, header);
+	//		List<String> text = getText();
+	//		int numRows = getNumRows();
+	//		for(int index = 0; index < col.size(); index++){
+	//			if(index < numRows){
+	//				String oldRow = text.get(index);
+	//				text.set(index, oldRow += "," + col.get(index));
+	//			}
+	//			else{
+	//				text.add(index, col.get(index));
+	//			}
+	//
+	//		}
+	//		clearFile();
+	//		initWriter();
+	//		for(String s : text){
+	//			List<String> newRow = getListFromString(s);
+	//			writer.write(newRow);
+	//		}
+	//		closeWriter();
+	//	}
+
 }
