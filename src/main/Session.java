@@ -14,14 +14,14 @@ public class Session {
 		this.destControl = new CSVController(destFile);
 	}
 
-	public void transColToCol(int colIndex, ListToList trans) throws IOException{
+	public void transColToCol(int colIndex, ListToList trans, String colName) throws IOException{
 		List<Double> result = trans.listToList(sourceControl.getColNoHeader(colIndex));
 		List<String> stringResult = new ArrayList<String>();
 		for(int i = 0; i < result.size(); i++){
 			stringResult.add(result.get(i).toString());
 		}
 		System.out.println(stringResult);
-		destControl.addCol(stringResult);
+		destControl.addCol(stringResult, colName);
 	}
 	
 	

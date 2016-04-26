@@ -90,17 +90,19 @@ public class CSVController {
 		return lastRow;
 	}
 
-	public void addCol(List<String> col) throws IOException {	
+	public void addCol(List<String> col, String header) throws IOException {
+		col.add(0, header);
 		List<String> text = getText();
 		int numRows = getNumRows();
 		for(int index = 0; index < col.size(); index++){
 			if(index < numRows){
 				String oldRow = text.get(index);
-				text.set(index, oldRow += ", " + col.get(index));
+				text.set(index, oldRow += "," + col.get(index));
 			}
 			else{
 				text.add(index, col.get(index));
 			}
+
 		}
 		clearFile();
 		initWriter();
@@ -110,7 +112,7 @@ public class CSVController {
 		}
 		closeWriter();
 	}
-
+	
 	// assumes all rows have same number of columns
 	public List<String> getLastCol() throws IOException {
 		initReader();
@@ -172,14 +174,14 @@ public class CSVController {
 	// does not include column header
 	public List<String> getRandomCol() throws IOException {
 		List<String> randCol = getCol((int)(getNumCols() * Math.random()));
-		randCol.remove(0);
+		//randCol.remove(0);
 		return randCol;
 	}
 
 	public boolean containsCol(List<String> col) throws IOException {
 		for(int colIndex = 0; colIndex < getNumCols(); colIndex++){
 			List<String> thisCol = getCol(colIndex);
-			thisCol.remove(0);
+		//	thisCol.remove(0);
 			if(thisCol.equals(col)){
 				return true;
 			}
@@ -205,5 +207,27 @@ public class CSVController {
 		return getRow(rowIndex);
 		
 	}
+	
+	// assumes that file has headers
+	// returns null if no such column name exists
+	public List<String> getColByName(String name) throws IOException {
+		List<String> headers = getHeaders();
+		for(int headerIndex = 0; headerIndex < headers.size(); headerIndex++){
+			if(headers.get(headerIndex).equals(name)){
+				return getCol(headerIndex);
+			}
+		}
+		return null;
+	}
+
+	public List<String> getHeaders() throws IOException {
+		List<String> headers = getRow(0);
+		return headers;
+	}
+
+	public String getValue(int rowIndex, int colIndex) throws IOException {
+		return getRow(rowIndex).get(colIndex);
+	}
+
 	
 }

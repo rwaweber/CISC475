@@ -28,9 +28,9 @@ public class SessionTest {
 		session.getDestControl().clearFile();
 		assertEquals(session.getDestControl().getNumRows(), 0);
 		assertEquals(session.getDestControl().getNumCols(), 0);
-		session.transColToCol(0, Commands.SUM);
-		session.transColToCol(0, Commands.SUM);
-		assertEquals(session.getDestControl().getNumRows(), 10);
+		session.transColToCol(0, Commands.SUM, "sum");
+		session.transColToCol(0, Commands.SUM, "sum");
+		assertEquals(session.getDestControl().getNumRows(), 11);
 		assertEquals(session.getDestControl().getNumCols(), 2);
 		session.getDestControl().clearFile();
 	}

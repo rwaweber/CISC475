@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,14 +21,24 @@ public class CSVControllerTest {
 	static String clearFile = "src/tests/testfiles/testClear.csv";
 
 
-	static List<String> firstRow = Arrays.asList(new String[]{"Bob", "Benson", "NY", "12345"});
-	static List<String> firstCol = Arrays.asList(new String[]{"Hello", "World", "123", "456", "789", "10"});
-	static List<String> replaceRow = Arrays.asList(new String[]{"This", "Row", "Has", "Been", "Replaced"});
+	static List<String> firstRow = new ArrayList<String>(Arrays.asList(new String[]{"Bob", "Benson", "NY", "12345"}));
+	static List<String> firstCol = new ArrayList<String>(Arrays.asList(new String[]{"Hello", "World", "123", "456", "789", "10"}));
+	static List<String> secondCol = new ArrayList<String>(Arrays.asList(new String[]{"hi", "earth", "123", "456", "789", "10"}));
+	static List<String> thirdCol = new ArrayList<String>(Arrays.asList(new String[]{"hola", "planet", "123", "456", "789", "10"}));
+
+	static List<String> replaceRow = new ArrayList<String>(Arrays.asList(new String[]{"This", "Row", "Has", "Been", "Replaced"}));
 	static String stringRow = "please,split,me";
-	static List<String> trueCol = Arrays.asList(new String[]{ "110", "120", "130", "140", "15", "160", "170", "180", "190", "200"});
-	static List<String> falseCol = Arrays.asList(new String[]{"110", "120", "131", "140", "15", "160", "170", "180", "190", "200"});
-	static List<String> trueRow = Arrays.asList(new String[]{"4", "140", "14", "5"});
-	static List<String> falseRow = Arrays.asList(new String[]{"4", "141", "14", "5"});
+	static List<String> trueCol = new ArrayList<String>(Arrays.asList(new String[]{ "Num", "110", "120", "130", "140", "15", "160", "170", "180", "190", "200"}));
+	static List<String> falseCol = new ArrayList<String>(Arrays.asList(new String[]{"110", "120", "131", "140", "15", "160", "170", "180", "190", "200"}));
+	static List<String> trueRow = new ArrayList<String>(Arrays.asList(new String[]{"4", "140", "14", "5"}));
+	static List<String> falseRow = new ArrayList<String>(Arrays.asList(new String[]{"4", "141", "14", "5"}));
+	static List<String> headers = new ArrayList<String>(Arrays.asList(new String[]{"4", "141", "14", "5"}));
+	
+	static String header1 = "header1";
+	static String header2 = "header2";
+	static String header3 = "header3";
+
+
 
 
 	@Test
@@ -98,13 +109,21 @@ public class CSVControllerTest {
 			csvController.clearFile();
 			assertEquals(csvController.getNumRows(), 0);
 			assertEquals(csvController.getNumCols(), 0);
-			csvController.addCol(firstCol);
+			csvController.addCol(firstCol, header1);
 			assertEquals(csvController.getNumCols(), 1);
-			csvController.addCol(firstCol);
+			csvController.addCol(secondCol, header2);
 			assertEquals(csvController.getNumCols(), 2);
-			csvController.addCol(firstCol);
+			csvController.addCol(thirdCol, header3);
 			assertEquals(csvController.getNumCols(), 3);
-			assertEquals(csvController.getNumRows(), 6);
+			assertEquals(csvController.getNumRows(), 7);
+			assertEquals(csvController.getRow(0).get(0), "header1");
+			assertEquals(csvController.getRow(0).get(1), "header2");
+			assertEquals(csvController.getRow(0).get(2), "header3");
+			assertEquals(csvController.getRow(1).get(1), "hi");
+			assertEquals(csvController.getLastRow().get(1), "10");
+			assertEquals(csvController.getLastRow().get(2), "10");
+
+
 		}
 
 
@@ -189,6 +208,36 @@ public class CSVControllerTest {
 		assertTrue(csvController.containsRow(trueRow));
 		assertFalse(csvController.containsRow(falseRow));
 	}
+	
+	@Test
+	public void testGetColByNameTest() throws IOException{
+		CSVController csvController = new CSVController(numericFile);
+		List<String> col = csvController.getColByName("Num");
+		assertNotNull(col);
+		assertEquals(col, trueCol);
+		List<String> noCol = csvController.getColByName("false");
+		assertNull(noCol);
+
+	}
+	
+	@Test
+	public void testGetHeaders() throws IOException{
+		CSVController csvController = new CSVController(numericFile);
+		List<String> headers = csvController.getHeaders();
+		assertNotNull(headers);
+		assertEquals(headers.size(), 4);
+		assertEquals(headers.get(0), "Count");
+		assertEquals(headers.get(3), "Distinct");
+	}
+	
+	@Test
+	public void testGetValue() throws IOException{
+		CSVController csvController = new CSVController(numericFile);
+		String value = csvController.getValue(1,1);
+		assertNotNull(value);
+		assertEquals(value, "110");
+	}
+
 	
 
 }
