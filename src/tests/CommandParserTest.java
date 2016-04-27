@@ -29,5 +29,32 @@ public class CommandParserTest {
 		assertEquals(session.getDestControl().getNumRows(), 11);
 		assertEquals(session.getDestControl().getNumCols(), 3);
 	}
+        @Test
+	public void parseMultiCommand() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {	
+		Session session = new Session(sourceFile, destFile);
+		CommandParser main = new CommandParser(session);
+		String[] lineofcommands = new String[]{"transform", "SUM", "col", "2"};
+		session.getDestControl().clearFile();
+		main.parse(lineofcommands, session);
+		lineofcommands = new String[]{"transform", "MIN", "col", "2"};
+		main.parse(lineofcommands, session);
+		lineofcommands = new String[]{"transform", "MAX", "col", "2"};
+		main.parse(lineofcommands, session);
+		assertEquals(session.getDestControl().getNumRows(), 11);
+		assertEquals(session.getDestControl().getNumCols(), 3);
+	}
+    
+        @Test
+	public void parseNormalizeCommand() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {	
+		Session session = new Session(sourceFile, destFile);
+		CommandParser main = new CommandParser(session);
+		String[] lineofcommands = new String[]{"transform", "SUM", "col", "2"};
+		session.getDestControl().clearFile();
+		main.parse(lineofcommands, session);
+		lineofcommands = new String[]{"transform", "NORMALIZE_LOCAL_EXTREMA", "col", "2"};
+		main.parse(lineofcommands, session);
+		assertEquals(session.getDestControl().getNumRows(), 11);
+		assertEquals(session.getDestControl().getNumCols(), 2);
+	}
 
 }
