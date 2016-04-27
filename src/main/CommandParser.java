@@ -41,12 +41,13 @@ public class CommandParser {
 	 * @throws IOException 
 	 */
 	public void parse(String[] lineofcommands, Session sessioninstance) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+	    String verb = lineofcommands[1].toUpperCase();
 		// accept input as capital letters and lowercase
-		if (transformations.contains(lineofcommands[1]) || transformations.contains(lineofcommands[1].toUpperCase())) {
+		if (transformations.contains(verb)) {
 			// retrieve transformation whose title matches the above input
 			StringBuilder columnName = new StringBuilder();
 
-			Method command = cmds.getMethod(lineofcommands[1]);
+			Method command = cmds.getMethod(verb);
 			List<String> dummyStringList = Arrays.asList("");
 			Object cmdPointer = command.invoke(dummyStringList);
 

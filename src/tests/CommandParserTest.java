@@ -56,5 +56,18 @@ public class CommandParserTest {
 		assertEquals(session.getDestControl().getNumRows(), 11);
 		assertEquals(session.getDestControl().getNumCols(), 2);
 	}
+    
+        @Test
+	public void parseStandardDeviation() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {	
+		Session session = new Session(sourceFile, destFile);
+		CommandParser main = new CommandParser(session);
+		String[] lineofcommands = new String[]{"transform", "sum", "col", "2"};
+		session.getDestControl().clearFile();
+		main.parse(lineofcommands, session);
+		lineofcommands = new String[]{"transform", "stand_dev", "col", "2"};
+		main.parse(lineofcommands, session);
+		assertEquals(session.getDestControl().getNumRows(), 11);
+		assertEquals(session.getDestControl().getNumCols(), 2);
+	}
 
 }
