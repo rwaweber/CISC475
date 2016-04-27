@@ -4,12 +4,11 @@ import java.util.List;
 
 public interface Commands {
 	
-	public static ListToList MEAN = list -> Transformations.mean(list);
-	public static ListToList MAX = list -> Transformations.max(list);
-	public static ListToList MIN = list -> Transformations.min(list);
-	public static ListToList SUM = list -> Transformations.sum(list);
-	public static ListToList NORMALIZE_LOCAL_EXTREMA = list -> Transformations.normalizeLocalExtrema(list);
-	public static ListToList STAND_DEV = list -> Transformations.standDev(list);
-	public static ListToMap FREQ_LIST = list -> Transformations.getFrequency(list);
+	public static ListToList MEAN() { return list -> Transformations.mean(list); }
+	public static ListToList MAX()  { return list -> Transformations.max(list); }
+	public static ListToList MIN()  { return list -> Transformations.min(list); }
+	public static ListToList SUM()  { return list -> Transformations.sum(list); }
+	public static ListToList NORMALIZE_LOCAL_EXTREMA() { return list -> Transformations.normalizeLocalExtrema(list);}
+	public static ListToList STAND_DEV() { return list -> Transformations.standDev(list); }
 
 }
