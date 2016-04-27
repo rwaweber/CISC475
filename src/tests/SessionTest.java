@@ -7,9 +7,12 @@ import java.io.IOException;
 import org.junit.Test;
 
 import main.Commands;
+import main.ListToList;
 import main.Session;
 import java.lang.reflect.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class SessionTest {
 	
@@ -39,8 +42,7 @@ public class SessionTest {
 
     @Test
     public void testReflection() throws IOException {
-    	Class x = Commands.class;
-    	Method[] methods = x.getDeclaredMethods();
+    	Method[] methods = Commands.class.getDeclaredMethods();
     	// this confuses me, why are there 12 possible methods in this interface?
     	assertEquals(methods.length, 12);
     	ArrayList<String> container = new ArrayList<String>();
@@ -50,5 +52,25 @@ public class SessionTest {
     			container.add(method.getName());
     	}
     	assertEquals(container.size(), 6);
+    }
+
+    @Test
+    public void testMethodReflection() throws IOException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    	Method m = Commands.class.getDeclaredMethod("SUM");
+    	List<String> x = Arrays.asList("a", "b");
+    	Object a = m.invoke(x);
+    	System.out.println(a.getClass());
+    	
+		Session session = new Session(sourceFile, destFile);
+		session.getDestControl().clearFile();
+		assertEquals(session.getDestControl().getNumRows(), 0);
+		assertEquals(session.getDestControl().getNumCols(), 0);
+		session.transColToCol(0, (ListToList) a, "sum");
+		session.transColToCol(0, (ListToList) a, "sum");
+
+		assertEquals(session.getDestControl().getNumRows(), 11);
+		assertEquals(session.getDestControl().getNumCols(), 2);
+		session.getDestControl().clearFile();
+    	
     }
 }
