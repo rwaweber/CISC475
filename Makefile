@@ -13,6 +13,7 @@ runtest:
 	java -cp .:lib/\*:bin org.junit.runner.JUnitCore tests.ReplTest
 	java -cp .:lib/\*:bin org.junit.runner.JUnitCore tests.SessionTest
 	java -cp .:lib/\*:bin org.junit.runner.JUnitCore tests.TransformationsTest
+	java -cp .:lib/\*:bin org.junit.runner.JUnitCore tests.CommandParserTest
 
 rungui:
 	java -cp .:lib/\*:bin main.MakeGUI
