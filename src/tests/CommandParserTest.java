@@ -8,8 +8,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
 import main.CommandParser;
 import main.Session;
 
