@@ -51,12 +51,16 @@ public class CommandParser {
 			List<String> dummyStringList = Arrays.asList("");
 			Object cmdPointer = command.invoke(dummyStringList);
 
-			columnName.append(command.toString());
-			if (lineofcommands[2] == "col" || lineofcommands[2] == "column") {
+			columnName.append(lineofcommands[2]+".");
+			if (lineofcommands[2].equals("col") || lineofcommands[2].equals("column")) {
 				columnName.append(lineofcommands[3]);
 				sessioninstance.transColToCol(Integer.parseInt(lineofcommands[3]), (ListToList) cmdPointer, columnName.toString());
+			} else {
+				System.out.println("those ranges not yet implemented");
 			}
 
+		} else {
+			System.out.println("Operation '"+verb+"' not implemented");
 		}
 	}
 }
