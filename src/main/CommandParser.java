@@ -54,6 +54,7 @@ public class CommandParser {
 			columnName.append(lineofcommands[2]+".");
 			if (lineofcommands[2].equals("col") || lineofcommands[2].equals("column")) {
 				columnName.append(lineofcommands[3]);
+				columnName.append("."+verb);
 				sessioninstance.transColToCol(Integer.parseInt(lineofcommands[3]), (ListToList) cmdPointer, columnName.toString());
 			} else {
 				System.out.println("those ranges not yet implemented");
