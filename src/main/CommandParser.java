@@ -15,7 +15,7 @@ public class CommandParser {
 	 * 
 	 * @param currentSession
 	 */
-	public CommandParser(Session currentSession) {
+	public CommandParser() {
 
 		// on creation, populate possible transformations
 		Method[] methods = cmds.getDeclaredMethods();

@@ -20,7 +20,7 @@ public class CommandParserTest {
 
     	
 		Session session = new Session(sourceFile, destFile);
-		CommandParser main = new CommandParser(session);
+		CommandParser main = new CommandParser();
 		String[] lineofcommands = new String[]{"transform", "SUM", "col", "2"};
 		session.getDestControl().clearFile();
 		main.parse(lineofcommands, session);
@@ -32,7 +32,7 @@ public class CommandParserTest {
         @Test
 	public void parseMultiCommand() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {	
 		Session session = new Session(sourceFile, destFile);
-		CommandParser main = new CommandParser(session);
+		CommandParser main = new CommandParser();
 		String[] lineofcommands = new String[]{"transform", "SUM", "col", "2"};
 		session.getDestControl().clearFile();
 		main.parse(lineofcommands, session);
@@ -47,7 +47,7 @@ public class CommandParserTest {
         @Test
 	public void parseNormalizeCommand() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {	
 		Session session = new Session(sourceFile, destFile);
-		CommandParser main = new CommandParser(session);
+		CommandParser main = new CommandParser();
 		String[] lineofcommands = new String[]{"transform", "SUM", "col", "2"};
 		session.getDestControl().clearFile();
 		main.parse(lineofcommands, session);
@@ -60,7 +60,7 @@ public class CommandParserTest {
         @Test
 	public void parseStandardDeviation() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {	
 		Session session = new Session(sourceFile, destFile);
-		CommandParser main = new CommandParser(session);
+		CommandParser main = new CommandParser();
 		String[] lineofcommands = new String[]{"transform", "sum", "col", "2"};
 		session.getDestControl().clearFile();
 		main.parse(lineofcommands, session);
