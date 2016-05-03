@@ -121,7 +121,7 @@ public class Repl {
 			return true;
 		case "transform":
 			if (state != null) {
-				CommandParser engine = new CommandParser(state);
+				CommandParser engine = new CommandParser();
 				engine.parse(commands, state);
 				return true;
 			} else {
