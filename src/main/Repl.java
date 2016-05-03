@@ -39,7 +39,9 @@ public class Repl {
 			+ "Usage: history\n"
 			+ "Command: start -- starts a data wrangling session.\n"
 			+ "Usgae: start [/path/to/source/file] [/path/to/destination/file]\n"
-			+ "";
+			+ "Command: transform -- applies a transformation to column(s)\n"
+			+ "*transform can only be used after starting a session* (see 'start')\n"
+			+ "Usage: transform [transformation] [col/row] [index of col or row]";
 
 	public Repl() {
 		System.out.println("Type 'help' for command info.\n");
@@ -110,7 +112,7 @@ public class Repl {
 		case "start":
 			if (commands.length != 3){
 				System.out.println("Wrong amount of arguments\n");
-				System.out.println(helpInfo);
+				System.out.println("Type 'help' for command usage");
 			} else {
 				setState(makeState(commands));
 			}
