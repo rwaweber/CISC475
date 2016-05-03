@@ -36,7 +36,10 @@ public class Repl {
 			+ "Command: ls -- Lists all files in the current directory.\n"
 			+ "Usage: ls\n"
 			+ "Command: history -- Prints the command history.\n"
-			+ "Usage: history\n";
+			+ "Usage: history\n"
+			+ "Command: start -- starts a data wrangling session.\n"
+			+ "Usgae: start [/path/to/source/file] [/path/to/destination/file]\n"
+			+ "";
 
 	public Repl() {
 		System.out.println("Type 'help' for command info.\n");
@@ -106,7 +109,7 @@ public class Repl {
 			return true;
 		case "start":
 			if (commands.length != 3){
-				System.out.println("Not enough arguments");
+				System.out.println("Wrong amount of arguments\n");
 				System.out.println(helpInfo);
 			} else {
 				setState(makeState(commands));
