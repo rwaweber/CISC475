@@ -37,13 +37,17 @@ public class CSVControllerTest {
 	static List<String> trueRow = new ArrayList<String>(Arrays.asList(new String[]{"4", "140", "14", "5"}));
 	static List<String> falseRow = new ArrayList<String>(Arrays.asList(new String[]{"4", "141", "14", "5"}));
 	static List<String> headers = new ArrayList<String>(Arrays.asList(new String[]{"4", "141", "14", "5"}));
-	
+
 	static String header1 = "header1";
 	static String header2 = "header2";
 	static String header3 = "header3";
 
 
-
+	public void initCols(){
+		firstCol = new ArrayList<String>(Arrays.asList(new String[]{"Hello", "World", "123", "456", "789", "10"}));
+		secondCol = new ArrayList<String>(Arrays.asList(new String[]{"hi", "earth", "123", "456", "789", "10"}));
+		thirdCol = new ArrayList<String>(Arrays.asList(new String[]{"hola", "planet", "123", "456", "789", "10"}));
+	}
 
 	@Test
 	public void testGetRow() throws IOException {
@@ -107,28 +111,45 @@ public class CSVControllerTest {
 		assertEquals(addedRow, firstRow);
 	}
 
-		@Test
-		public void testAddCol() throws IOException{
-			CSVController csvController = new CSVController(addColFile);
-			csvController.clearFile();
-			assertEquals(csvController.getNumRows(), 0);
-			assertEquals(csvController.getNumCols(), 0);
-			csvController.addCol(firstCol, header1);
-			assertEquals(csvController.getNumCols(), 1);
-			csvController.addCol(secondCol, header2);
-			assertEquals(csvController.getNumCols(), 2);
-			csvController.addCol(thirdCol, header3);
-			assertEquals(csvController.getNumCols(), 3);
-			assertEquals(csvController.getNumRows(), 7);
-			assertEquals(csvController.getRow(0).get(0), "header1");
-			assertEquals(csvController.getRow(0).get(1), "header2");
-			assertEquals(csvController.getRow(0).get(2), "header3");
-			assertEquals(csvController.getRow(1).get(1), "hi");
-			assertEquals(csvController.getLastRow().get(1), "10");
-			assertEquals(csvController.getLastRow().get(2), "10");
+	@Test
+	public void testAddCol() throws IOException{
+		CSVController csvController = new CSVController(addColFile);
+		csvController.clearFile();
+		assertEquals(csvController.getNumRows(), 0);
+		assertEquals(csvController.getNumCols(), 0);
+		//		
+		csvController.addCol(firstCol, header1);
+		System.out.println("testAddCol firstCol: " + firstCol);
+		assertEquals(csvController.getNumCols(), 1);
+		csvController.addCol(secondCol, header2);
+		assertEquals(csvController.getNumCols(), 2);
+		csvController.addCol(thirdCol, header3);
+		assertEquals(csvController.getNumCols(), 3);
+		assertEquals(csvController.getNumRows(), 7);
+		assertEquals(csvController.getRow(0).get(0), "header1");
+		assertEquals(csvController.getRow(0).get(1), "header2");
+		assertEquals(csvController.getRow(0).get(2), "header3");
+		assertEquals(csvController.getRow(1).get(1), "hi");
+		assertEquals(csvController.getLastRow().get(1), "10");
+		assertEquals(csvController.getLastRow().get(2), "10");
+
+		initCols();
+		csvController.clearFile();
+		assertEquals(csvController.getNumRows(), 0);
+		assertEquals(csvController.getNumCols(), 0);
+		csvController.addCol(firstCol, header1);
+		assertEquals(csvController.getNumCols(), 1);
+		csvController.addCol(secondCol, header2);
+		assertEquals(csvController.getNumCols(), 2);
+		csvController.addCol(1, thirdCol, header3 );
+		assertEquals(csvController.getNumCols(), 3);
+		assertEquals(csvController.getNumRows(), 7);
+		assertEquals(csvController.getCol(1).get(0), "header3");
+		assertEquals(csvController.getCol(1).get(csvController.getCol(1).size()-1), "10");
 
 
-		}
+
+	}
 
 
 	@Test
@@ -150,7 +171,7 @@ public class CSVControllerTest {
 		assertEquals(list.get(1), "split");
 		assertEquals(list.get(2), "me");
 	}
-	
+
 	@Test
 	public void testClearFile() throws IOException{
 		CSVController csvController = new CSVController(clearFile);
@@ -160,19 +181,19 @@ public class CSVControllerTest {
 		assertEquals(csvController.getNumRows(), 3);
 		csvController.clearFile();
 	}
-	
+
 	@Test
 	public void getNumRows() throws IOException{
 		CSVController csvController = new CSVController(numericFile);
 		assertEquals(csvController.getNumRows(), 11);
 	}
-	
+
 	@Test
 	public void getMaxNumCols() throws IOException{
 		CSVController csvController = new CSVController(numericFile);
 		assertEquals(csvController.getNumCols(), 4);
 	}
-	
+
 	@Test
 	public void testGetColNoHeader() throws IOException{
 		CSVController csvController = new CSVController(numericFile);
@@ -182,7 +203,7 @@ public class CSVControllerTest {
 		assertEquals(colNoHeader.get(0), "1");
 		assertEquals(colNoHeader.get(9), "10");
 	}
-	
+
 	@Test
 	public void testGetRandomCol() throws IOException{
 		CSVController csvController = new CSVController(numericFile);
@@ -190,7 +211,7 @@ public class CSVControllerTest {
 		assertNotNull(randCol);
 		assertTrue(csvController.containsCol(randCol));
 	}
-	
+
 	@Test
 	public void testGetRandomRow() throws IOException{
 		CSVController csvController = new CSVController(numericFile);
@@ -198,21 +219,21 @@ public class CSVControllerTest {
 		assertNotNull(randRow);
 		assertTrue(csvController.containsRow(randRow));
 	}
-	
+
 	@Test
 	public void testContainsCol() throws IOException{
 		CSVController csvController = new CSVController(numericFile);
 		assertTrue(csvController.containsCol(trueCol));
 		assertFalse(csvController.containsCol(falseCol));
 	}
-	
+
 	@Test
 	public void testContainsRow() throws IOException{
 		CSVController csvController = new CSVController(numericFile);
 		assertTrue(csvController.containsRow(trueRow));
 		assertFalse(csvController.containsRow(falseRow));
 	}
-	
+
 	@Test
 	public void testGetColByNameTest() throws IOException{
 		CSVController csvController = new CSVController(numericFile);
@@ -223,7 +244,7 @@ public class CSVControllerTest {
 		assertNull(noCol);
 
 	}
-	
+
 	@Test
 	public void testGetHeaders() throws IOException{
 		CSVController csvController = new CSVController(numericFile);
@@ -233,7 +254,7 @@ public class CSVControllerTest {
 		assertEquals(headers.get(0), "Count");
 		assertEquals(headers.get(3), "Distinct");
 	}
-	
+
 	@Test
 	public void testGetValue() throws IOException{
 		CSVController csvController = new CSVController(numericFile);
@@ -241,25 +262,29 @@ public class CSVControllerTest {
 		assertNotNull(value);
 		assertEquals(value, "110");
 	}
-	
+
 	@Test
 	public void testRemoveCol() throws IOException{
 		CSVController csvController = new CSVController(removeColFile);
+		initCols();
 		csvController.clearFile();
-		csvController.addCol(firstCol, "firstCol");
-		csvController.addCol(secondCol, "secondCol");
-		csvController.addCol(thirdCol, "thirdCol");
+		assertEquals(csvController.getNumRows(), 0);
+		assertEquals(csvController.getNumCols(), 0);
+		System.out.println("restRemove firstCol: " + firstCol);
+		csvController.addCol(firstCol, header1);
+		csvController.addCol(secondCol, header2);
+		csvController.addCol(thirdCol, header3);
 		assertEquals(csvController.getNumCols(), 3);
-		assertEquals(csvController.getNumRows(), 8);
+		assertEquals(csvController.getNumRows(), 7);
 		csvController.removeCol(1);
 		assertEquals(csvController.getNumCols(), 2);
-		assertEquals(csvController.getNumRows(), 8);
-		assertEquals(csvController.getRow(0).get(0), "firstCol");
-		assertEquals(csvController.getRow(0).get(1), "thirdCol");
+		assertEquals(csvController.getNumRows(), 7);
+		assertEquals(csvController.getRow(0).get(0), "header1");
+		assertEquals(csvController.getRow(0).get(1), "header3");
 		assertEquals(csvController.getLastRow().get(0), "10");
 		assertEquals(csvController.getLastRow().get(1), "10");
 	}
-	
+
 	@Test
 	public void testRemoveRow() throws IOException{
 		CSVController csvController = new CSVController(removeRowFile);
@@ -278,6 +303,28 @@ public class CSVControllerTest {
 
 	}
 
-	
+	@Test
+	public void getRows() throws IOException{
+		CSVController csvController = new CSVController(numericFile);
+		List<List<String>> rows = csvController.getRows();
+		assertNotNull(rows);
+		assertEquals(rows.size(), 11);
+		assertEquals(rows.get(0).size(), 4);
+		assertEquals(rows.get(0).get(0), "Count");
+		assertEquals(rows.get(rows.size()-1).get(rows.get(rows.size()-1).size()-1), "3");
+
+	}
+
+	@Test
+	public void getCols() throws IOException{
+		CSVController csvController = new CSVController(numericFile);
+		List<List<String>> cols = csvController.getCols();
+		assertNotNull(cols);
+		assertEquals(cols.size(), 4);
+		assertEquals(cols.get(0).size(), 11);
+		assertEquals(cols.get(0).get(0), "Count");
+		assertEquals(cols.get(cols.size()-1).get(cols.get(cols.size()-1).size()-1), "3");
+
+	}
 
 }

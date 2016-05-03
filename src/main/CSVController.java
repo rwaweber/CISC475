@@ -91,16 +91,19 @@ public class CSVController {
 	}
 
 	public void addCol(List<String> col, String header) throws IOException {
-		col.add(0, header);
+		List<String> newCol = col;
+		newCol.add(0, header);
+		System.out.println("adding col: " + newCol);
+		System.out.println("original col: " + col);
 		List<String> text = getText();
 		int numRows = getNumRows();
-		for(int index = 0; index < col.size(); index++){
+		for(int index = 0; index < newCol.size(); index++){
 			if(index < numRows){
 				String oldRow = text.get(index);
-				text.set(index, oldRow += "," + col.get(index));
+				text.set(index, oldRow += "," + newCol.get(index));
 			}
 			else{
-				text.add(index, col.get(index));
+				text.add(index, newCol.get(index));
 			}
 
 		}
@@ -260,28 +263,48 @@ public class CSVController {
 		closeWriter();
 	}
 
+	public void addCol(int colIndex, List<String> newCol, String header) throws IOException {
+		List<List<String>> cols = getCols();
+		int numCols = getNumCols() + 1;
+		clearFile();
+		initWriter();
+		int oldColIndex = 0;
+		for(int index = 0; index < numCols; index++){
+			if(index == colIndex){
+				addCol(newCol, header);
+			}
+			else{
+				List<String> oldCol = cols.get(oldColIndex);
+				String oldHeader = oldCol.get(0);
+				oldCol.remove(0);
+				addCol(oldCol, oldHeader);
+				oldColIndex++;
+			}
+		}
+		closeWriter();
+		
+	}
 
-	//	public void addCol(List<String> col, String header) throws IOException {
-	//		col.add(0, header);
-	//		List<String> text = getText();
-	//		int numRows = getNumRows();
-	//		for(int index = 0; index < col.size(); index++){
-	//			if(index < numRows){
-	//				String oldRow = text.get(index);
-	//				text.set(index, oldRow += "," + col.get(index));
-	//			}
-	//			else{
-	//				text.add(index, col.get(index));
-	//			}
-	//
-	//		}
-	//		clearFile();
-	//		initWriter();
-	//		for(String s : text){
-	//			List<String> newRow = getListFromString(s);
-	//			writer.write(newRow);
-	//		}
-	//		closeWriter();
-	//	}
+	public List<List<String>> getRows() throws IOException {
+		ArrayList<List<String>> rows = new ArrayList<List<String>>();
+		int numRows = this.getNumRows();
+		for(int rowIndex = 0; rowIndex < numRows; rowIndex++){
+			rows.add(this.getRow(rowIndex));
+		}
+		return rows;
+	}
+
+	public List<List<String>> getCols() throws IOException {
+		ArrayList<List<String>> cols = new ArrayList<List<String>>();
+		int numCols = this.getNumCols();
+		for(int colIndex = 0; colIndex < numCols; colIndex++){
+			cols.add(this.getCol(colIndex));
+		}
+		return cols;
+	}
+	
+
+
+
 
 }
