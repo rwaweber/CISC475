@@ -86,10 +86,10 @@ public class TransformationsTest {
 
 	@Test
 	public void testDiscretize() {
-		List<Object> discretize = Transformations.discretize(nonNumeric);
+		List<Double> discretize = Transformations.discretize(nonNumeric);
 		assertEquals(discretize.size(), 5);
 		for(int i = 0; i < discretize.size(); i++){
-			assertEquals(discretize.get(i), nonNumeric.get(i).hashCode());
+			assertEquals(discretize.get(i), nonNumeric.get(i).hashCode(), 0.0001);
 		}
 		
 

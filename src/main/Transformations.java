@@ -85,9 +85,14 @@ public class Transformations {
 		return newCol;
 	}
 
-	public static List<Object> discretize(List<String> list) {
-		return Arrays.asList(list.stream().map(s -> s.hashCode())
+	public static List<Double> discretize(List<String> list) {
+		List<Object> objList =  Arrays.asList(list.stream().map(s -> (double)s.hashCode())
 				.toArray());
+		List<Double> doubleList = new ArrayList<Double>();
+		for(Object o : objList){
+			doubleList.add((double)o);
+		}
+		return doubleList;
 	}
 
 	public static List<Double> standDev(List<String> list){
