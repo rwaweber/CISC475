@@ -232,6 +232,6 @@ public class Repl {
 		printLoop();
 	}
 	
-//	> start /Users/benjaminrodd/git/CISC475/src/tests/testfiles/test.csv /Users/benjaminrodd/git/CISC475/src/tests/testfiles/test.csv
+//	> start /Users/benjaminrodd/git/CISC475/src/tests/testfiles/test.csv /Users/benjaminrodd/git/CISC475/src/tests/testfiles/testSession.csv
 //	> graph source col 6 histogram
 }

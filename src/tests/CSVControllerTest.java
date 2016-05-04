@@ -119,7 +119,6 @@ public class CSVControllerTest {
 		assertEquals(csvController.getNumCols(), 0);
 		//		
 		csvController.addCol(firstCol, header1);
-		System.out.println("testAddCol firstCol: " + firstCol);
 		assertEquals(csvController.getNumCols(), 1);
 		csvController.addCol(secondCol, header2);
 		assertEquals(csvController.getNumCols(), 2);
@@ -270,7 +269,6 @@ public class CSVControllerTest {
 		csvController.clearFile();
 		assertEquals(csvController.getNumRows(), 0);
 		assertEquals(csvController.getNumCols(), 0);
-		System.out.println("restRemove firstCol: " + firstCol);
 		csvController.addCol(firstCol, header1);
 		csvController.addCol(secondCol, header2);
 		csvController.addCol(thirdCol, header3);

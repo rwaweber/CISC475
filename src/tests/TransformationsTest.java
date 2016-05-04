@@ -137,10 +137,8 @@ public class TransformationsTest {
 		map.put("hello", 4);
 		map.put("world", 2);
 		map.put("java", 6);
-		System.out.println(map.values());
 		map = Transformations.getSortedMap(map);
 		Collection<Integer> values = map.values();
-		System.out.println("values: " + values);
 		Iterator<Integer> iter = values.iterator();
 		Integer first = (Integer) iter.next();
 		Integer second = (Integer) iter.next();
@@ -157,7 +155,6 @@ public class TransformationsTest {
 		map.put("hello", 4);
 		map.put("world", 2);
 		map.put("java", 6);
-		System.out.println(map.values());
 		map = Transformations.getTrimmedMap(map, 2);
 		assertNotNull(map);
 		assertEquals(map.size(), 2);

@@ -130,9 +130,9 @@ public class Transformations {
 
 	public static Map<String, Integer> getTrimmedMap(Map<String, Integer> map, int sizeNewMap) {
 		Map<String, Integer> trimmedMap = map;
+		int oldSize = trimmedMap.size();
 		Set<String> keySet = trimmedMap.keySet();
-		for(int thisTrim = 0; thisTrim < trimmedMap.size() - sizeNewMap; thisTrim++){
-			System.out.println("thisTrim = " + thisTrim);
+		for(int thisTrim = 0; thisTrim < oldSize - sizeNewMap; thisTrim++){
 			Iterator<String> iter = keySet.iterator();
 			String minKey = iter.next();
 			int minValue = trimmedMap.get(minKey);

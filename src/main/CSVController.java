@@ -93,8 +93,6 @@ public class CSVController {
 	public void addCol(List<String> col, String header) throws IOException {
 		List<String> newCol = col;
 		newCol.add(0, header);
-		System.out.println("adding col: " + newCol);
-		System.out.println("original col: " + col);
 		List<String> text = getText();
 		int numRows = getNumRows();
 		for(int index = 0; index < newCol.size(); index++){
