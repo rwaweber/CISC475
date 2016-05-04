@@ -27,7 +27,8 @@ public class TransformationsTest {
 	List<Double> subList = new ArrayList<Double>(Arrays.asList(new Double[]{0.0,1.0,-1.0,3.0,2.0}));
 	List<String> nonNumeric = new ArrayList<String>(Arrays.asList(new String[]{"Ben", "Johanna", "Greg", "Teague", "Will"}));
 	List<String> frequencyList = new ArrayList<String>(Arrays.asList(new String[]{"NY", "DE", "NY", "PA", "DE", "DE"}));
-	
+	List<Double> beforeOrdinal = new ArrayList<Double>(Arrays.asList(new Double[]{4.0, 2.0, 5.0, 1.0}));
+
 	@Test
 	public void testMean() {
 		List<Double> newList = Transformations.mean(testList);
@@ -165,6 +166,20 @@ public class TransformationsTest {
 		Integer second = (Integer) iter.next();
 		assertEquals(first, (Integer)6);
 		assertEquals(second, (Integer)4);
+	}
+	
+	@Test
+	public void testGetOrdinalMap(){
+		Map<Double, Double> ordinalMap = Transformations.getOrdinalMap(beforeOrdinal);
+		assertNotNull(ordinalMap);
+		assertEquals(ordinalMap.size(), 4);
+		System.out.println("keys: " + ordinalMap.keySet());
+		System.out.println("values: " + ordinalMap.values());
+		assertEquals(ordinalMap.get(1.0), 0.0, 0.0);
+		assertEquals(ordinalMap.get(2.0), 1.0, 0.0);
+		assertEquals(ordinalMap.get(4.0), 2.0, 0.0);
+		assertEquals(ordinalMap.get(5.0), 3.0, 0.0);
+
 	}
 
 }

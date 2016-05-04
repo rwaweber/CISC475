@@ -119,18 +119,18 @@ public class Transformations {
 
 	public static Map<String,Integer> getSortedMap(Map<String, Integer> map){
 		List<Map.Entry<String, Integer>> list =
-	            new LinkedList<Map.Entry<String,Integer>>(map.entrySet());
+				new LinkedList<Map.Entry<String,Integer>>(map.entrySet());
 		Collections.sort(list, new Comparator<Map.Entry<String, Integer>>(){
 			@Override
 			public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
-                return -1*(o1.getValue()).compareTo( o2.getValue());
+				return -1*(o1.getValue()).compareTo( o2.getValue());
 			}
 		});
 		Map<String, Integer> result = new LinkedHashMap<String, Integer>();
-        for (Map.Entry<String, Integer> entry : list){
-            result.put( entry.getKey(), entry.getValue() );
-        }
-        return result;
+		for (Map.Entry<String, Integer> entry : list){
+			result.put( entry.getKey(), entry.getValue() );
+		}
+		return result;
 	}
 
 	public static Map<String, Integer> getTrimmedMap(Map<String, Integer> map, int sizeNewMap) {
@@ -153,6 +153,24 @@ public class Transformations {
 			trimmedMap.remove(minKey);
 		}
 		return trimmedMap;
+	}
+
+	public static Map<Double, Double> getOrdinalMap(List<Double> list) {
+		HashMap<Double, Double> ordinalMap = new HashMap<Double,Double>();
+		Double ranking = 0.0;
+		while(!list.isEmpty()){
+			Double min = list.get(0);
+			for(int index = 1; index < list.size(); index++){
+				Double thisValue = list.get(index);
+				if(thisValue < min){
+					min = thisValue;
+				}
+			}
+			ordinalMap.put(min, ranking);
+			ranking++;
+			list.remove(min);
+		}
+		return ordinalMap;
 	}
 
 }
