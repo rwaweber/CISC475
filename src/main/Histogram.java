@@ -21,14 +21,16 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 
 public class Histogram extends ApplicationFrame{
+	
+	public static final int MAX_VALUES = 10;
 
-	public Histogram(String title, String xLabel, String yLabel, HashMap<String, Integer> data) {
+	public Histogram(String title, String xLabel, String yLabel, Map<String, Integer> data) {
 		super(title);
 		JFreeChart histogram =  ChartFactory.createBarChart(
 				title,
 				xLabel,
 				yLabel,
-				getCategoryDataset(data),
+				getCategoryDataset((HashMap<String, Integer>) data),
 				PlotOrientation.VERTICAL,
 				true,
 				true,

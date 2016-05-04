@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -41,7 +42,7 @@ public class CommandParser {
 	 * @throws IOException 
 	 */
 	public void parse(String[] lineofcommands, Session sessioninstance) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
-	    String verb = lineofcommands[1].toUpperCase();
+		String verb = lineofcommands[1].toUpperCase();
 		// accept input as capital letters and lowercase
 		if (transformations.contains(verb)) {
 			// retrieve transformation whose title matches the above input
@@ -63,5 +64,43 @@ public class CommandParser {
 		} else {
 			System.out.println("Operation '"+verb+"' not implemented");
 		}
+	}
+
+	public void parseGraph(String[] lineOfCommands, Session session) throws IOException {
+		if(lineOfCommands.length == 5){
+			System.out.println("fourth command: " + lineOfCommands[4]);
+			if(lineOfCommands[4].equals("histogram")){
+				CSVController control = null;
+				if(lineOfCommands[1].equals("source")){
+					control = session.getSourceControl();
+				}
+				else
+					control = session.getDestControl();
+				int colIndex = Integer.parseInt(lineOfCommands[3]);
+				Map<String,Integer> map = null;
+				List<String> col = control.getCol(colIndex);
+				if(col.size() < Histogram.MAX_VALUES){
+					map = Transformations.getSortedMap(Transformations.getFrequency(col));
+				}
+				else{
+					map = Transformations.getSortedMap(
+							Transformations.getTrimmedMap(
+							Transformations.getFrequency(col),
+							Histogram.MAX_VALUES
+							));
+				}
+				new Histogram(
+						col.get(0) + " Frequency",
+						"Values",
+						"Frequency",
+						map
+						);
+			}
+			else
+				System.out.println("This graph is not implemented yet!");
+
+		}
+		else
+			System.out.println("Invalid number of arguments!");
 	}
 }

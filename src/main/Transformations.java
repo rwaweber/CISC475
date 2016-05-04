@@ -109,7 +109,7 @@ public class Transformations {
 			else
 				frequency.put(s, frequency.get(s) + 1);
 		}
-		return getSortedMap(frequency);
+		return frequency;
 	}
 
 	public static Map<String,Integer> getSortedMap(Map<String, Integer> map){
@@ -118,7 +118,7 @@ public class Transformations {
 		Collections.sort(list, new Comparator<Map.Entry<String, Integer>>(){
 			@Override
 			public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
-                return (o1.getValue()).compareTo( o2.getValue() );
+                return -1*(o1.getValue()).compareTo( o2.getValue());
 			}
 		});
 		Map<String, Integer> result = new LinkedHashMap<String, Integer>();
@@ -126,6 +126,28 @@ public class Transformations {
             result.put( entry.getKey(), entry.getValue() );
         }
         return result;
+	}
+
+	public static Map<String, Integer> getTrimmedMap(Map<String, Integer> map, int sizeNewMap) {
+		Map<String, Integer> trimmedMap = map;
+		Set<String> keySet = trimmedMap.keySet();
+		for(int thisTrim = 0; thisTrim < trimmedMap.size() - sizeNewMap; thisTrim++){
+			System.out.println("thisTrim = " + thisTrim);
+			Iterator<String> iter = keySet.iterator();
+			String minKey = iter.next();
+			int minValue = trimmedMap.get(minKey);
+			while(iter.hasNext()){
+				String thisKey = iter.next();
+				int thisValue = trimmedMap.get(thisKey);
+				if(thisValue < minValue){
+					minValue = thisValue;
+					minKey = thisKey;
+				}
+			}
+			keySet.remove(minKey);
+			trimmedMap.remove(minKey);
+		}
+		return trimmedMap;
 	}
 
 }

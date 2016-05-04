@@ -145,10 +145,29 @@ public class TransformationsTest {
 		Integer first = (Integer) iter.next();
 		Integer second = (Integer) iter.next();
 		Integer third = (Integer) iter.next();
-		assertEquals(first, (Integer)2);
+		assertEquals(first, (Integer)6);
 		assertEquals(second, (Integer)4);
-		assertEquals(third, (Integer)6);
+		assertEquals(third, (Integer)2);
 
+	}
+	
+	@Test
+	public void testGetTrimmedMap(){
+		Map<String,Integer> map = new HashMap<String, Integer>();
+		map.put("hello", 4);
+		map.put("world", 2);
+		map.put("java", 6);
+		System.out.println(map.values());
+		map = Transformations.getTrimmedMap(map, 2);
+		assertNotNull(map);
+		assertEquals(map.size(), 2);
+		map = Transformations.getSortedMap(map);
+		Collection<Integer> values = map.values();
+		Iterator<Integer> iter = values.iterator();
+		Integer first = (Integer) iter.next();
+		Integer second = (Integer) iter.next();
+		assertEquals(first, (Integer)6);
+		assertEquals(second, (Integer)4);
 	}
 
 }
