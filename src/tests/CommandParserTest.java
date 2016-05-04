@@ -71,13 +71,13 @@ public class CommandParserTest {
 		assertEquals(session.getDestControl().getNumCols(), 2);
 	}
 	
-	@Test
-	public void parseGraph() throws IOException{
-		Session session = new Session(bigSourceFile, destFile);
-		CommandParser main = new CommandParser();
-		String[] lineofcommands = new String[]{"graph", "source", "col", "2", "histogram"};
-		session.getDestControl().clearFile();
-		main.parseGraph(lineofcommands, session);
-	}
+//	@Test
+//	public void parseGraph() throws IOException{
+//		Session session = new Session(bigSourceFile, destFile);
+//		CommandParser main = new CommandParser();
+//		String[] lineofcommands = new String[]{"graph", "source", "col", "2", "histogram"};
+//		session.getDestControl().clearFile();
+//		main.parseGraph(lineofcommands, session);
+//	}
 
 }
