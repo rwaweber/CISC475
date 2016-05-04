@@ -157,7 +157,6 @@ public class FileParserTest {
 		List<String> row = FileParser.getRowFromFile(numericFile, 0);
 		assertNotNull(row);
 		assertEquals(row.size(), 4);
-		System.out.println("row: " + row);
 		assertEquals(row.get(0), "1");
 		assertEquals(row.get(row.size()-1), "5");
 		
