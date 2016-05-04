@@ -5,6 +5,9 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -125,6 +128,26 @@ public class TransformationsTest {
 		assertEquals(frequency.get("DE"), (Integer)3);
 		assertEquals(frequency.get("NY"), (Integer)2);
 		assertEquals(frequency.get("PA"), (Integer)1);
+
+	}
+	
+	@Test
+	public void testSortMap(){
+		Map<String,Integer> map = new HashMap<String, Integer>();
+		map.put("hello", 4);
+		map.put("world", 2);
+		map.put("java", 6);
+		System.out.println(map.values());
+		map = Transformations.getSortedMap(map);
+		Collection<Integer> values = map.values();
+		System.out.println("values: " + values);
+		Iterator<Integer> iter = values.iterator();
+		Integer first = (Integer) iter.next();
+		Integer second = (Integer) iter.next();
+		Integer third = (Integer) iter.next();
+		assertEquals(first, (Integer)2);
+		assertEquals(second, (Integer)4);
+		assertEquals(third, (Integer)6);
 
 	}
 

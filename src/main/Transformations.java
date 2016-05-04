@@ -1,5 +1,6 @@
 package main;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -17,7 +18,7 @@ public class Transformations {
 		Collections.fill(list, 0.0); 
 		return list;
 	}
-	
+
 	public static List<String> getStringZeroList(int size){
 		ArrayList<String> list = new ArrayList<>(Arrays.asList(new String[size]));
 		Collections.fill(list, "0"); 
@@ -50,12 +51,12 @@ public class Transformations {
 				.getAsDouble());
 		return newList;
 	}
-	
+
 	public static List<Double> numDistinctElements(List<String> list) {
 		List<Double> newList = getZeroList(list.size());
-		 newList.set(0, (double)list.stream()
+		newList.set(0, (double)list.stream()
 				.distinct().count());
-		 return newList;
+		return newList;
 	}
 
 	public static List<Double> sum(List<String> list) {
@@ -108,8 +109,23 @@ public class Transformations {
 			else
 				frequency.put(s, frequency.get(s) + 1);
 		}
-		return frequency;
-		
+		return getSortedMap(frequency);
+	}
+
+	public static Map<String,Integer> getSortedMap(Map<String, Integer> map){
+		List<Map.Entry<String, Integer>> list =
+	            new LinkedList<Map.Entry<String,Integer>>(map.entrySet());
+		Collections.sort(list, new Comparator<Map.Entry<String, Integer>>(){
+			@Override
+			public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+                return (o1.getValue()).compareTo( o2.getValue() );
+			}
+		});
+		Map<String, Integer> result = new LinkedHashMap<String, Integer>();
+        for (Map.Entry<String, Integer> entry : list){
+            result.put( entry.getKey(), entry.getValue() );
+        }
+        return result;
 	}
 
 }
