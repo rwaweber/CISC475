@@ -36,7 +36,14 @@ public class Repl {
 			+ "Command: ls -- Lists all files in the current directory.\n"
 			+ "Usage: ls\n"
 			+ "Command: history -- Prints the command history.\n"
-			+ "Usage: history\n";
+			+ "Usage: history\n"
+			+ "Command: start -- starts a data wrangling session.\n"
+			+ "Usgae: start [/path/to/source/file] [/path/to/destination/file]\n"
+			+ "Command: transform -- applies a transformation to column(s).\n"
+			+ "*transform can only be used after starting a session (see 'start')*\n"
+			+ "Usage: transform [transformation] [col/row] [index of col or row]";
+
+	//add 'remove' documentation after its implemented
 
 	public Repl() {
 		System.out.println("Type 'help' for command info.\n");
@@ -55,7 +62,7 @@ public class Repl {
 	public static String[] commandify(String line) throws IOException {
 		return line.split("\\s+");
 	}
-	
+
 	/**
 	 * Parses a line as interpreted by the REPL into a Session object
 	 * by the following syntax:
@@ -68,7 +75,7 @@ public class Repl {
 		Session srctodest = new Session(command[1], command[2]);
 		return srctodest;
 	}
-	
+
 	public static void setState(Session sourceToDestination) {
 		state = sourceToDestination;
 	}
@@ -106,16 +113,25 @@ public class Repl {
 			return true;
 		case "start":
 			if (commands.length != 3){
-				System.out.println("Not enough arguments");
-				System.out.println(helpInfo);
+				System.out.println("Wrong amount of arguments\n");
+				System.out.println("Type 'help' for command usage");
 			} else {
 				setState(makeState(commands));
 			}
 			return true;
 		case "transform":
 			if (state != null) {
-				CommandParser engine = new CommandParser(state);
+				CommandParser engine = new CommandParser();
 				engine.parse(commands, state);
+				return true;
+			} else {
+				System.out.println("No State set!");
+				return false;
+			}
+		case "graph":
+			if (state != null) {
+				CommandParser engine = new CommandParser();
+				engine.parseGraph(commands, state);
 				return true;
 			} else {
 				System.out.println("No State set!");
@@ -215,4 +231,7 @@ public class Repl {
 	public static void main(String[] args) throws IOException, InterruptedException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		printLoop();
 	}
+	
+//	> start /Users/benjaminrodd/git/CISC475/src/tests/testfiles/test.csv /Users/benjaminrodd/git/CISC475/src/tests/testfiles/testSession.csv
+//	> graph source col 6 histogram
 }

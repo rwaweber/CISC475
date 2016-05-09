@@ -14,13 +14,14 @@ import main.Session;
 public class CommandParserTest {
 	String sourceFile = "./src/tests/testfiles/testNumeric.csv";
 	String destFile = "./src/tests/testfiles/testSession.csv";
+	String bigSourceFile = "./src/tests/testfiles/test.csv";
 
 	@Test
 	public void parseSingleCommand() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 
-    	
+
 		Session session = new Session(sourceFile, destFile);
-		CommandParser main = new CommandParser(session);
+		CommandParser main = new CommandParser();
 		String[] lineofcommands = new String[]{"transform", "SUM", "col", "2"};
 		session.getDestControl().clearFile();
 		main.parse(lineofcommands, session);
@@ -29,10 +30,10 @@ public class CommandParserTest {
 		assertEquals(session.getDestControl().getNumRows(), 11);
 		assertEquals(session.getDestControl().getNumCols(), 3);
 	}
-        @Test
+	@Test
 	public void parseMultiCommand() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {	
 		Session session = new Session(sourceFile, destFile);
-		CommandParser main = new CommandParser(session);
+		CommandParser main = new CommandParser();
 		String[] lineofcommands = new String[]{"transform", "SUM", "col", "2"};
 		session.getDestControl().clearFile();
 		main.parse(lineofcommands, session);
@@ -43,11 +44,11 @@ public class CommandParserTest {
 		assertEquals(session.getDestControl().getNumRows(), 11);
 		assertEquals(session.getDestControl().getNumCols(), 3);
 	}
-    
-        @Test
+
+	@Test
 	public void parseNormalizeCommand() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {	
 		Session session = new Session(sourceFile, destFile);
-		CommandParser main = new CommandParser(session);
+		CommandParser main = new CommandParser();
 		String[] lineofcommands = new String[]{"transform", "SUM", "col", "2"};
 		session.getDestControl().clearFile();
 		main.parse(lineofcommands, session);
@@ -56,11 +57,11 @@ public class CommandParserTest {
 		assertEquals(session.getDestControl().getNumRows(), 11);
 		assertEquals(session.getDestControl().getNumCols(), 2);
 	}
-    
-        @Test
+
+	@Test
 	public void parseStandardDeviation() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {	
 		Session session = new Session(sourceFile, destFile);
-		CommandParser main = new CommandParser(session);
+		CommandParser main = new CommandParser();
 		String[] lineofcommands = new String[]{"transform", "sum", "col", "2"};
 		session.getDestControl().clearFile();
 		main.parse(lineofcommands, session);
@@ -69,5 +70,14 @@ public class CommandParserTest {
 		assertEquals(session.getDestControl().getNumRows(), 11);
 		assertEquals(session.getDestControl().getNumCols(), 2);
 	}
+	
+//	@Test
+//	public void parseGraph() throws IOException{
+//		Session session = new Session(bigSourceFile, destFile);
+//		CommandParser main = new CommandParser();
+//		String[] lineofcommands = new String[]{"graph", "source", "col", "2", "histogram"};
+//		session.getDestControl().clearFile();
+//		main.parseGraph(lineofcommands, session);
+//	}
 
 }

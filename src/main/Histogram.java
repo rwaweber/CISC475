@@ -3,6 +3,8 @@ package main;
 import static org.junit.Assert.assertNotNull;
 
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -22,13 +24,15 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 public class Histogram extends ApplicationFrame{
 
-	public Histogram(String title, String xLabel, String yLabel, HashMap<String, Integer> data) {
+	public static final int MAX_VALUES = 10;
+
+	public Histogram(String title, String xLabel, String yLabel, Map<String, Integer> data) {
 		super(title);
 		JFreeChart histogram =  ChartFactory.createBarChart(
 				title,
 				xLabel,
 				yLabel,
-				getCategoryDataset(data),
+				getCategoryDataset((HashMap<String, Integer>) data),
 				PlotOrientation.VERTICAL,
 				true,
 				true,
@@ -43,6 +47,17 @@ public class Histogram extends ApplicationFrame{
 		setContentPane(chartPanel); 
 		pack();
 		setVisible(true);
+		//setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		this.addWindowListener(new WindowAdapter() {
+	        @Override
+	        public void windowClosing(WindowEvent e) {
+
+	            // do other stuff....
+
+	        	setVisible(false);
+	        	dispose();
+	        }
+	    });
 	}
 
 	public static DefaultCategoryDataset getCategoryDataset(HashMap<String, Integer> frequency) {

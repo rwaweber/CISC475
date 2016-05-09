@@ -23,7 +23,6 @@ public class Session {
 			for(int i = 0; i < result.size(); i++){
 				stringResult.add(result.get(i).toString());
 			}
-			System.out.println(stringResult);
 			destControl.addCol(stringResult, colName);
 		}
 	}

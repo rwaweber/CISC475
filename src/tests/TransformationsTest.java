@@ -5,6 +5,9 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +27,8 @@ public class TransformationsTest {
 	List<Double> subList = new ArrayList<Double>(Arrays.asList(new Double[]{0.0,1.0,-1.0,3.0,2.0}));
 	List<String> nonNumeric = new ArrayList<String>(Arrays.asList(new String[]{"Ben", "Johanna", "Greg", "Teague", "Will"}));
 	List<String> frequencyList = new ArrayList<String>(Arrays.asList(new String[]{"NY", "DE", "NY", "PA", "DE", "DE"}));
-	
+	List<Double> beforeOrdinal = new ArrayList<Double>(Arrays.asList(new Double[]{4.0, 2.0, 5.0, 1.0}));
+
 	@Test
 	public void testMean() {
 		List<Double> newList = Transformations.mean(testList);
@@ -83,10 +87,10 @@ public class TransformationsTest {
 
 	@Test
 	public void testDiscretize() {
-		List<Object> discretize = Transformations.discretize(nonNumeric);
+		List<Double> discretize = Transformations.discretize(nonNumeric);
 		assertEquals(discretize.size(), 5);
 		for(int i = 0; i < discretize.size(); i++){
-			assertEquals(discretize.get(i), nonNumeric.get(i).hashCode());
+			assertEquals(discretize.get(i), nonNumeric.get(i).hashCode(), 0.0001);
 		}
 		
 
@@ -125,6 +129,56 @@ public class TransformationsTest {
 		assertEquals(frequency.get("DE"), (Integer)3);
 		assertEquals(frequency.get("NY"), (Integer)2);
 		assertEquals(frequency.get("PA"), (Integer)1);
+
+	}
+	
+	@Test
+	public void testSortMap(){
+		Map<String,Integer> map = new HashMap<String, Integer>();
+		map.put("hello", 4);
+		map.put("world", 2);
+		map.put("java", 6);
+		map = Transformations.getSortedMap(map);
+		Collection<Integer> values = map.values();
+		Iterator<Integer> iter = values.iterator();
+		Integer first = (Integer) iter.next();
+		Integer second = (Integer) iter.next();
+		Integer third = (Integer) iter.next();
+		assertEquals(first, (Integer)6);
+		assertEquals(second, (Integer)4);
+		assertEquals(third, (Integer)2);
+
+	}
+	
+	@Test
+	public void testGetTrimmedMap(){
+		Map<String,Integer> map = new HashMap<String, Integer>();
+		map.put("hello", 4);
+		map.put("world", 2);
+		map.put("java", 6);
+		map = Transformations.getTrimmedMap(map, 2);
+		assertNotNull(map);
+		assertEquals(map.size(), 2);
+		map = Transformations.getSortedMap(map);
+		Collection<Integer> values = map.values();
+		Iterator<Integer> iter = values.iterator();
+		Integer first = (Integer) iter.next();
+		Integer second = (Integer) iter.next();
+		assertEquals(first, (Integer)6);
+		assertEquals(second, (Integer)4);
+	}
+	
+	@Test
+	public void testGetOrdinalMap(){
+		Map<Double, Double> ordinalMap = Transformations.getOrdinalMap(beforeOrdinal);
+		assertNotNull(ordinalMap);
+		assertEquals(ordinalMap.size(), 4);
+		System.out.println("keys: " + ordinalMap.keySet());
+		System.out.println("values: " + ordinalMap.values());
+		assertEquals(ordinalMap.get(1.0), 0.0, 0.0);
+		assertEquals(ordinalMap.get(2.0), 1.0, 0.0);
+		assertEquals(ordinalMap.get(4.0), 2.0, 0.0);
+		assertEquals(ordinalMap.get(5.0), 3.0, 0.0);
 
 	}
 

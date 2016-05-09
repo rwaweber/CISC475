@@ -122,7 +122,6 @@ public class FileParser {
 	public static List<String> getRowFromFile(String fileName, int rowIndex) throws IOException {
 		CSVParser parser = getCSVFileParser(fileName);
 		List<CSVRecord> records = parser.getRecords();
-		System.out.println("records size: " + records.size());
 		List<String> row = Transformations.getStringZeroList(records.get(0).size());
 		CSVRecord record = records.get(rowIndex);
 		for(int thisCol = 0; thisCol < record.size(); thisCol++){
