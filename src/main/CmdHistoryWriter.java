@@ -83,7 +83,7 @@ public class CmdHistoryWriter {
 		else {
 			//Path not specified, use default
 			if (directoryPath == "") {
-				directory = new File("C:/Underfish/scripts/history.ba");
+				directory = new File("C:/Underfish/scripts/scriptExport.ba");
 			}
 			//whether path is default or provided, check if it exists
 			if (!directory.exists()) {
