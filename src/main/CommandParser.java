@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 public class CommandParser {
 	public Class cmds = Commands.class;
@@ -79,6 +80,8 @@ public class CommandParser {
 				int colIndex = Integer.parseInt(lineOfCommands[3]);
 				Map<String,Integer> map = null;
 				List<String> col = control.getCol(colIndex);
+				String colName = col.get(0);
+				col.remove(0);
 				if(col.size() < Histogram.MAX_VALUES){
 					map = Transformations.getSortedMap(Transformations.getFrequency(col));
 				}
@@ -90,7 +93,7 @@ public class CommandParser {
 							));
 				}
 				new Histogram(
-						col.get(0) + " Frequency",
+						colName + " Frequency",
 						"Values",
 						"Frequency",
 						map
