@@ -191,7 +191,7 @@ public class CmdHistoryWriter {
 		System.out.println("========== History Commands ==========\n"
 				+ "view . . . . . . . . . . . . . . Prints all recorded commands stored in history\n"
 				+ "removelast . . . . . . . . . . . Removes the last saved command in history\n"
-				+ "exportScript Path:/To/File.ba. . Exports the stored history in script format(ignores functionally insignificant commands)");
+				+ "exportScript Path:/To/File.ba. . Exports the stored history in script formathisto");
 	}
 	
 	
@@ -213,7 +213,7 @@ public class CmdHistoryWriter {
 				this.viewHistory();
 				return true;
 				
-			case "exportScript":
+			case "export":
 				if (commands.length > 2){ //desired path specified
 					this.Export(commands[2]);
 				}
