@@ -53,7 +53,7 @@ public class MakeGUI extends JFrame{
 				}
 			}
 		}
-
+		
 		//setup view:
 		tab = new JTable(totalFixedCells, colHeaders);
 		tab.setBounds(0, 0, TABLE_WIDTH, TABLE_HEIGHT);
@@ -109,4 +109,3 @@ public class MakeGUI extends JFrame{
     }
   
 }
-
