@@ -10,6 +10,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.univocity.parsers.csv.CsvParserSettings;
+
 import main.CSVController;
 
 public class CSVControllerTest {
@@ -47,6 +49,21 @@ public class CSVControllerTest {
 		firstCol = new ArrayList<String>(Arrays.asList(new String[]{"Hello", "World", "123", "456", "789", "10"}));
 		secondCol = new ArrayList<String>(Arrays.asList(new String[]{"hi", "earth", "123", "456", "789", "10"}));
 		thirdCol = new ArrayList<String>(Arrays.asList(new String[]{"hola", "planet", "123", "456", "789", "10"}));
+	}
+	
+	@Test
+	public void testConstructor() throws IOException{
+		CSVController csvController = new CSVController(numericFile);
+		CsvParserSettings settings = csvController.getSettings();
+		assertNotNull(settings);
+		assertEquals(settings.getFormat().getLineSeparator()[0], '\r');
+	}
+	
+	@Test
+	public void testGetSettings() throws IOException{
+		CSVController csvController = new CSVController(numericFile);
+		CsvParserSettings settings = csvController.getSettings();
+		assertNotNull(settings);
 	}
 
 	@Test

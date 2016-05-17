@@ -15,6 +15,14 @@ import org.supercsv.io.ICsvListReader;
 import org.supercsv.io.ICsvListWriter;
 import org.supercsv.prefs.CsvPreference;
 
+import com.univocity.parsers.common.*;
+import com.univocity.parsers.common.processor.*;
+import com.univocity.parsers.common.record.*;
+import com.univocity.parsers.conversions.*;
+import com.univocity.parsers.csv.*;
+import com.univocity.parsers.fixed.*;
+
+
 public class CSVController {
 
 	private String fileName;
@@ -22,8 +30,19 @@ public class CSVController {
 	ICsvListReader reader;
 	ICsvListWriter writer;
 
+	private CsvParserSettings settings;
+	
 	public CSVController(String fileName) throws IOException{
 		this.fileName = fileName;
+		initSettings();
+		
+	}
+
+	private void initSettings() {
+		settings = new CsvParserSettings();
+		if(System.getProperty(Constants.SYSTEM_PROPERTY).contains(Constants.MAC_OS)){
+			settings.getFormat().setLineSeparator(Constants.MAC_OS_LINE_SEPARATOR);
+		}
 	}
 
 	private void initReader() throws FileNotFoundException {
@@ -280,7 +299,7 @@ public class CSVController {
 			}
 		}
 		closeWriter();
-		
+
 	}
 
 	public List<List<String>> getRows() throws IOException {
@@ -300,8 +319,45 @@ public class CSVController {
 		}
 		return cols;
 	}
-	
 
+	public static void main(String args[]) throws IOException{
+		String bigFileName = "/Users/benjaminrodd/Desktop/bigFile25.csv";
+		String smallFileName = "/Users/benjaminrodd/git/CISC475/src/tests/testfiles/test.csv";
+
+		//CSVController control = new CSVController(bigFileName);
+
+		AppTimer timer = new AppTimer();
+		timer.startTimer();
+
+		CsvParserSettings settings = new CsvParserSettings();
+		settings.getFormat().setLineSeparator("\r");
+	//	settings.selectIndexes(0);
+		RowListProcessor rowProcessor = new RowListProcessor();
+
+		settings.setRowProcessor(rowProcessor);
+		settings.setHeaderExtractionEnabled(true);
+
+		
+		
+		CsvParser parser = new CsvParser(settings);
+		parser.beginParsing(new FileReader(bigFileName));
+		List<String[]> rows = rowProcessor.getRows();
+		String[] row;
+		while((row = parser.parseNext()) != null){
+			System.out.println(rows.size());
+		}
+		System.out.println(rows.size());
+
+		timer.endTimer();
+		System.out.println(timer.getElapsedTime());
+		for(int i = 0; i < rows.size(); i++){
+			System.out.println(rows.get(0));
+		}
+	}
+
+	public CsvParserSettings getSettings() {
+		return settings;
+	}
 
 
 
