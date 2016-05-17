@@ -199,7 +199,7 @@ public class CSVControllerTest {
 	}
 
 	@Test
-	public void getNumRows() throws IOException{
+	public void testGetNumRows() throws IOException{
 		CSVController csvController = new CSVController(numericFile);
 		assertEquals(csvController.getNumRows(), 11);
 	}

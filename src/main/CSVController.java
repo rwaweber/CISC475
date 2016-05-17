@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,11 +32,21 @@ public class CSVController {
 	ICsvListWriter writer;
 
 	private CsvParserSettings settings;
+
+	private CsvParser parser;
+
+	private Reader fileReader;
 	
 	public CSVController(String fileName) throws IOException{
 		this.fileName = fileName;
 		initSettings();
+		initParser();
 		
+	}
+
+	private void initParser() throws FileNotFoundException {
+		fileReader = new FileReader(fileName);
+		parser = new CsvParser(settings);
 	}
 
 	private void initSettings() {
@@ -43,6 +54,14 @@ public class CSVController {
 		if(System.getProperty(Constants.SYSTEM_PROPERTY).contains(Constants.MAC_OS)){
 			settings.getFormat().setLineSeparator(Constants.MAC_OS_LINE_SEPARATOR);
 		}
+	}
+	
+	private void startParsing(){
+		parser.beginParsing(fileReader);
+	}
+	
+	private void stopParsing(){
+		parser.stopParsing();
 	}
 
 	private void initReader() throws FileNotFoundException {
@@ -67,15 +86,18 @@ public class CSVController {
 		initWriter();
 	}
 
+	// indexed beginning at first row that IS NOT headers
+	// headers are ignored
 	public List<String> getRow(int rowIndex) throws IOException{
-		initReader();
-		List<String> thisRow;
 		int thisIndex = 0;
-		while((thisRow = reader.read()) != null && thisIndex < rowIndex){
+		String row[];
+		initParser();
+		startParsing();
+		while((row = parser.parseNext()) != null && thisIndex < rowIndex){
 			thisIndex++;
 		}
-		closeReader();
-		return thisRow;
+		stopParsing();
+		return new ArrayList<String>(Arrays.asList(row));
 	}
 
 	public List<String> getCol(int colIndex) throws IOException {
@@ -161,12 +183,21 @@ public class CSVController {
 	}
 
 	public int getNumRows() throws IOException {
+//		int numRows = 0;
+//		initReader();
+//		while(reader.read() != null){
+//			numRows++;
+//		}
+//		closeReader();
+//		return numRows;
 		int numRows = 0;
-		initReader();
-		while(reader.read() != null){
+		initParser();
+		startParsing();
+		while(parser.parseNext() != null){
 			numRows++;
+			System.out.println(numRows);
 		}
-		closeReader();
+		stopParsing();
 		return numRows;
 	}
 
@@ -210,6 +241,7 @@ public class CSVController {
 	}
 
 	public boolean containsRow(List<String> trueRow) throws IOException {
+		System.out.println(getNumRows());
 		for(int rowIndex = 0; rowIndex < getNumRows(); rowIndex++){
 			if(getRow(rowIndex).equals(trueRow)){
 				return true;
