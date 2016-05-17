@@ -353,38 +353,38 @@ public class CSVController {
 	}
 
 	public static void main(String args[]) throws IOException{
-		String bigFileName = "/Users/benjaminrodd/Desktop/bigFile25.csv";
-		String smallFileName = "/Users/benjaminrodd/git/CISC475/src/tests/testfiles/test.csv";
-
-		//CSVController control = new CSVController(bigFileName);
-
-		AppTimer timer = new AppTimer();
-		timer.startTimer();
-
-		CsvParserSettings settings = new CsvParserSettings();
-		settings.getFormat().setLineSeparator("\r");
-	//	settings.selectIndexes(0);
-		RowListProcessor rowProcessor = new RowListProcessor();
-
-		settings.setRowProcessor(rowProcessor);
-		settings.setHeaderExtractionEnabled(true);
-
-		
-		
-		CsvParser parser = new CsvParser(settings);
-		parser.beginParsing(new FileReader(bigFileName));
-		List<String[]> rows = rowProcessor.getRows();
-		String[] row;
-		while((row = parser.parseNext()) != null){
-			System.out.println(rows.size());
-		}
-		System.out.println(rows.size());
-
-		timer.endTimer();
-		System.out.println(timer.getElapsedTime());
-		for(int i = 0; i < rows.size(); i++){
-			System.out.println(rows.get(0));
-		}
+//		String bigFileName = "/Users/benjaminrodd/Desktop/bigFile25.csv";
+//		String smallFileName = "/Users/benjaminrodd/git/CISC475/src/tests/testfiles/test.csv";
+//
+//		//CSVController control = new CSVController(bigFileName);
+//
+//		AppTimer timer = new AppTimer();
+//		timer.startTimer();
+//
+//		CsvParserSettings settings = new CsvParserSettings();
+//		settings.getFormat().setLineSeparator("\r");
+//	//	settings.selectIndexes(0);
+//		RowListProcessor rowProcessor = new RowListProcessor();
+//
+//		settings.setRowProcessor(rowProcessor);
+//		settings.setHeaderExtractionEnabled(true);
+//
+//		
+//		
+//		CsvParser parser = new CsvParser(settings);
+//		parser.beginParsing(new FileReader(bigFileName));
+//		List<String[]> rows = rowProcessor.getRows();
+//		String[] row;
+//		while((row = parser.parseNext()) != null){
+//			System.out.println(rows.size());
+//		}
+//		System.out.println(rows.size());
+//
+//		timer.endTimer();
+//		System.out.println(timer.getElapsedTime());
+//		for(int i = 0; i < rows.size(); i++){
+//			System.out.println(rows.get(0));
+//		}
 	}
 
 	public CsvParserSettings getSettings() {
