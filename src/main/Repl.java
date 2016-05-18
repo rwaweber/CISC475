@@ -40,8 +40,11 @@ public class Repl {
 			+ "Command: start -- starts a data wrangling session.\n"
 			+ "Usgae: start [/path/to/source/file] [/path/to/destination/file]\n"
 			+ "Command: transform -- applies a transformation to column(s).\n"
-			+ "*transform can only be used after starting a session (see 'start')*\n"
-			+ "Usage: transform [transformation] [col/row] [index of col or row]";
+			+ "Usage: transform [transformation] [col/row] [index of col or row]\n"
+			+ "Command: graph -- displays a graph of any column or row.\n"
+			+ "Usage: graph source ['column' or 'row'] [index of col/row] [type of graph *currently only histogram*]\n"
+			+ "*transform and graph can only be used after starting a session (see 'start')*\n";
+
 
 	//add 'remove' documentation after its implemented
 
