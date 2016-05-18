@@ -116,6 +116,9 @@ public class CSVControllerTest {
 		for(int i = 1; i < 11; i++){
 			assertEquals(firstCol.get(i), ((Integer)i).toString());
 		}
+		List<String> col = csvController.getCol(1);
+		assertEquals(col.size(), 11);
+		assertEquals(col.get(0), "Num");
 	}
 
 	@Test

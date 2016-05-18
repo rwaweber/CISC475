@@ -31,22 +31,36 @@ public class CSVController {
 	ICsvListReader reader;
 	ICsvListWriter writer;
 
-	private CsvParserSettings settings;
+	private CsvParserSettings rowParserSettings;
+	private CsvParserSettings colParserSettings;
 
-	private CsvParser parser;
+	private CsvParser rowParser;
+	private CsvParser colParser;
 
 	private Reader fileReader;
 
 	private int numRows;
 
 	private int numCols;
-	
+
 	public CSVController(String fileName) throws IOException{
 		this.fileName = fileName;
 		initDimensions();
-		initSettings();
-		initParser();
-		
+		initRowParser();
+		initColParser();
+
+	}
+
+	private void initColParser() {
+		ColumnProcessor rowProcessor = new ColumnProcessor();
+		colParserSettings = new CsvParserSettings();
+		colParserSettings.setRowProcessor(rowProcessor);
+		colParser = new CsvParser(colParserSettings);
+	}
+
+	private void setColParserIndex(int colIndex){
+		colParserSettings.selectIndexes(colIndex);
+		colParser = new CsvParser(colParserSettings);
 	}
 
 	private void initDimensions() throws FileNotFoundException {
@@ -59,27 +73,35 @@ public class CSVController {
 		parser.parse(new FileReader(fileName));
 		numRows = dimensionProcessor.getNumRows();
 		numCols = dimensionProcessor.getnumCols();
-		
+
 	}
 
-	private void initParser() throws FileNotFoundException {
-		fileReader = new FileReader(fileName);
-		parser = new CsvParser(settings);
-	}
-
-	private void initSettings() {
-		settings = new CsvParserSettings();
+	private void initRowParser() throws FileNotFoundException {
+		rowParserSettings = new CsvParserSettings();
 		if(System.getProperty(Constants.SYSTEM_PROPERTY).contains(Constants.MAC_OS)){
-			settings.getFormat().setLineSeparator(Constants.MAC_OS_LINE_SEPARATOR);
+			rowParserSettings.getFormat().setLineSeparator(Constants.MAC_OS_LINE_SEPARATOR);
 		}
+		rowParser = new CsvParser(rowParserSettings);
 	}
-	
-	private void startParsing(){
-		parser.beginParsing(fileReader);
+
+	private void startParsing() throws FileNotFoundException{
+		fileReader = new FileReader(fileName);
+		rowParser.beginParsing(fileReader);
 	}
-	
-	private void stopParsing(){
-		parser.stopParsing();
+
+	private void stopParsing() throws FileNotFoundException{
+		fileReader = new FileReader(fileName);
+		rowParser.stopParsing();
+	}
+
+	private void parseRows() throws FileNotFoundException{
+		fileReader = new FileReader(fileName);
+		rowParser.parse(fileReader);
+	}
+
+	private void parseCols() throws FileNotFoundException{
+		fileReader = new FileReader(fileName);
+		colParser.parse(fileReader);
 	}
 
 	private void initReader() throws FileNotFoundException {
@@ -106,14 +128,12 @@ public class CSVController {
 		numCols = 0;
 	}
 
-	// indexed beginning at first row that IS NOT headers
-	// headers are ignored
 	public List<String> getRow(int rowIndex) throws IOException{
 		int thisIndex = 0;
 		String row[];
-		initParser();
+		initRowParser();
 		startParsing();
-		while((row = parser.parseNext()) != null && thisIndex < rowIndex){
+		while((row = rowParser.parseNext()) != null && thisIndex < rowIndex){
 			thisIndex++;
 		}
 		stopParsing();
@@ -121,14 +141,12 @@ public class CSVController {
 	}
 
 	public List<String> getCol(int colIndex) throws IOException {
-		initReader();
-		ArrayList<String> col = new ArrayList<String>();
-		List<String> thisRow;
-		while((thisRow = reader.read()) != null){
-			col.add(thisRow.get(colIndex));
-		}		
-		closeReader();
-		return col;
+		setColParserIndex(colIndex);
+		parseCols();
+		return ((ColumnProcessor) 
+				colParserSettings
+				.getRowProcessor())
+				.getColumn(0);
 	}
 
 
@@ -206,27 +224,27 @@ public class CSVController {
 	}
 
 	public int getNumRows() throws IOException {
-//		int numRows = 0;
-//		initParser();
-//		startParsing();
-//		while(parser.parseNext() != null){
-//			numRows++;
-//		}
-//		stopParsing();
+		//		int numRows = 0;
+		//		initParser();
+		//		startParsing();
+		//		while(parser.parseNext() != null){
+		//			numRows++;
+		//		}
+		//		stopParsing();
 		return numRows;
 	}
 
 	public int getNumCols() throws IOException {
-//		initReader();
-//		int numCols = 0;
-//		List<String> thisRow;
-//		while((thisRow = reader.read()) != null){
-//			int thisNumCols = thisRow.size();
-//			if(thisNumCols > numCols){
-//				numCols = thisNumCols;
-//			}
-//		}
-//		closeReader();
+		//		initReader();
+		//		int numCols = 0;
+		//		List<String> thisRow;
+		//		while((thisRow = reader.read()) != null){
+		//			int thisNumCols = thisRow.size();
+		//			if(thisNumCols > numCols){
+		//				numCols = thisNumCols;
+		//			}
+		//		}
+		//		closeReader();
 		return numCols;
 	}
 
@@ -293,7 +311,9 @@ public class CSVController {
 	}
 
 	public String getValue(int rowIndex, int colIndex) throws IOException {
-		return getRow(rowIndex).get(colIndex);
+		List<String> row = getRow(rowIndex);
+		System.out.println(row);
+		return row.get(colIndex);
 	}
 
 	public void removeCol(int removeIndex) throws IOException {
@@ -370,42 +390,42 @@ public class CSVController {
 	}
 
 	public static void main(String args[]) throws IOException{
-//		String bigFileName = "/Users/benjaminrodd/Desktop/bigFile25.csv";
-//		String smallFileName = "/Users/benjaminrodd/git/CISC475/src/tests/testfiles/test.csv";
-//
-//		//CSVController control = new CSVController(bigFileName);
-//
-//		AppTimer timer = new AppTimer();
-//		timer.startTimer();
-//
-//		CsvParserSettings settings = new CsvParserSettings();
-//		settings.getFormat().setLineSeparator("\r");
-//	//	settings.selectIndexes(0);
-//		RowListProcessor rowProcessor = new RowListProcessor();
-//
-//		settings.setRowProcessor(rowProcessor);
-//		settings.setHeaderExtractionEnabled(true);
-//
-//		
-//		
-//		CsvParser parser = new CsvParser(settings);
-//		parser.beginParsing(new FileReader(bigFileName));
-//		List<String[]> rows = rowProcessor.getRows();
-//		String[] row;
-//		while((row = parser.parseNext()) != null){
-//			System.out.println(rows.size());
-//		}
-//		System.out.println(rows.size());
-//
-//		timer.endTimer();
-//		System.out.println(timer.getElapsedTime());
-//		for(int i = 0; i < rows.size(); i++){
-//			System.out.println(rows.get(0));
-//		}
+		//		String bigFileName = "/Users/benjaminrodd/Desktop/bigFile25.csv";
+		//		String smallFileName = "/Users/benjaminrodd/git/CISC475/src/tests/testfiles/test.csv";
+		//
+		//		//CSVController control = new CSVController(bigFileName);
+		//
+		//		AppTimer timer = new AppTimer();
+		//		timer.startTimer();
+		//
+		//		CsvParserSettings settings = new CsvParserSettings();
+		//		settings.getFormat().setLineSeparator("\r");
+		//	//	settings.selectIndexes(0);
+		//		RowListProcessor rowProcessor = new RowListProcessor();
+		//
+		//		settings.setRowProcessor(rowProcessor);
+		//		settings.setHeaderExtractionEnabled(true);
+		//
+		//		
+		//		
+		//		CsvParser parser = new CsvParser(settings);
+		//		parser.beginParsing(new FileReader(bigFileName));
+		//		List<String[]> rows = rowProcessor.getRows();
+		//		String[] row;
+		//		while((row = parser.parseNext()) != null){
+		//			System.out.println(rows.size());
+		//		}
+		//		System.out.println(rows.size());
+		//
+		//		timer.endTimer();
+		//		System.out.println(timer.getElapsedTime());
+		//		for(int i = 0; i < rows.size(); i++){
+		//			System.out.println(rows.get(0));
+		//		}
 	}
 
 	public CsvParserSettings getSettings() {
-		return settings;
+		return rowParserSettings;
 	}
 
 
