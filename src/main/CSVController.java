@@ -377,12 +377,12 @@ public class CSVController {
 	}
 
 	public List<List<String>> getCols() throws IOException {
-		ArrayList<List<String>> cols = new ArrayList<List<String>>();
-		int numCols = this.getNumCols();
-		for(int colIndex = 0; colIndex < numCols; colIndex++){
-			cols.add(this.getCol(colIndex));
-		}
-		return cols;
+		initColParser();
+		parseCols();
+		return ((ColumnProcessor) 
+				colParserSettings
+				.getRowProcessor())
+				.getColumnValuesAsList();
 	}
 
 	public static void main(String args[]) throws IOException{
@@ -418,11 +418,6 @@ public class CSVController {
 		//		for(int i = 0; i < rows.size(); i++){
 		//			System.out.println(rows.get(0));
 		//		}
-		for(int i = 0; i < 100; i++){
-			Random random = new Random();
-			System.out.println(random.nextInt((11-1)) + 1);
-
-		}
 	}
 
 	public CsvParserSettings getSettings() {
