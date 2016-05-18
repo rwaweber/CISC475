@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.CsvListWriter;
@@ -61,6 +62,11 @@ public class CSVController {
 
 	private void setColParserIndex(int colIndex){
 		colParserSettings.selectIndexes(colIndex);
+		colParser = new CsvParser(colParserSettings);
+	}
+	
+	private void setColParserHeader(String header){
+		colParserSettings.selectFields(header);
 		colParser = new CsvParser(colParserSettings);
 	}
 
@@ -164,15 +170,7 @@ public class CSVController {
 	}
 
 	public List<String> getLastRow() throws IOException {
-		initReader();
-		List<String> thisRow = reader.read();
-		List<String> lastRow = thisRow;
-		while(thisRow != null){
-			lastRow = thisRow;
-			thisRow = reader.read();
-		}
-		closeReader();
-		return lastRow;
+		return getRow(numRows-1);
 	}
 
 	public void addCol(List<String> col, String header) throws IOException {
@@ -198,19 +196,11 @@ public class CSVController {
 		}
 		closeWriter();
 		initDimensions();
-		System.out.println("numCols = " + numCols);
 	}
 
 	// assumes all rows have same number of columns
 	public List<String> getLastCol() throws IOException {
-		initReader();
-		ArrayList<String> col = new ArrayList<String>();
-		List<String> thisRow;
-		while((thisRow = reader.read()) != null){
-			col.add(thisRow.get(thisRow.size()-1));
-		}		
-		closeReader();
-		return col;
+		return getCol(numCols - 1);
 	}
 
 	public List<String> getText() throws IOException {
@@ -262,15 +252,14 @@ public class CSVController {
 
 	// does not include column header
 	public List<String> getRandomCol() throws IOException {
-		List<String> randCol = getCol((int)(getNumCols() * Math.random()));
-		//randCol.remove(0);
+		Random random = new Random();
+		List<String> randCol = getCol(random.nextInt(numCols));
 		return randCol;
 	}
 
 	public boolean containsCol(List<String> col) throws IOException {
 		for(int colIndex = 0; colIndex < getNumCols(); colIndex++){
 			List<String> thisCol = getCol(colIndex);
-			//	thisCol.remove(0);
 			if(thisCol.equals(col)){
 				return true;
 			}
@@ -279,7 +268,6 @@ public class CSVController {
 	}
 
 	public boolean containsRow(List<String> trueRow) throws IOException {
-		System.out.println(getNumRows());
 		for(int rowIndex = 0; rowIndex < getNumRows(); rowIndex++){
 			if(getRow(rowIndex).equals(trueRow)){
 				return true;
@@ -290,24 +278,25 @@ public class CSVController {
 
 	// does not consider the row of headers
 	public List<String> getRandomRow() throws IOException {
-		int rowIndex = (int)(getNumRows() * Math.random());
-		while(rowIndex == 0){
-			rowIndex = (int)(getNumRows() * Math.random());
-		}
-		return getRow(rowIndex);
+		Random random = new Random();
+		int index = random.nextInt((numRows-1)) + 1;
+		System.out.println(index);
+		return getRow(index);
 
 	}
 
 	// assumes that file has headers
 	// returns null if no such column name exists
 	public List<String> getColByName(String name) throws IOException {
-		List<String> headers = getHeaders();
-		for(int headerIndex = 0; headerIndex < headers.size(); headerIndex++){
-			if(headers.get(headerIndex).equals(name)){
-				return getCol(headerIndex);
-			}
+		if(!getRow(0).contains(name)){
+			return null;
 		}
-		return null;
+		setColParserHeader(name);
+		parseCols();
+		return ((ColumnProcessor) 
+				colParserSettings
+				.getRowProcessor())
+				.getColumn(0);
 	}
 
 	public List<String> getHeaders() throws IOException {
@@ -317,7 +306,6 @@ public class CSVController {
 
 	public String getValue(int rowIndex, int colIndex) throws IOException {
 		List<String> row = getRow(rowIndex);
-		System.out.println(row);
 		return row.get(colIndex);
 	}
 
@@ -378,10 +366,13 @@ public class CSVController {
 
 	public List<List<String>> getRows() throws IOException {
 		ArrayList<List<String>> rows = new ArrayList<List<String>>();
-		int numRows = this.getNumRows();
-		for(int rowIndex = 0; rowIndex < numRows; rowIndex++){
-			rows.add(this.getRow(rowIndex));
+		initRowParser();
+		startParsing();
+		String row[];
+		while((row = rowParser.parseNext()) != null){
+			rows.add(new ArrayList<String>(Arrays.asList(row)));
 		}
+		stopParsing();
 		return rows;
 	}
 
@@ -427,6 +418,11 @@ public class CSVController {
 		//		for(int i = 0; i < rows.size(); i++){
 		//			System.out.println(rows.get(0));
 		//		}
+		for(int i = 0; i < 100; i++){
+			Random random = new Random();
+			System.out.println(random.nextInt((11-1)) + 1);
+
+		}
 	}
 
 	public CsvParserSettings getSettings() {
