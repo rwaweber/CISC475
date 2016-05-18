@@ -36,11 +36,29 @@ public class CSVController {
 	private CsvParser parser;
 
 	private Reader fileReader;
+
+	private int numRows;
+
+	private int numCols;
 	
 	public CSVController(String fileName) throws IOException{
 		this.fileName = fileName;
+		initDimensions();
 		initSettings();
 		initParser();
+		
+	}
+
+	private void initDimensions() throws FileNotFoundException {
+		CsvDimension dimensionProcessor = new CsvDimension();
+		CsvParserSettings settings = new CsvParserSettings();
+		settings.selectIndexes();
+		settings.setColumnReorderingEnabled(false);
+		settings.setRowProcessor(dimensionProcessor);
+		CsvParser parser = new CsvParser(settings);
+		parser.parse(new FileReader(fileName));
+		numRows = dimensionProcessor.getNumRows();
+		numCols = dimensionProcessor.getnumCols();
 		
 	}
 
@@ -84,6 +102,8 @@ public class CSVController {
 		writer = new CsvListWriter(new FileWriter(fileName), CsvPreference.STANDARD_PREFERENCE);
 		writer.close();
 		initWriter();
+		numRows = 0;
+		numCols = 0;
 	}
 
 	// indexed beginning at first row that IS NOT headers
@@ -116,6 +136,7 @@ public class CSVController {
 		initWriter();
 		writer.write(row);
 		closeWriter();
+		initDimensions();
 
 	}
 
@@ -153,6 +174,8 @@ public class CSVController {
 			writer.write(newRow);
 		}
 		closeWriter();
+		initDimensions();
+		System.out.println("numCols = " + numCols);
 	}
 
 	// assumes all rows have same number of columns
@@ -183,27 +206,27 @@ public class CSVController {
 	}
 
 	public int getNumRows() throws IOException {
-		int numRows = 0;
-		initParser();
-		startParsing();
-		while(parser.parseNext() != null){
-			numRows++;
-		}
-		stopParsing();
+//		int numRows = 0;
+//		initParser();
+//		startParsing();
+//		while(parser.parseNext() != null){
+//			numRows++;
+//		}
+//		stopParsing();
 		return numRows;
 	}
 
 	public int getNumCols() throws IOException {
-		initReader();
-		int numCols = 0;
-		List<String> thisRow;
-		while((thisRow = reader.read()) != null){
-			int thisNumCols = thisRow.size();
-			if(thisNumCols > numCols){
-				numCols = thisNumCols;
-			}
-		}
-		closeReader();
+//		initReader();
+//		int numCols = 0;
+//		List<String> thisRow;
+//		while((thisRow = reader.read()) != null){
+//			int thisNumCols = thisRow.size();
+//			if(thisNumCols > numCols){
+//				numCols = thisNumCols;
+//			}
+//		}
+//		closeReader();
 		return numCols;
 	}
 
@@ -286,6 +309,7 @@ public class CSVController {
 			writer.write(row);
 		}
 		closeWriter();
+		initDimensions();
 	}
 
 	public void removeRow(int removeIndex) throws IOException {
@@ -302,6 +326,7 @@ public class CSVController {
 			writer.write(row);
 		}
 		closeWriter();
+		initDimensions();
 	}
 
 	public void addCol(int colIndex, List<String> newCol, String header) throws IOException {

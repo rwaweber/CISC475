@@ -319,7 +319,7 @@ public class CSVControllerTest {
 	}
 
 	@Test
-	public void getRows() throws IOException{
+	public void testGetRows() throws IOException{
 		CSVController csvController = new CSVController(numericFile);
 		List<List<String>> rows = csvController.getRows();
 		assertNotNull(rows);
@@ -331,7 +331,7 @@ public class CSVControllerTest {
 	}
 
 	@Test
-	public void getCols() throws IOException{
+	public void testGetCols() throws IOException{
 		CSVController csvController = new CSVController(numericFile);
 		List<List<String>> cols = csvController.getCols();
 		assertNotNull(cols);
@@ -341,5 +341,13 @@ public class CSVControllerTest {
 		assertEquals(cols.get(cols.size()-1).get(cols.get(cols.size()-1).size()-1), "3");
 
 	}
+	
+	@Test
+	public void testGetNumCols() throws IOException{
+		CSVController csvController = new CSVController(numericFile);
+		assertEquals(csvController.getNumCols(), 4);
+
+	}
+	
 
 }
