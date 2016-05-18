@@ -183,19 +183,11 @@ public class CSVController {
 	}
 
 	public int getNumRows() throws IOException {
-//		int numRows = 0;
-//		initReader();
-//		while(reader.read() != null){
-//			numRows++;
-//		}
-//		closeReader();
-//		return numRows;
 		int numRows = 0;
 		initParser();
 		startParsing();
 		while(parser.parseNext() != null){
 			numRows++;
-			System.out.println(numRows);
 		}
 		stopParsing();
 		return numRows;
