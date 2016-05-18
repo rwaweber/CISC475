@@ -124,6 +124,7 @@ public class CSVControllerTest {
 	@Test
 	public void testAddRow() throws IOException{
 		CSVController csvController = new CSVController(destFile);
+		csvController.clearFile();
 		csvController.addRow(firstRow);
 		List<String> addedRow = csvController.getRow(0);
 		assertNotNull(addedRow);
@@ -194,11 +195,16 @@ public class CSVControllerTest {
 	@Test
 	public void testClearFile() throws IOException{
 		CSVController csvController = new CSVController(clearFile);
-		csvController.addRow(firstRow);
+		csvController.clearFile();
+		assertEquals(csvController.getNumRows(), 0);
+		assertEquals(csvController.getNumCols(), 0);
+		csvController.addRow(secondRow);
 		csvController.addRow(firstRow);
 		csvController.addRow(firstRow);
 		assertEquals(csvController.getNumRows(), 3);
 		csvController.clearFile();
+		assertEquals(csvController.getNumRows(), 0);
+		assertEquals(csvController.getNumCols(), 0);
 	}
 
 	@Test

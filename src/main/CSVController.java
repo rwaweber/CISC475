@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.supercsv.io.CsvListReader;
@@ -129,11 +130,11 @@ public class CSVController {
 	}
 
 	public List<String> getRow(int rowIndex) throws IOException{
-		int thisIndex = 0;
-		String row[];
+		int thisIndex = 1;
 		initRowParser();
 		startParsing();
-		while((row = rowParser.parseNext()) != null && thisIndex < rowIndex){
+		String row[] = rowParser.parseNext();
+		while(thisIndex <= rowIndex && (row = rowParser.parseNext()) != null){
 			thisIndex++;
 		}
 		stopParsing();
@@ -155,7 +156,11 @@ public class CSVController {
 		writer.write(row);
 		closeWriter();
 		initDimensions();
-
+//		Collection<Object[]> rows = new ArrayList<Object[]>();
+//		rows.add(row.toArray(new String[row.size()]));
+//		CsvWriter writer = new CsvWriter(new FileWriter(fileName), new CsvWriterSettings());
+//		writer.writeRowsAndClose(rows);
+//		initDimensions();
 	}
 
 	public List<String> getLastRow() throws IOException {
