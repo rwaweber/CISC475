@@ -161,12 +161,11 @@ public class CSVController {
 		initWriter();
 		writer.write(row);
 		closeWriter();
-		initDimensions();
-//		Collection<Object[]> rows = new ArrayList<Object[]>();
-//		rows.add(row.toArray(new String[row.size()]));
-//		CsvWriter writer = new CsvWriter(new FileWriter(fileName), new CsvWriterSettings());
-//		writer.writeRowsAndClose(rows);
-//		initDimensions();
+		numRows++;
+		int colsInRow = row.size();
+		if(numCols < colsInRow){
+			numCols = colsInRow;
+		}
 	}
 
 	public List<String> getLastRow() throws IOException {
