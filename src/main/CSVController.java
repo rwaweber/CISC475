@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -64,7 +65,7 @@ public class CSVController {
 		colParserSettings.selectIndexes(colIndex);
 		colParser = new CsvParser(colParserSettings);
 	}
-	
+
 	private void setColParserHeader(String header){
 		colParserSettings.selectFields(header);
 		colParser = new CsvParser(colParserSettings);
@@ -173,28 +174,38 @@ public class CSVController {
 	}
 
 	public void addCol(List<String> col, String header) throws IOException {
-		List<String> newCol = col;
-		newCol.add(0, header);
-		List<String> text = getText();
-		int numRows = getNumRows();
-		for(int index = 0; index < newCol.size(); index++){
-			if(index < numRows){
-				String oldRow = text.get(index);
-				text.set(index, oldRow += "," + newCol.get(index));
-			}
-			else{
-				text.add(index, newCol.get(index));
-			}
-
+		List<Object[]> rows = new ArrayList<Object[]>();
+		initRowParser();
+		startParsing();
+		String row[] = rowParser.parseNext();
+		List<String> headers = new ArrayList<String>();
+		for(int i = 0; row != null && i < row.length; i++){
+			headers.add(row[i]);
 		}
-		clearFile();
-		initWriter();
-		for(String s : text){
-			List<String> newRow = getListFromString(s);
-			writer.write(newRow);
+		headers.add(header);
+		int colIndex = 0;		
+		while((row = rowParser.parseNext()) != null){
+			List<String> thisRow = new ArrayList<String>(Arrays.asList(row));
+			thisRow.add(col.get(colIndex));
+			rows.add(thisRow.toArray());
+			colIndex++;
 		}
-		closeWriter();
-		initDimensions();
+		while(colIndex < col.size()){
+			List<String> thisRow = new ArrayList<String>(numCols + 1);
+			for(int i = 0; i < numCols; i++){
+				thisRow.add(i, "");
+			}
+			thisRow.add(numCols, col.get(colIndex));
+			rows.add(thisRow.toArray());
+			colIndex++;
+		}
+		stopParsing();
+		Writer fileWriter = new FileWriter(fileName);
+		CsvWriter writer = new CsvWriter(fileWriter, new CsvWriterSettings());
+		writer.writeHeaders(headers);
+		writer.writeRowsAndClose(rows);
+		numCols++;
+		numRows = rows.size() + 1;
 	}
 
 	// assumes all rows have same number of columns
