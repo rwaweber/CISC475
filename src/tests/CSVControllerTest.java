@@ -153,19 +153,19 @@ public class CSVControllerTest {
 		assertEquals(csvController.getLastRow().get(1), "10");
 		assertEquals(csvController.getLastRow().get(2), "10");
 
-//		initCols();
-//		csvController.clearFile();
-//		assertEquals(csvController.getNumRows(), 0);
-//		assertEquals(csvController.getNumCols(), 0);
-//		csvController.addCol(firstCol, header1);
-//		assertEquals(csvController.getNumCols(), 1);
-//		csvController.addCol(secondCol, header2);
-//		assertEquals(csvController.getNumCols(), 2);
-//		csvController.addCol(1, thirdCol, header3 );
-//		assertEquals(csvController.getNumCols(), 3);
-//		assertEquals(csvController.getNumRows(), 7);
-//		assertEquals(csvController.getCol(1).get(0), "header3");
-//		assertEquals(csvController.getCol(1).get(csvController.getCol(1).size()-1), "10");
+		initCols();
+		csvController.clearFile();
+		assertEquals(csvController.getNumRows(), 0);
+		assertEquals(csvController.getNumCols(), 0);
+		csvController.addCol(firstCol, header1);
+		assertEquals(csvController.getNumCols(), 1);
+		csvController.addCol(secondCol, header2);
+		assertEquals(csvController.getNumCols(), 2);
+		csvController.addCol(1, thirdCol, header3 );
+		assertEquals(csvController.getNumCols(), 3);
+		assertEquals(csvController.getNumRows(), 7);
+		assertEquals(csvController.getCol(1).get(0), "header3");
+		assertEquals(csvController.getCol(1).get(csvController.getCol(1).size()-1), "10");
 
 
 

@@ -9,22 +9,16 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-import org.supercsv.io.CsvListReader;
 import org.supercsv.io.CsvListWriter;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.io.ICsvListWriter;
 import org.supercsv.prefs.CsvPreference;
 
-import com.univocity.parsers.common.*;
 import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.common.record.*;
-import com.univocity.parsers.conversions.*;
 import com.univocity.parsers.csv.*;
-import com.univocity.parsers.fixed.*;
 
 
 public class CSVController {
@@ -102,22 +96,9 @@ public class CSVController {
 		rowParser.stopParsing();
 	}
 
-	private void parseRows() throws FileNotFoundException{
-		fileReader = new FileReader(fileName);
-		rowParser.parse(fileReader);
-	}
-
 	private void parseCols() throws FileNotFoundException{
 		fileReader = new FileReader(fileName);
 		colParser.parse(fileReader);
-	}
-
-	private void initReader() throws FileNotFoundException {
-		reader = new CsvListReader(new FileReader(fileName), CsvPreference.STANDARD_PREFERENCE);
-	}
-
-	private void closeReader() throws IOException{
-		reader.close();
 	}
 
 	private void initWriter() throws IOException {
@@ -177,28 +158,8 @@ public class CSVController {
 		List<Object[]> rows = new ArrayList<Object[]>();
 		initRowParser();
 		startParsing();
-		String row[] = rowParser.parseNext();
-		List<String> headers = new ArrayList<String>();
-		for(int i = 0; row != null && i < row.length; i++){
-			headers.add(row[i]);
-		}
-		headers.add(header);
-		int colIndex = 0;		
-		while((row = rowParser.parseNext()) != null){
-			List<String> thisRow = new ArrayList<String>(Arrays.asList(row));
-			thisRow.add(col.get(colIndex));
-			rows.add(thisRow.toArray());
-			colIndex++;
-		}
-		while(colIndex < col.size()){
-			List<String> thisRow = new ArrayList<String>(numCols + 1);
-			for(int i = 0; i < numCols; i++){
-				thisRow.add(i, "");
-			}
-			thisRow.add(numCols, col.get(colIndex));
-			rows.add(thisRow.toArray());
-			colIndex++;
-		}
+		List<String> headers = addToHeaders(header);
+		addColToRows(col, rows, numCols);
 		stopParsing();
 		Writer fileWriter = new FileWriter(fileName);
 		CsvWriter writer = new CsvWriter(fileWriter, new CsvWriterSettings());
@@ -206,6 +167,37 @@ public class CSVController {
 		writer.writeRowsAndClose(rows);
 		numCols++;
 		numRows = rows.size() + 1;
+	}
+
+	private void addColToRows(List<String> col, List<Object[]> rows, int indexToAdd) {
+		String[] row;
+		int colIndex = 0;		
+		while(colIndex < col.size()){
+			if((row = rowParser.parseNext()) != null){
+				List<String> thisRow = new ArrayList<String>(Arrays.asList(row));
+				thisRow.add(indexToAdd, col.get(colIndex));
+				rows.add(thisRow.toArray());
+			}
+			else{
+				List<String> thisRow = new ArrayList<String>(numCols + 1);
+				for(int i = 0; i < numCols; i++){
+					thisRow.add(i, "");
+				}
+				thisRow.add(indexToAdd, col.get(colIndex));
+				rows.add(thisRow.toArray());
+			}
+			colIndex++;
+		}
+	}
+
+	private List<String> addToHeaders(String header) {
+		String row[] = rowParser.parseNext();
+		List<String> headers = new ArrayList<String>();
+		for(int i = 0; row != null && i < row.length; i++){
+			headers.add(row[i]);
+		}
+		headers.add(header);
+		return headers;
 	}
 
 	// assumes all rows have same number of columns
@@ -229,27 +221,10 @@ public class CSVController {
 	}
 
 	public int getNumRows() throws IOException {
-		//		int numRows = 0;
-		//		initParser();
-		//		startParsing();
-		//		while(parser.parseNext() != null){
-		//			numRows++;
-		//		}
-		//		stopParsing();
 		return numRows;
 	}
 
 	public int getNumCols() throws IOException {
-		//		initReader();
-		//		int numCols = 0;
-		//		List<String> thisRow;
-		//		while((thisRow = reader.read()) != null){
-		//			int thisNumCols = thisRow.size();
-		//			if(thisNumCols > numCols){
-		//				numCols = thisNumCols;
-		//			}
-		//		}
-		//		closeReader();
 		return numCols;
 	}
 
@@ -327,12 +302,18 @@ public class CSVController {
 		}
 		clearFile();
 		initWriter();
+		int numCols = 0;
 		for(List<String> row : rows){
+			this.numRows++;
 			row.remove(removeIndex);
 			writer.write(row);
+			int thisNumCols = row.size();
+			if(thisNumCols > numCols){
+				numCols = thisNumCols;
+			}
 		}
 		closeWriter();
-		initDimensions();
+		this.numCols = numCols;
 	}
 
 	public void removeRow(int removeIndex) throws IOException {
@@ -345,11 +326,17 @@ public class CSVController {
 		}
 		clearFile();
 		initWriter();
+		int numCols = 0;
 		for(List<String> row : rows){
+			this.numRows++;
 			writer.write(row);
+			int thisNumCols = row.size();
+			if(thisNumCols > numCols){
+				numCols = thisNumCols;
+			}
 		}
+		this.numCols = numCols;
 		closeWriter();
-		initDimensions();
 	}
 
 	public void addCol(int colIndex, List<String> newCol, String header) throws IOException {
