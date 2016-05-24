@@ -4,6 +4,7 @@ import java.lang.StringBuilder;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.ProcessBuilder;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,6 +12,11 @@ import java.io.BufferedReader;
 import main.MakeGUI;
 import main.FileParser;
 import main.Records;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Repl {
 	static Session state;
@@ -230,11 +236,30 @@ public class Repl {
 			return false;
 		}
 	}
+	
+	public static void consume(String filepath) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, InterruptedException{
+		List<String> list = new ArrayList<String>();
+		try(BufferedReader br = Files.newBufferedReader(Paths.get(filepath))){
+			list = br.lines().collect(Collectors.toList());
+			for(String line: list){
+				String[] commandPlaceHolder = line.split("\\s+");
+				if(!parseCommand(commandPlaceHolder)) {
+					System.out.println("Script execution on file: "+filepath+" failed!");
+				} 
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void main(String[] args) throws IOException, InterruptedException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		printLoop();
+		if (args.length != 0 && args[0].equals("script")){
+			 consume(args[1]);
+		} else {
+			for (String word : args){
+				System.out.println(word);
+			}
+			printLoop();
+		}
 	}
-	
-//	> start /Users/benjaminrodd/git/CISC475/src/tests/testfiles/test.csv /Users/benjaminrodd/git/CISC475/src/tests/testfiles/testSession.csv
-//	> graph source col 6 histogram
 }
